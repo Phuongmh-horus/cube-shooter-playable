@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38305563958ccba46a14899c18286427, type: 3}
+  m_Name: ColorPalleteSO_ForLauncher
+  m_EditorClassIdentifier: 
+  colorKeys: 1a000000220000000700000002000000160000001300000015000000120000000a0000001e0000000900000001000000270000001b000000170000000b00000010000000190000000f00000005000000060000002500000011000000040000000e00000008000000140000000c0000001800000003000000
+  colorValues:
+  - {fileID: 2100000, guid: e2dc3652edde9534cbc2dd012bbc66e4, type: 2}
+  - {fileID: 2100000, guid: 42cf0d2d35702fb4e96ef7e3f7554551, type: 2}
+  - {fileID: 2100000, guid: 6b422660db3b6e447ad4c806ac9d66f9, type: 2}
+  - {fileID: 2100000, guid: 9eaa4d65fb0b2a8469d3f6cc0897f4c1, type: 2}
+  - {fileID: 2100000, guid: 6ae37eb2785243845967bc874908a791, type: 2}
+  - {fileID: 2100000, guid: 481c08a1669ee784d93b884dbfa5ec02, type: 2}
+  - {fileID: 2100000, guid: afbb866f6f57508439c50ab53885487b, type: 2}
+  - {fileID: 2100000, guid: 42f8e6bd5c10a1843bf5f9b729dee7d5, type: 2}
+  - {fileID: 2100000, guid: 6ec6c020ea4bcc84fa3a2ba6e8ce50d6, type: 2}
+  - {fileID: 2100000, guid: e1c51962fda32aa4897733e18cfcbe97, type: 2}
+  - {fileID: 2100000, guid: 61aaf7f9315bad64ea77c9b8cc33b34a, type: 2}
+  - {fileID: 2100000, guid: ce986ed4ee13bbe4ab94402fd71cb478, type: 2}
+  - {fileID: 2100000, guid: 94643d3c5b9593b409b7d2056d72183c, type: 2}
+  - {fileID: 2100000, guid: e47fff6abb6a6c441adc78ebefaf9831, type: 2}
+  - {fileID: 2100000, guid: ba2d93429878d5a45bc4d8bc02761358, type: 2}
+  - {fileID: 2100000, guid: 11d69824d879b664a9dc3a49077c11c9, type: 2}
+  - {fileID: 2100000, guid: 00c89f95c2fd63746b39e9d5db3521db, type: 2}
+  - {fileID: 2100000, guid: 523f6148d0708e7469a3dd655d1bbcec, type: 2}
+  - {fileID: 2100000, guid: da3add23fa0a4d54f9225c4baff7b311, type: 2}
+  - {fileID: 2100000, guid: ff4e79737a7034845a4e0d0e3cc20a94, type: 2}
+  - {fileID: 2100000, guid: 840d8b7490252c34c97b9f518dc1016a, type: 2}
+  - {fileID: 2100000, guid: 1a3142c49ef8dfa4eb2bed2055bde4d4, type: 2}
+  - {fileID: 2100000, guid: 1b07ca2af2e0f12408f39abcd4bf4fc5, type: 2}
+  - {fileID: 2100000, guid: 818c6ef5838530245886256d31f7161c, type: 2}
+  - {fileID: 2100000, guid: ceb8661c08035c940a2fb5ff26cf10aa, type: 2}
+  - {fileID: 2100000, guid: 32e8ed05e2a4341478f1635c4d4370c9, type: 2}
+  - {fileID: 2100000, guid: e5f3598dc093b7c408ae2aabe57a2bfc, type: 2}
+  - {fileID: 2100000, guid: 0b6da9c93fbebf34fb1bfecc00d3d0c8, type: 2}
+  - {fileID: 2100000, guid: f04894f51a040084e90639c0c84b540d, type: 2}
+  - {fileID: 2100000, guid: 4c916090b8854054c85c42f59d3d3ae9, type: 2}
+  HiddenMaterial: {fileID: 2100000, guid: 94643d3c5b9593b409b7d2056d72183c, type: 2}
+  HiddenLineColor: {r: 0.3019608, g: 0.27058825, b: 0.5568628, a: 1}
+  newColors:
+  - name: 
+    color: {fileID: 0}

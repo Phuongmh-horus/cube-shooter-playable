@@ -1,0 +1,298 @@
+{
+    "version": "7.0.0",
+    "projectId": "52f536a8df4219e4b975969529509222",
+    "applicationID": 39501,
+    "creativeName": "",
+    "pgServer": "EU",
+    "window": {
+        "‐⁏": true
+    },
+    "unity": {
+        "environmentID": -2046678880,
+        "scripts": {
+            "excludes": [
+                "**/Editor/",
+                "**/Luna/RuntimeScripts/",
+                "**/FacebookSDK/",
+                "**/googleads**/",
+                "**/AdMobPlugin/",
+                "**/InMobiAds/",
+                "**/AudienceNetwork/",
+                "**/YandexMobileAds/",
+                "**/Fyber/",
+                "**/FairBid/",
+                "**/AppsFlyer/",
+                "**/IronSource/",
+                "**/Vungle/",
+                "**/NiceVibrations/",
+                "**/GameAnalytics/",
+                "**/UnityAds/",
+                "**/UnityPurchasing/",
+                "**/SupersonicWisdom/",
+                "**/StompyRobot/SRDebugger/",
+                "**/StompyRobot/SRF/",
+                "**/StompyRobot/SROptions/",
+                "**/ThirdParty/Obi/",
+                "**/Obi/",
+                "**/UniWebView/",
+                "**/Plugins/Sirenix/Assemblies/",
+                "**/Plugins/Sirenix/Odin Inspector/",
+                "**/Sirenix/Assemblies/",
+                "**/Sirenix/Odin Inspector/",
+                "**/MeshCombiner/",
+                "**/AnimationBaker/",
+                "Stubs/GameAnalyticsSDK",
+                "Stubs/Facebook.Unity",
+                "Stubs/FacebookGames",
+                "Stubs/FacebookPlatformServiceClient",
+                "Stubs/AdMobPlugin",
+                "Stubs/UnityEngine.Monetization",
+                "Stubs/UnityEngine.Advertisements",
+                "Stubs/UnityEngine.Purchasing",
+                "Stubs/Uniject",
+                "Stubs/InMobiAds",
+                "Stubs/AudienceNetwork",
+                "Stubs/YandexMobileAds",
+                "Stubs/Fyber",
+                "Stubs/GoogleMobileAds",
+                "Stubs/MiniJSON",
+                "Stubs/Firebase",
+                "Stubs/AppsFlyer",
+                "Stubs/IronSource",
+                "Stubs/Vungle",
+                "Stubs/MoreMountains.NiceVibrations",
+                "Stubs/StompyRobot/SRDebugger/",
+                "Stubs/StompyRobot/SRF/",
+                "Stubs/StompyRobot/SROptions/",
+                "Stubs/ThirdParty/Obi/",
+                "Stubs/Obi/",
+                "Stubs/UniWebView/",
+                "Stubs/Plugins/Sirenix/Assemblies/",
+                "Stubs/Plugins/Sirenix/Odin Inspector/",
+                "Stubs/Sirenix/Assemblies/",
+                "Stubs/Sirenix/Odin Inspector/",
+                "Stubs/MeshCombiner/",
+                "Stubs/AnimationBaker/",
+                "Stubs/SupersonicWisdom/"
+            ],
+            "msbuildMac64": "/Library/Frameworks/Mono.framework/Versions/Current/bin/msbuild",
+            "msbuildWin64": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+            "externalSources": [],
+            "externalJSLibraries": [],
+            "scriptingDefines": [],
+            "msbuildVersion": "17.14",
+            "monoVersion": "9.0.14",
+            "dotnetVersion": ""
+        },
+        "assets": {
+            "export": [
+                "resources",
+                "streamingAssets"
+            ],
+            "excludes": [
+                "Assets/TextMesh Pro/Fonts/LiberationSans - OFL.txt",
+                "Assets/TextMesh Pro/Fonts/LiberationSans.ttf",
+                "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat",
+                "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset",
+                "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat",
+                "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset",
+                "**/Editor/",
+                "**/FacebookSDK/",
+                "**/googleads**/",
+                "**/AdMobPlugin/",
+                "**/InMobiAds/",
+                "**/AudienceNetwork/",
+                "**/YandexMobileAds/",
+                "**/Fyber/",
+                "**/FairBid/",
+                "**/AppsFlyer/",
+                "**/IronSource/",
+                "**/Vungle/",
+                "**/NiceVibrations/",
+                "**/GameAnalytics/",
+                "**/UnityAds/",
+                "**/UnityPurchasing/",
+                "Stubs/GameAnalyticsSDK",
+                "Stubs/Facebook.Unity",
+                "Stubs/FacebookGames",
+                "Stubs/FacebookPlatformServiceClient",
+                "Stubs/AdMobPlugin",
+                "Stubs/UnityEngine.Monetization",
+                "Stubs/UnityEngine.Advertisements",
+                "Stubs/UnityEngine.Purchasing",
+                "Stubs/Uniject",
+                "Stubs/InMobiAds",
+                "Stubs/AudienceNetwork",
+                "Stubs/YandexMobileAds",
+                "Stubs/Fyber",
+                "Stubs/GoogleMobileAds",
+                "Stubs/MiniJSON",
+                "Stubs/Firebase",
+                "Stubs/AppsFlyer",
+                "Stubs/IronSource",
+                "Stubs/Vungle",
+                "Stubs/MoreMountains.NiceVibrations"
+            ],
+            "includes": [
+                "Assets/Resources/DOTweenSettings.asset",
+                "Assets/TextMesh Pro/Resources/TMP Settings.asset",
+                "Assets/VFX/Prefab/VFX_Cube_Break.prefab",
+                "Assets/VFX/Prefab/VFX_Shooter_Bullet.prefab"
+            ]
+        },
+        "scenes": [
+            "Assets/_Game/S_GamePlay_1.unity"
+        ],
+        "disabledScenes": [],
+        "startupScene": 0,
+        "packages": {
+            "default": {
+                "applicationName": "",
+                "orientation": "unspecified",
+                "languages": [
+                    "en"
+                ]
+            },
+            "ironsource": {
+                "packageType": 0
+            },
+            "facebook": {
+                "assetID": "",
+                "packageType": 0,
+                "disableCompression": false
+            }
+        },
+        "preloader": {
+            "logo": ""
+        },
+        "enableRealtimeShadows": false,
+        "enableLunaCompilerV2": true,
+        "optimiseShaderVariantsExport": true,
+        "enableMecanimWASM": true,
+        "minify": true,
+        "forceUncompressed": false,
+        "forceBase64": true,
+        "graphicsConstraint": 24,
+        "genericCheck": true,
+        "disableAntiAliasing": true,
+        "forceStableRandomSeed": false,
+        "unusedModules": [],
+        "disableRuntimeAnalysisForCode": true,
+        "disableRuntimeAnalysisForShaders": false,
+        "useShadersCache": true,
+        "preventUpdatingRAListWhenRAIsDisabled": false,
+        "bakeReferenceAmbientProbe": false,
+        "unusedClasses": [],
+        "unusedMethods": [],
+        "stubberDataList": [],
+        "stubberData": {
+            "SDKName": "",
+            "Namespace": "",
+            "className": "",
+            "buildPlatform": "",
+            "enabled": false
+        },
+        "playerPrefs": true,
+        "enableStaticBatching": true,
+        "enableDynamicBatching": true,
+        "forceSourcesBasedCompilation": false
+    },
+    "assets": {
+        "rules": {
+            "texture": {
+                "default": {
+                    "maxWidth": 512,
+                    "maxHeight": 512,
+                    "format": "png32",
+                    "compression": "quantSize",
+                    "quality": 65,
+                    "script": "",
+                    "ext": ""
+                },
+                "overrides": [
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "png32",
+                        "compression": "none",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Resources/unity_builtin_extra/Default-Particle"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "png32",
+                        "compression": "none",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_FrameWork/Resources_Remote/Fonts/Baloo Bhaijaan Regular 400 SDF.asset"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "png32",
+                        "compression": "none",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "png32",
+                        "compression": "none",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
+                    }
+                ]
+            },
+            "sound": {
+                "default": {
+                    "channels": 1,
+                    "startTime": "00:00.000",
+                    "endTime": "00:00.000",
+                    "lengthInSeconds": 0.0,
+                    "bitrate": 128,
+                    "script": "",
+                    "ext": ""
+                },
+                "overrides": []
+            },
+            "font": {
+                "default": {
+                    "data": {
+                        "alphabet": " §1234567890-=qwertyuiop[]asdfghjkl;'\\`zxcvbnm,./±!@#$%^&*()_+QWERTYUIOP{}ASDFGHJKL:\"|~ZXCVBNM<>?",
+                        "size": 64,
+                        "textureWidth": 1024,
+                        "textureHeight": 1024
+                    }
+                },
+                "overrides": []
+            },
+            "meshes": {
+                "default": {
+                    "halfPrecision": true,
+                    "useSimplification": false,
+                    "simplificationPercentage": 30,
+                    "linkCloseVertices": true
+                },
+                "overrides": []
+            },
+            "animations": {
+                "default": {
+                    "halfPrecision": true,
+                    "stripCurves": true
+                },
+                "overrides": []
+            }
+        }
+    },
+    "logLevel_Cs": "error",
+    "logLevel_Js": "trace"
+}

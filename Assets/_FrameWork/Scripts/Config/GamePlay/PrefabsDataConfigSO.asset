@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 752d2d1f2886d434fa93de586588e512, type: 3}
+  m_Name: PrefabsDataConfigSO
+  m_EditorClassIdentifier: 
+  VerticalLauncherPrefab: {fileID: 526478727001122394, guid: 952a4b9f3166a194991892dd7d622259, type: 3}
+  WallAroundPrefab: {fileID: 1516569972400604201, guid: 556515a2306282d4aafb4c39e9d42c30, type: 3}
+  LauncherNormalPrefab: {fileID: 2115133724316950284, guid: 3a237de3a4acacb4c9339133eeaa1ed5, type: 3}
+  LauncherLockPrefab: {fileID: 3450009711720214270, guid: 4c7f1bb8d18b95e4a91a4df9cf01f672, type: 3}
+  LauncherKeyPrefab: {fileID: 8515054522782698105, guid: 791031ccda4e3bf4da6344546fa2cdf8, type: 3}
+  LauncherScissorsPrefab: {fileID: -6663228755741664290, guid: e06a61ddfad012a46b76d02bda823ff0, type: 3}
+  LineConnectorPrefab: {fileID: 849368240290472916, guid: 8964332482022a64d8f77991432fce0f, type: 3}
+  LauncherProjectilePrefab: {fileID: 909422197132741251, guid: fbb8b96866cf72943aed71bb3165c007, type: 3}
+  SlotLauncherMonoPrefab: {fileID: -1051763611914410971, guid: b80d52119fc557e49ae1c8c60149cdd4, type: 3}
+  SlotBoosterMonoPrefab: {fileID: -1051763611914410971, guid: 46ea717c286ac804983b2a51e3d349c7, type: 3}
+  ObjectPiecePrefab: {fileID: -3226883639417772149, guid: 202e232f47256374781cd17fa0e7a897, type: 3}
+  ObjectFrozenPrefab: {fileID: -8800666639025144883, guid: 60c2e588a031de94c962f0d9c0ef8432, type: 3}
+  ObjectGiftBoxPrefab: {fileID: -6221360473997254531, guid: e99df41ca05576443a524acd299ac16d, type: 3}
+  ObjectLargeCubePrefab: {fileID: 8273517495817491353, guid: 438439780280c5a468d68d803925bdc0, type: 3}
