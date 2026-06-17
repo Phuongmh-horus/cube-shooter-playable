@@ -24,7 +24,7 @@ public class PlayableAdsController : MonoBehaviour
 
     private int _cannonClickedCount = 0;
     private bool _hasRedirected = false;
-    private bool _isFocused = true;
+    private bool _endGameSent = false;
 
     private void Awake()
     {
@@ -158,11 +158,16 @@ public class PlayableAdsController : MonoBehaviour
 
         yield return new WaitForSeconds(delay);
 
+        // Gửi endgame signal cho Luna SDK
+        SendEndGameIfNeeded();
+
         // --- Store Redirection (Luna SDK) ---
 #if LUNA_PLAYABLE
-        try {
-            Luna.Unity.LifeCycle.TryInstallFullGame();
-        } catch { }
+        try
+        {
+            Luna.Unity.Playable.InstallFullGame();
+        }
+        catch { }
 #else
         // Fallback dùng Reflection phòng khi Luna có trong project nhưng chưa bật macro LUNA_PLAYABLE
         try
@@ -177,24 +182,14 @@ public class PlayableAdsController : MonoBehaviour
         catch (System.Exception e) { Debug.Log("[PlayableAdsController] Luna SDK TryInstallFullGame Error: " + e.Message); }
 #endif
 
-#if UNITY_EDITOR
-        // Trong Editor, việc gọi OpenURL có thể không làm game mất Focus vật lý,
-        // dẫn đến việc bị treo ở WaitUntil mãi mãi. Nên ta giả lập đợi 1 lát rồi show Endcard luôn.
-        yield return new WaitForSeconds(1.0f);
-#else
-        // Ghi nhận focus bị mất khi nhảy ra store thực tế trên device
-        _isFocused = false;
-
-        // Đợi đến khi user back lại game (focus = true)
-        yield return new WaitUntil(() => _isFocused);;
-#endif
-
         ShowEndcardAndDimScreen();
     }
 
-    private void OnApplicationFocus(bool focus)
+    private void SendEndGameIfNeeded()
     {
-        _isFocused = focus;
+        if (_endGameSent) return;
+        _endGameSent = true;
+        Luna.Unity.LifeCycle.GameEnded();
     }
 
     private void ShowEndcardAndDimScreen()

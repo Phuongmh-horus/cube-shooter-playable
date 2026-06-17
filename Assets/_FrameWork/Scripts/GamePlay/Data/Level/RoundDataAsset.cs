@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "RoundDataAsset", menuName = "GamePlay/Level Data Asset")]
@@ -12,14 +13,8 @@ public class RoundDataAsset : ScriptableObject
     public Vector3 ModelRotation = Vector3.zero;
 
     [Header("Raw Data")]
-    [Tooltip("Dùng cho game thật (MemoryPack)")]
-    public TextAsset LevelDataBytesAsset;
-
-    [Tooltip("Dùng cho Playable Ads Luna (JsonUtility)")]
+    [Tooltip("Dùng cho Playable Ads Luna (Newtonsoft JSON)")]
     public TextAsset LevelDataJsonAsset;
-
-    [TextArea(3, 10)]
-    public string Notes;
 
     public RoundDataBytes GetLevelData()
     {
@@ -28,7 +23,7 @@ public class RoundDataAsset : ScriptableObject
         {
             try
             {
-                var data = JsonUtility.FromJson<RoundDataBytes>(LevelDataJsonAsset.text);
+                var data = JsonConvert.DeserializeObject<RoundDataBytes>(LevelDataJsonAsset.text);
                 Debug.Log($"[RoundDataAsset] Loaded data from JSON for LevelID {LevelId}");
                 return data;
             }

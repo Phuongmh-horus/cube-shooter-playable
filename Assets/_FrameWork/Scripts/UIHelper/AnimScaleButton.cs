@@ -41,8 +41,8 @@ public class AnimScaleButton : MonoBehaviour
 
     public void GotoStore()
     {
-        //Luna.Unity.LifeCycle.GameEnded();
-        //Luna.Unity.Playable.InstallFullGame();
+        Luna.Unity.LifeCycle.GameEnded();
+        Luna.Unity.Playable.InstallFullGame();
     }
 
     public void StartScalingAnimation()

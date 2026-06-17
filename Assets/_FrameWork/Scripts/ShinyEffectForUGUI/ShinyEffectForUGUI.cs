@@ -1,32 +1,21 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using System.Collections;
-
-#if UNITY_EDITOR
-using System.IO;
-using System.Linq;
-using UnityEditor;
-#endif
 
 namespace Coffee.UIExtensions
 {
     /// <summary>
     /// UIEffect.
     /// </summary>
-    //[ExecuteInEditMode]
     [DisallowMultipleComponent]
     public class ShinyEffectForUGUI : BaseMeshEffect
-#if UNITY_EDITOR
-    , ISerializationCallbackReceiver
-#endif
     {
         //################################
         // Constant or Static Members.
         //################################
         public const string shaderName = "UI/Hidden/UI-Effect-Shiny";
-
 
         //################################
         // Serialize Members.
@@ -34,12 +23,10 @@ namespace Coffee.UIExtensions
         [SerializeField][Range(0, 1)] float m_Location = 0;
         [SerializeField][Range(0, 1)] float m_Width = 0.15f;
         [SerializeField][Range(0.01f, 1)] float m_Softness = 1f;
-        [FormerlySerializedAs("m_Alpha")]
         [SerializeField][Range(0, 1)] float m_Brightness = 1f;
         [SerializeField][Range(-180, 180)] float m_Rotation;
         [SerializeField][Range(0, 1)] float m_Highlight = 0.5f;
         [SerializeField] Material m_EffectMaterial;
-
 
         //################################
         // Public Members.
@@ -49,74 +36,51 @@ namespace Coffee.UIExtensions
         /// </summary>
         new public Graphic graphic { get { return base.graphic; } }
 
-        /// <summary>
-        /// Location for shiny effect.
-        /// </summary>
         public float location { get { return m_Location; } set { m_Location = Mathf.Clamp(value, 0, 1); _SetDirty(); } }
 
-        /// <summary>
-        /// Width for shiny effect.
-        /// </summary>
         public float width { get { return m_Width; } set { m_Width = Mathf.Clamp(value, 0, 1); _SetDirty(); } }
 
-        /// <summary>
-        /// Softness for shiny effect.
-        /// </summary>
         public float softness { get { return m_Softness; } set { m_Softness = Mathf.Clamp(value, 0.01f, 1); _SetDirty(); } }
 
-        /// <summary>
-        /// Alpha for shiny effect.
-        /// </summary>
-        [System.Obsolete("Use brightness instead (UnityUpgradable) -> brightness")]
         public float alpha { get { return m_Brightness; } set { m_Brightness = Mathf.Clamp(value, 0, 1); _SetDirty(); } }
 
-        /// <summary>
-        /// Brightness for shiny effect.
-        /// </summary>
         public float brightness { get { return m_Brightness; } set { m_Brightness = Mathf.Clamp(value, 0, 1); _SetDirty(); } }
 
-        /// <summary>
-        /// Highlight factor for shiny effect.
-        /// </summary>
         public float highlight { get { return m_Highlight; } set { m_Highlight = Mathf.Clamp(value, 0, 1); _SetDirty(); } }
 
-        /// <summary>
-        /// Rotation for shiny effect.
-        /// </summary>
         public float rotation
         {
-            get
-            {
-                return m_Rotation;
-            }
+            get { return m_Rotation; }
             set { if (!Mathf.Approximately(m_Rotation, value)) { m_Rotation = value; _SetDirty(); } }
         }
 
         /// <summary>
-        /// Effect material.
+        /// Effect material. Assign this manually in the Inspector
+        /// (the previous auto-find-by-shader-name editor logic was removed).
         /// </summary>
         public virtual Material effectMaterial { get { return m_EffectMaterial; } }
 
         public bool PlayAutomatic;
         public float AutoPlayDuration = 1.2f;
         public float AutoPlayInterval = 3f;
-        /// <summary>
-        /// This function is called when the object becomes enabled and active.
-        /// </summary>
+
         protected override void OnEnable()
         {
-            graphic.material = effectMaterial;
+            if (graphic != null && m_EffectMaterial != null)
+                graphic.material = m_EffectMaterial;
+            else if (m_EffectMaterial == null)
+                Debug.LogWarning($"[ShinyEffectForUGUI] m_EffectMaterial chưa được gán trên '{name}'. Hãy gán Material dùng shader '{shaderName}' trong Inspector.", this);
+
             base.OnEnable();
         }
 
-        /// <summary>
-        /// This function is called when the behaviour becomes disabled () or inactive.
-        /// </summary>
         protected override void OnDisable()
         {
-            graphic.material = null;
+            if (graphic != null)
+                graphic.material = null;
             base.OnDisable();
         }
+
         private float _timeCounter = 0;
 
         protected void LateUpdate()
@@ -131,47 +95,11 @@ namespace Coffee.UIExtensions
             Play(AutoPlayDuration);
         }
 
-#if UNITY_EDITOR
-        public void OnBeforeSerialize()
-        {
-        }
-
-        public void OnAfterDeserialize()
-        {
-            var obj = this;
-            EditorApplication.delayCall += () =>
-            {
-                if (Application.isPlaying || !obj)
-                    return;
-
-                var mat = GetMaterial(shaderName);
-                if (m_EffectMaterial == mat && graphic.material == mat)
-                    return;
-
-                graphic.material = m_EffectMaterial = mat;
-                EditorUtility.SetDirty(this);
-                EditorUtility.SetDirty(graphic);
-                EditorApplication.delayCall += AssetDatabase.SaveAssets;
-            };
-        }
-
-        public static Material GetMaterial(string shaderName)
-        {
-            string name = Path.GetFileName(shaderName);
-            return AssetDatabase.FindAssets("t:Material " + name)
-                .Select(x => AssetDatabase.GUIDToAssetPath(x))
-                .SelectMany(x => AssetDatabase.LoadAllAssetsAtPath(x))
-                .OfType<Material>()
-                .FirstOrDefault(x => x.name == name);
-        }
-#endif
-
         /// <summary>
         /// Modifies the mesh.
         /// </summary>
         public override void ModifyMesh(VertexHelper vh)
         {
-
             if (!IsActive())
                 return;
 
@@ -233,9 +161,6 @@ namespace Coffee.UIExtensions
         //################################
         // Private Members.
         //################################
-        /// <summary>
-        /// Mark the UIEffect as dirty.
-        /// </summary>
         void _SetDirty()
         {
             if (graphic)
@@ -278,7 +203,6 @@ namespace Coffee.UIExtensions
             return (Mathf.FloorToInt(y * PRECISION) << 12)
                 + Mathf.FloorToInt(x * PRECISION);
         }
-
 
         /// <summary>
         /// Matrix2x3.

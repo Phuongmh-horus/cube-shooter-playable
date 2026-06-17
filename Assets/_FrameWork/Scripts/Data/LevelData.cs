@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public partial class LevelContainer
@@ -9,7 +10,6 @@ public partial class LevelContainer
 }
 
 [System.Serializable]
-
 public partial class LevelInforOld
 {
     public int LevelId;
@@ -29,44 +29,7 @@ public partial class LevelInfor
     public string IconPath; // Đường dẫn đến icon của level, có thể là Resources path hoặc URL
 
     public float Scale = 1f; // Tỉ lệ Scale mới thêm vào
-    public UnityEngine.Vector3 ModelRotation = UnityEngine.Vector3.zero; // Góc xoay ban đầu của Model
-
-#if UNITY_EDITOR
-    public static System.Func<IEnumerable<string>> GetRoundNamesFunc;
-    public static System.Action<string, LevelInfor> OnRoundNameSelectedAction;
-
-    private IEnumerable<string> GetRoundNames()
-    {
-        if (GetRoundNamesFunc != null) return GetRoundNamesFunc();
-        return new List<string>();
-    }
-
-    private void OnRoundNameChanged()
-    {
-        if (OnRoundNameSelectedAction != null) OnRoundNameSelectedAction(RoundName, this);
-    }
-
-    private bool IsIconNotFound()
-    {
-        return string.IsNullOrEmpty(IconPath) && !string.IsNullOrEmpty(RoundName);
-    }
-
-    private string GetIconNotFoundMessage()
-    {
-        string suffix = RoundName;
-        if (suffix.StartsWith("Level_", System.StringComparison.OrdinalIgnoreCase))
-            suffix = suffix.Substring(6);
-        else if (suffix.StartsWith("Level", System.StringComparison.OrdinalIgnoreCase))
-            suffix = suffix.Substring(5);
-        else if (suffix.StartsWith("Round_", System.StringComparison.OrdinalIgnoreCase))
-            suffix = suffix.Substring(6);
-        else if (suffix.StartsWith("Round", System.StringComparison.OrdinalIgnoreCase))
-            suffix = suffix.Substring(5);
-
-        suffix = suffix.Trim('_', ' ', '-');
-        return "Không tìm thấy icon Icon_" + suffix;
-    }
-#endif
+    public Vector3 ModelRotation = UnityEngine.Vector3.zero; // Góc xoay ban đầu của Model
 }
 
 [System.Serializable]

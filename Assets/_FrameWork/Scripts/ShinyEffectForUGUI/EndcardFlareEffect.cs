@@ -23,8 +23,6 @@ public class EndcardFlareEffect : MonoBehaviour
     public float RotationSpeedZ = 20f;
 
     [Tooltip("If true, Flare 2 will rotate in the opposite direction of Flare 1")]
-    public bool RotateOpposite = true;
-
     private bool _isScalingDone = false;
 
     private void OnEnable()
@@ -75,13 +73,6 @@ public class EndcardFlareEffect : MonoBehaviour
                 Flare1.Rotate(0, 0, rotZ);
             }
 
-            if (Flare2 != null)
-            {
-                if (RotateOpposite)
-                    Flare2.Rotate(0, 0, -rotZ);
-                else
-                    Flare2.Rotate(0, 0, rotZ);
-            }
         }
     }
 }

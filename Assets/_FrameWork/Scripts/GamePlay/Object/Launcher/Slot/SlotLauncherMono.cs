@@ -22,9 +22,9 @@ public class SlotLauncherMono : MonoBehaviour
     private ModelSide _modelSide;
     public LauncherBaseMono CurrentLauncher => _launcherBaseMono;
     public bool IsSlotBooster = false; // check xem nó là slot booster hay deffault
-    
+
     private bool _isResigned = false;
-    
+
     public bool IsEmpty => CurrentLauncher == null && _isResigned == false;
     public int Index => _index;
 
@@ -42,7 +42,7 @@ public class SlotLauncherMono : MonoBehaviour
         _launcherBaseMono = null;
         _isResigned = false;
         SetModelSide(side);
-        
+
         // Reset material color to _blinkColor1 on initialization
         if (_sharedMaterial != null)
         {
@@ -69,7 +69,7 @@ public class SlotLauncherMono : MonoBehaviour
     {
         _launcherBaseMono = launcher;
     }
-    
+
     public void ClearSlot()
     {
         _launcherBaseMono = null;
@@ -78,9 +78,9 @@ public class SlotLauncherMono : MonoBehaviour
 
     public Vector3 GetSlotPosition()
     {
-        return _pointTargetLauncher.position;
+        return _pointTargetLauncher.position + Vector3.forward * 1f; // Offset lên trên một chút để tránh che chân
     }
-    
+
     public void SetResigneLauncher(bool b)
     {
         _isResigned = b;
@@ -104,7 +104,7 @@ public class SlotLauncherMono : MonoBehaviour
     {
         StopBlinking();
         if (_sharedMaterial == null) return;
-        
+
         _originalMaterialColor = _sharedMaterial.GetColor("_BaseColor");
         _blinkCts = StartCoroutine(BlinkMaterialAsync(color1, color2, speed));
     }

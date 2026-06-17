@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ public class PoolHolder : MonoSingleton<PoolHolder>
 {
     Dictionary<string, Queue<MonoBehaviour>> _pools = new();
     Dictionary<string, int> _capacity = new();
-    HashSet<string> _monoKeys = new(16);
+    HashSet<string> _monoKeys = new();
     Dictionary<string, HashSet<MonoBehaviour>> _activeObjects = new();
 
     private void Start()
@@ -14,7 +13,6 @@ public class PoolHolder : MonoSingleton<PoolHolder>
         DontDestroyOnLoad(this);
     }
 
-    [CanBeNull]
     public MonoBehaviour Get(MonoBehaviour t, Transform parent = null, Vector3 position = default,
         Quaternion rotation = default, string customKey = "")
     {

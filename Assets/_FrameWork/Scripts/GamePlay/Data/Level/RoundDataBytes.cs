@@ -101,11 +101,24 @@ public partial class ModelData
 }
 
 [System.Serializable]
+public struct LunaVector3
+{
+    public float x;
+    public float y;
+    public float z;
+
+    public LunaVector3(float x, float y, float z) { this.x = x; this.y = y; this.z = z; }
+    
+    public static implicit operator Vector3(LunaVector3 v) => new Vector3(v.x, v.y, v.z);
+    public static implicit operator LunaVector3(Vector3 v) => new LunaVector3(v.x, v.y, v.z);
+}
+
+[System.Serializable]
 public partial class ObjectBaseData
 {
-    public Vector3 Position;
-    public Vector3 Rotation;
-    public Vector3 Scale;
+    public LunaVector3 Position;
+    public LunaVector3 Rotation;
+    public LunaVector3 Scale;
 }
 
 
@@ -121,14 +134,26 @@ public partial class PieceData : ObjectBaseData
 }
 
 [System.Serializable]
+public struct LunaVector2
+{
+    public float x;
+    public float y;
+
+    public LunaVector2(float x, float y) { this.x = x; this.y = y; }
+    
+    public static implicit operator Vector2(LunaVector2 v) => new Vector2(v.x, v.y);
+    public static implicit operator LunaVector2(Vector2 v) => new LunaVector2(v.x, v.y);
+}
+
+[System.Serializable]
 public partial class GiftBoxData : ObjectBaseData
 {
     public int CountUnlockGiftBox; // Số lượng kéo cần bay lên để mở hộp quà này
-    public List<Vector2> ScissorsFlyPoints; // List điểm để kéo bay lên cắt 
+    public List<LunaVector2> ScissorsFlyPoints; // List điểm để kéo bay lên cắt 
 
     public GiftBoxData()
     {
-        ScissorsFlyPoints = new List<Vector2>();
+        ScissorsFlyPoints = new List<LunaVector2>();
     }
 }
 

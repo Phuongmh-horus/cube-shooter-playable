@@ -1,289 +1,241 @@
+// MathTargetPickingSystem.cs - Luna/Playable Ads Compatible Version
+// Changes: Removed Unity.Burst, Unity.Jobs, Unity.Mathematics dependencies.
+
 using UnityEngine;
-using Unity.Collections;
-using Unity.Jobs;
-using Unity.Mathematics;
-using Unity.Burst;
 
 public class MathTargetPickingSystem
 {
-    private struct MathRaycastVisibilityJob : IJob
-    {
-        [ReadOnly] public NativeArray<PieceTargetData> Pieces;
-        [ReadOnly] public NativeArray<float4> FrustumPlanes;
-        public CubeShooterColor TargetColor;
-
-        public Matrix4x4 ParentWorldToLocal;
-        public float3 WorldCameraPos;
-        public float3 WorldCameraForward;
-        public float3 WorldCameraRight;
-        public float3 WorldCameraUp;
-        public bool IsOrthographic;
-
-        public NativeArray<int> ResultIndex;
-        public NativeArray<int> CandidateIndices;
-        public NativeArray<float> CandidateDistances;
-
-        public void Execute()
-        {
-            // 1. Chuyển đổi thông số Camera từ không gian World sang không gian Local của Parent
-            float3 localCameraPos = math.transform(ParentWorldToLocal, WorldCameraPos);
-            float3 localCameraForward = math.rotate(ParentWorldToLocal, WorldCameraForward);
-            float3 localCameraRight = math.rotate(ParentWorldToLocal, WorldCameraRight);
-            float3 localCameraUp = math.rotate(ParentWorldToLocal, WorldCameraUp);
-
-            int candidateCount = 0;
-
-            // 2. Tìm tất cả các ứng viên hợp lệ (Cùng màu, chưa bị nhắm, còn sống và nằm trong Camera Frustum)
-            for (int i = 0; i < Pieces.Length; i++)
-            {
-                var piece = Pieces[i];
-                if (!piece.IsActive || piece.IsBulletIncoming || piece.Color != TargetColor) continue;
-
-                // Mở rộng bán kính kiểm tra một chút để đảm bảo an toàn với các khối bị quay chéo
-                float radius = math.cmax(piece.Extents) * 1.74f;
-                if (!IsInsideFrustum(piece.Position, radius)) continue;
-
-                float distToCam = math.length(piece.Position - localCameraPos);
-
-                CandidateIndices[candidateCount] = i;
-                CandidateDistances[candidateCount] = distToCam;
-                candidateCount++;
-            }
-
-            // 3. Sắp xếp ứng viên theo khoảng cách đến Camera (Gần nhất -> Xa nhất)
-            // Vì candidateCount thường rất nhỏ (vài chục Cube cùng màu), Bubble Sort là quá nhanh và tiết kiệm trên Burst
-            for (int i = 0; i < candidateCount - 1; i++)
-            {
-                for (int j = i + 1; j < candidateCount; j++)
-                {
-                    if (CandidateDistances[j] < CandidateDistances[i])
-                    {
-                        // Swap distance
-                        float tempDist = CandidateDistances[i];
-                        CandidateDistances[i] = CandidateDistances[j];
-                        CandidateDistances[j] = tempDist;
-
-                        // Swap index
-                        int tempIdx = CandidateIndices[i];
-                        CandidateIndices[i] = CandidateIndices[j];
-                        CandidateIndices[j] = tempIdx;
-                    }
-                }
-            }
-
-            int bestIndex = -1;
-
-            // 4. Lần lượt kiểm tra từ khối gần nhất. Tối ưu: Chỉ kiểm tra tối đa 40 khối gần nhất
-            // Nếu 40 khối gần nhất đều bị che, tỷ lệ rất cao là toàn bộ màu đó đang bị lấp bên trong.
-            int maxCandidatesToCheck = math.min(candidateCount, 40);
-            for (int c = 0; c < maxCandidatesToCheck; c++)
-            {
-                int i = CandidateIndices[c];
-                var targetPiece = Pieces[i];
-                float targetDist = CandidateDistances[c];
-
-                float r = math.cmin(targetPiece.Extents) * 0.5f;
-                float3 rightOff = localCameraRight * r;
-                float3 upOff = localCameraUp * r;
-
-                bool anyPointVisible = false;
-
-                // Kiểm tra 5 điểm (1 Tâm + 4 Góc) để chắc chắn nó có lộ diện ít nhất 1 phần không
-                for (int pIndex = 0; pIndex < 5; pIndex++)
-                {
-                    float3 pt = targetPiece.Position;
-                    if (pIndex == 1) pt += rightOff + upOff;
-                    else if (pIndex == 2) pt += -rightOff + upOff;
-                    else if (pIndex == 3) pt += rightOff - upOff;
-                    else if (pIndex == 4) pt += -rightOff - upOff;
-
-                    float3 rayOrigin;
-                    float3 rayDir;
-                    float rayDist;
-
-                    if (IsOrthographic)
-                    {
-                        float distAlongForward = math.dot(pt - localCameraPos, localCameraForward);
-                        rayOrigin = pt - localCameraForward * distAlongForward;
-                        rayDir = localCameraForward;
-                        rayDist = distAlongForward;
-                    }
-                    else
-                    {
-                        float3 vectorToTarget = pt - localCameraPos;
-                        rayDist = math.length(vectorToTarget);
-                        rayDir = vectorToTarget / rayDist;
-                        rayOrigin = localCameraPos;
-                    }
-
-                    bool isRayOccluded = false;
-
-                    for (int j = 0; j < Pieces.Length; j++)
-                    {
-                        if (i == j) continue;
-
-                        var blocker = Pieces[j];
-                        if (!blocker.IsActive) continue; // Bỏ qua ngay các Cube đã bị xóa
-
-                        // --- FAST SPHERE REJECTION ---
-                        float3 originToBlocker = blocker.Position - rayOrigin;
-                        float tBlocker = math.dot(originToBlocker, rayDir);
-                        float maxRadius = math.cmax(blocker.Extents) * 1.74f;
-
-                        // Nếu Blocker nằm sau tia bắn, hoặc xa hơn cả mục tiêu -> Chắc chắn không cản đường
-                        if (tBlocker < -maxRadius || tBlocker > rayDist + maxRadius) continue;
-
-                        // Nếu tia bắn trượt hoàn toàn ra ngoài vòng tròn bao quát của Blocker
-                        float distToRaySqr = math.lengthsq(originToBlocker - rayDir * tBlocker);
-                        if (distToRaySqr > maxRadius * maxRadius) continue;
-                        // ------------------------------
-
-                        float t;
-                        if (IntersectRayOBB(rayOrigin, rayDir, blocker.Position, blocker.Rotation, blocker.Extents, out t))
-                        {
-                            if (t > 0f && t < rayDist - 0.01f) // Cản trước khi đến mục tiêu
-                            {
-                                isRayOccluded = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    // Nếu có ít nhất 1 trong 5 điểm không bị ai che -> Mục tiêu này có thể bắn được!
-                    if (!isRayOccluded)
-                    {
-                        anyPointVisible = true;
-                        break;
-                    }
-                }
-
-                // Nhờ sắp xếp theo khoảng cách từ trước, mục tiêu hiển thị đầu tiên CHẮC CHẮN là mục tiêu gần nhất
-                if (anyPointVisible)
-                {
-                    bestIndex = i;
-                    break;
-                }
-            }
-
-            ResultIndex[0] = bestIndex;
-        }
-
-        private bool IsInsideFrustum(float3 center, float radius)
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                float4 plane = FrustumPlanes[i];
-                float d = math.dot(plane.xyz, center) + plane.w;
-                if (d + radius < 0) return false;
-            }
-            return true;
-        }
-
-        private bool IntersectRayOBB(float3 rayOrigin, float3 rayDir, float3 boxPos, quaternion boxRot, float3 boxExtents, out float t)
-        {
-            t = -1f;
-
-            quaternion invRot = math.inverse(boxRot);
-            float3 localOrigin = math.mul(invRot, rayOrigin - boxPos);
-            float3 localDir = math.mul(invRot, rayDir);
-
-            float3 invDir = 1.0f / localDir;
-            float3 t0 = (-boxExtents - localOrigin) * invDir;
-            float3 t1 = (boxExtents - localOrigin) * invDir;
-
-            float3 tmin = math.min(t0, t1);
-            float3 tmax = math.max(t0, t1);
-
-            float max_tmin = math.cmax(tmin);
-            float min_tmax = math.cmin(tmax);
-
-            if (max_tmin <= min_tmax && min_tmax >= 0)
-            {
-                t = max_tmin >= 0 ? max_tmin : min_tmax;
-                return true;
-            }
-
-            return false;
-        }
-    }
-
-    private NativeArray<float4> _frustumPlanes;
-    private NativeArray<int> _resultIndex;
-    private NativeArray<int> _candidateIndices;
-    private NativeArray<float> _candidateDistances;
-    private Plane[] _planesArray;
+    private int[] _candidateIndices = new int[2000];
+    private float[] _candidateDistances = new float[2000];
     private bool _isInitialized = false;
 
     public void Initialize()
     {
         if (_isInitialized) return;
-        _frustumPlanes = new NativeArray<float4>(6, Allocator.Persistent);
-        _resultIndex = new NativeArray<int>(1, Allocator.Persistent);
-        _candidateIndices = new NativeArray<int>(2000, Allocator.Persistent); // Hỗ trợ lên đến 2000 candidate cùng lúc
-        _candidateDistances = new NativeArray<float>(2000, Allocator.Persistent);
-        _planesArray = new Plane[6];
+        // Pre-allocate candidate arrays (matching original NativeArray sizes)
+        _candidateIndices = new int[2000];
+        _candidateDistances = new float[2000];
         _isInitialized = true;
     }
 
     public void Release()
     {
-        if (_frustumPlanes.IsCreated) _frustumPlanes.Dispose();
-        if (_resultIndex.IsCreated) _resultIndex.Dispose();
-        if (_candidateIndices.IsCreated) _candidateIndices.Dispose();
-        if (_candidateDistances.IsCreated) _candidateDistances.Dispose();
         _isInitialized = false;
     }
 
-    public int GetTarget(Camera cam, CubeShooterColor targetColor, NativeArray<PieceTargetData> cachedData, ObjectBaseMono[] pieces, Matrix4x4 parentWorldToLocal)
+    public int GetTarget(
+        Camera cam,
+        CubeShooterColor targetColor,
+        PieceTargetData[] cachedData,
+        ObjectBaseMono[] pieces,
+        Transform parent)
     {
-        if (!_isInitialized || !cachedData.IsCreated) return -1;
+        if (!_isInitialized || cachedData == null || cachedData.Length == 0 || parent == null) return -1;
         int count = pieces.Length;
         if (count == 0) return -1;
 
-        GeometryUtility.CalculateFrustumPlanes(cam, _planesArray);
+        // ---- Build frustum planes in Parent Local Space ----
+        Matrix4x4 mat = cam.projectionMatrix * cam.worldToCameraMatrix;
+        Plane[] worldPlanes = new Plane[6];
+        worldPlanes[0] = new Plane(new Vector3(mat.m30 + mat.m00, mat.m31 + mat.m01, mat.m32 + mat.m02).normalized, 0); worldPlanes[0].distance = (mat.m33 + mat.m03) / new Vector3(mat.m30 + mat.m00, mat.m31 + mat.m01, mat.m32 + mat.m02).magnitude;
+        worldPlanes[1] = new Plane(new Vector3(mat.m30 - mat.m00, mat.m31 - mat.m01, mat.m32 - mat.m02).normalized, 0); worldPlanes[1].distance = (mat.m33 - mat.m03) / new Vector3(mat.m30 - mat.m00, mat.m31 - mat.m01, mat.m32 - mat.m02).magnitude;
+        worldPlanes[2] = new Plane(new Vector3(mat.m30 + mat.m10, mat.m31 + mat.m11, mat.m32 + mat.m12).normalized, 0); worldPlanes[2].distance = (mat.m33 + mat.m13) / new Vector3(mat.m30 + mat.m10, mat.m31 + mat.m11, mat.m32 + mat.m12).magnitude;
+        worldPlanes[3] = new Plane(new Vector3(mat.m30 - mat.m10, mat.m31 - mat.m11, mat.m32 - mat.m12).normalized, 0); worldPlanes[3].distance = (mat.m33 - mat.m13) / new Vector3(mat.m30 - mat.m10, mat.m31 - mat.m11, mat.m32 - mat.m12).magnitude;
+        worldPlanes[4] = new Plane(new Vector3(mat.m30 + mat.m20, mat.m31 + mat.m21, mat.m32 + mat.m22).normalized, 0); worldPlanes[4].distance = (mat.m33 + mat.m23) / new Vector3(mat.m30 + mat.m20, mat.m31 + mat.m21, mat.m32 + mat.m22).magnitude;
+        worldPlanes[5] = new Plane(new Vector3(mat.m30 - mat.m20, mat.m31 - mat.m21, mat.m32 - mat.m22).normalized, 0); worldPlanes[5].distance = (mat.m33 - mat.m23) / new Vector3(mat.m30 - mat.m20, mat.m31 - mat.m21, mat.m32 - mat.m22).magnitude;
+
+        Vector4[] localPlanes = new Vector4[6];
         for (int i = 0; i < 6; i++)
         {
-            // Chuyển mặt phẳng Frustum vào hệ toạ độ Local của Parent để đồng bộ
-            Plane p = _planesArray[i];
-
-            // Lấy 1 điểm trên mặt phẳng
+            Plane p = worldPlanes[i];
             Vector3 pointOnPlane = p.normal * -p.distance;
-            // Chuyển điểm và pháp tuyến sang Local
-            Vector3 localPoint = parentWorldToLocal.MultiplyPoint3x4(pointOnPlane);
-            Vector3 localNormal = parentWorldToLocal.MultiplyVector(p.normal).normalized;
-
-            // Tính lại distance trong Local Space
-            float localDistance = -Vector3.Dot(localNormal, localPoint);
-            _frustumPlanes[i] = new float4(localNormal, localDistance);
+            Vector3 localPoint = parent.InverseTransformPoint(pointOnPlane);
+            Vector3 localNormal = parent.InverseTransformDirection(p.normal).normalized;
+            float localDist = -Vector3.Dot(localNormal, localPoint);
+            localPlanes[i] = new Vector4(localNormal.x, localNormal.y, localNormal.z, localDist);
         }
 
-        _resultIndex[0] = -1;
+        // ---- Convert camera params to Parent Local Space ----
+        Vector3 localCamPos = parent.InverseTransformPoint(cam.transform.position);
+        Vector3 localCamFwd = parent.InverseTransformDirection(cam.transform.forward).normalized;
+        Vector3 localCamRight = parent.InverseTransformDirection(cam.transform.right).normalized;
+        Vector3 localCamUp = parent.InverseTransformDirection(cam.transform.up).normalized;
+        bool isOrthographic = cam.orthographic;
 
-        var job = new MathRaycastVisibilityJob
+        // ---- Step 1: Gather candidates (color + active + frustum filter) ----
+        int candidateCount = 0;
+        for (int i = 0; i < count; i++)
         {
-            Pieces = cachedData,
-            FrustumPlanes = _frustumPlanes,
-            TargetColor = targetColor,
-            ParentWorldToLocal = parentWorldToLocal,
-            WorldCameraPos = cam.transform.position,
-            WorldCameraForward = cam.transform.forward,
-            WorldCameraRight = cam.transform.right,
-            WorldCameraUp = cam.transform.up,
-            IsOrthographic = cam.orthographic,
-            ResultIndex = _resultIndex,
-            CandidateIndices = _candidateIndices,
-            CandidateDistances = _candidateDistances
-        };
+            var piece = cachedData[i];
+            if (!piece.IsActive || piece.IsBulletIncoming || piece.Color != targetColor) continue;
 
-        job.Run();
+            // Sphere frustum test
+            float radius = Mathf.Max(piece.Extents.x, Mathf.Max(piece.Extents.y, piece.Extents.z)) * 1.74f;
+            if (!IsInsideFrustum(localPlanes, piece.Position, radius)) continue;
 
-        int result = _resultIndex[0];
+            float dist = Vector3.Distance(new Vector3(piece.Position.x, piece.Position.y, piece.Position.z), localCamPos);
+            if (candidateCount < _candidateIndices.Length)
+            {
+                _candidateIndices[candidateCount] = i;
+                _candidateDistances[candidateCount] = dist;
+                candidateCount++;
+            }
+        }
 
-        if (result != -1 && (pieces[result] == null || !pieces[result].gameObject.activeInHierarchy))
+        // ---- Step 2: Simple insertion-sort by distance (tiny list, fast) ----
+        for (int i = 0; i < candidateCount - 1; i++)
         {
+            for (int j = i + 1; j < candidateCount; j++)
+            {
+                if (_candidateDistances[j] < _candidateDistances[i])
+                {
+                    float tmpD = _candidateDistances[i]; _candidateDistances[i] = _candidateDistances[j]; _candidateDistances[j] = tmpD;
+                    int tmpI = _candidateIndices[i]; _candidateIndices[i] = _candidateIndices[j]; _candidateIndices[j] = tmpI;
+                }
+            }
+        }
+
+        // ---- Step 3: Check up to 40 nearest candidates for visibility ----
+        int maxCheck = Mathf.Min(candidateCount, 40);
+        int bestIndex = -1;
+
+        for (int c = 0; c < maxCheck; c++)
+        {
+            int idx = _candidateIndices[c];
+            var targetPiece = cachedData[idx];
+            float targetDist = _candidateDistances[c];
+
+            float r = Mathf.Min(targetPiece.Extents.x, Mathf.Min(targetPiece.Extents.y, targetPiece.Extents.z)) * 0.5f;
+            Vector3 rightOff = localCamRight * r;
+            Vector3 upOff = localCamUp * r;
+            Vector3 tPos = new Vector3(targetPiece.Position.x, targetPiece.Position.y, targetPiece.Position.z);
+
+            bool anyVisible = false;
+
+            for (int pIndex = 0; pIndex < 5; pIndex++)
+            {
+                Vector3 pt = tPos;
+                if (pIndex == 1) pt = tPos + rightOff + upOff;
+                else if (pIndex == 2) pt = tPos - rightOff + upOff;
+                else if (pIndex == 3) pt = tPos + rightOff - upOff;
+                else if (pIndex == 4) pt = tPos - rightOff - upOff;
+
+                Vector3 rayOrigin, rayDir;
+                float rayDist;
+
+                if (isOrthographic)
+                {
+                    float dAlongFwd = Vector3.Dot(pt - localCamPos, localCamFwd);
+                    rayOrigin = pt - localCamFwd * dAlongFwd;
+                    rayDir = localCamFwd;
+                    rayDist = dAlongFwd;
+                }
+                else
+                {
+                    Vector3 toTarget = pt - localCamPos;
+                    rayDist = toTarget.magnitude;
+                    rayDir = toTarget / rayDist;
+                    rayOrigin = localCamPos;
+                }
+
+                bool occluded = false;
+
+                for (int j = 0; j < count; j++)
+                {
+                    if (j == idx) continue;
+                    var blocker = cachedData[j];
+                    if (!blocker.IsActive) continue;
+
+                    // Fast sphere rejection
+                    Vector3 bPos = new Vector3(blocker.Position.x, blocker.Position.y, blocker.Position.z);
+                    Vector3 originToB = bPos - rayOrigin;
+                    float tBlocker = Vector3.Dot(originToB, rayDir);
+                    float maxRadius = Mathf.Max(blocker.Extents.x, Mathf.Max(blocker.Extents.y, blocker.Extents.z)) * 1.74f;
+
+                    if (tBlocker < -maxRadius || tBlocker > rayDist + maxRadius) continue;
+
+                    float distToRaySqr = (originToB - rayDir * tBlocker).sqrMagnitude;
+                    if (distToRaySqr > maxRadius * maxRadius) continue;
+
+                    float t;
+                    if (IntersectRayOBB(rayOrigin, rayDir, bPos,
+                                        blocker.Rotation,
+                                        new Vector3(blocker.Extents.x, blocker.Extents.y, blocker.Extents.z),
+                                        out t))
+                    {
+                        if (t > 0f && t < rayDist - 0.01f)
+                        {
+                            occluded = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!occluded) { anyVisible = true; break; }
+            }
+
+            if (anyVisible)
+            {
+                bestIndex = idx;
+                break;
+            }
+        }
+
+        // Validate the result
+        if (bestIndex != -1 && (pieces[bestIndex] == null || !pieces[bestIndex].gameObject.activeInHierarchy))
             return -1;
-        }
 
-        return result;
+        return bestIndex;
+    }
+
+    // -----------------------------------------------------------------------
+    // Helpers
+    // -----------------------------------------------------------------------
+
+    private static bool IsInsideFrustum(Vector4[] planes, Vector3 center, float radius)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            float d = planes[i].x * center.x + planes[i].y * center.y + planes[i].z * center.z + planes[i].w;
+            if (d + radius < 0f) return false;
+        }
+        return true;
+    }
+
+    private static bool IntersectRayOBB(
+        Vector3 rayOrigin, Vector3 rayDir,
+        Vector3 boxPos, Quaternion boxRot, Vector3 boxExtents,
+        out float t)
+    {
+        t = -1f;
+        Quaternion invRot = Quaternion.Inverse(boxRot);
+        Vector3 localOrigin = invRot * (rayOrigin - boxPos);
+        Vector3 localDir = invRot * rayDir;
+
+        // Avoid divide-by-zero
+        float invX = Mathf.Abs(localDir.x) > 1e-8f ? 1f / localDir.x : float.MaxValue;
+        float invY = Mathf.Abs(localDir.y) > 1e-8f ? 1f / localDir.y : float.MaxValue;
+        float invZ = Mathf.Abs(localDir.z) > 1e-8f ? 1f / localDir.z : float.MaxValue;
+
+        float t0x = (-boxExtents.x - localOrigin.x) * invX;
+        float t1x = (boxExtents.x - localOrigin.x) * invX;
+        float t0y = (-boxExtents.y - localOrigin.y) * invY;
+        float t1y = (boxExtents.y - localOrigin.y) * invY;
+        float t0z = (-boxExtents.z - localOrigin.z) * invZ;
+        float t1z = (boxExtents.z - localOrigin.z) * invZ;
+
+        float tminX = Mathf.Min(t0x, t1x), tmaxX = Mathf.Max(t0x, t1x);
+        float tminY = Mathf.Min(t0y, t1y), tmaxY = Mathf.Max(t0y, t1y);
+        float tminZ = Mathf.Min(t0z, t1z), tmaxZ = Mathf.Max(t0z, t1z);
+
+        float maxTmin = Mathf.Max(tminX, Mathf.Max(tminY, tminZ));
+        float minTmax = Mathf.Min(tmaxX, Mathf.Min(tmaxY, tmaxZ));
+
+        if (maxTmin <= minTmax && minTmax >= 0f)
+        {
+            t = maxTmin >= 0f ? maxTmin : minTmax;
+            return true;
+        }
+        return false;
     }
 }

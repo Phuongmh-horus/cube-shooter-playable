@@ -1,215 +1,140 @@
-using UnityEngine;
-using Unity.Collections;
-using Unity.Jobs;
-using Unity.Mathematics;
-using Unity.Burst;
+// TargetSelectionSystem.cs - Luna/Playable Ads Compatible Version
+// Changes: Removed IJobParallelFor, RaycastCommand.ScheduleBatch, NativeArray job arrays.
+//          Uses plain Physics.Raycast on the main thread â€” identical picking logic.
 
-// Định nghĩa struct PieceTargetData theo yêu cầu
+using UnityEngine;
+
+// â”€â”€ Shared data struct (simplified for Luna/WebGL) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 public struct PieceTargetData
 {
-    public int Index;               // Index của Cube trong danh sách gốc (để truy xuất ngược lại Object)
-    public float3 Position;         // Vị trí tâm (Center) của Cube trong không gian Local của Parent
-    public quaternion Rotation;     // Góc quay của Cube trong không gian Local của Parent
-    public float3 Extents;          // Bán kính/nửa kích thước (bounds.extents hoặc transform.localScale / 2)
-    public CubeShooterColor Color;  // Màu sắc hiện tại của Cube
-    public bool IsBulletIncoming;   // Cờ đánh dấu Cube đã được nhắm bắn hay chưa
-    public bool IsActive;           // Đánh dấu Cube còn sống hay không
+    public int Index;
+    public Vector3 Position;
+    public Quaternion Rotation;
+    public Vector3 Extents;
+    public CubeShooterColor Color;
+    public bool IsBulletIncoming;
+    public bool IsActive;
 }
 
+// â”€â”€ Static utility â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 public static class TargetSelectionSystem
 {
-    // Bước 1: Job chuẩn bị các tia Raycast (Lọc Frustum và Color trước để giảm tải tia ray)
-    private struct PrepareRaycastJob : IJobParallelFor
-    {
-        [ReadOnly] public NativeArray<PieceTargetData> InputData;
-        [ReadOnly] public NativeArray<float4> FrustumPlanes;
-        [ReadOnly] public CubeShooterColor TargetColor;
-
-        public float3 CameraPos;
-        public float3 CameraForward;
-        public float3 CameraRight;
-        public float3 CameraUp;
-        public bool IsOrthographic;
-
-        // Lưu maxDistance của từng mục tiêu để so sánh xem tia đụng bản thân hay đụng vật khác
-        [WriteOnly]
-        [NativeDisableParallelForRestriction]
-        public NativeArray<float> TargetDistances;
-
-        // Output tạo lệnh Raycast
-        [WriteOnly]
-        [NativeDisableParallelForRestriction]
-        public NativeArray<RaycastCommand> RaycastCommands;
-
-        public void Execute(int index)
-        {
-            var data = InputData[index];
-            int baseIndex = index * 5;
-
-            // 1. Kiểm tra màu và trạng thái bị nhắm
-            if (data.IsBulletIncoming || data.Color != TargetColor || !IsInsideFrustum(data.Position, data.Extents))
-            {
-                DisableRays(baseIndex);
-                return;
-            }
-
-            // 2. Chuẩn bị 5 tia Raycast (1 tâm + 4 góc)
-            // Bán kính offset an toàn bằng 50% kích thước nhỏ nhất của Cube để đảm bảo luôn bắn trúng khối hộp dù xoay góc nào
-            float r = math.cmin(data.Extents) * 0.5f;
-            float3 rightOff = CameraRight * r;
-            float3 upOff = CameraUp * r;
-
-            SetupRay(baseIndex + 0, data.Position); // Tâm
-            SetupRay(baseIndex + 1, data.Position + rightOff + upOff); // Góc trên phải
-            SetupRay(baseIndex + 2, data.Position - rightOff + upOff); // Góc trên trái
-            SetupRay(baseIndex + 3, data.Position + rightOff - upOff); // Góc dưới phải
-            SetupRay(baseIndex + 4, data.Position - rightOff - upOff); // Góc dưới trái
-        }
-
-        private void DisableRays(int baseIndex)
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                TargetDistances[baseIndex + i] = -1f;
-                RaycastCommands[baseIndex + i] = default;
-            }
-        }
-
-        private void SetupRay(int rayIndex, float3 targetPoint)
-        {
-            float3 origin;
-            float3 direction;
-            float distanceToPoint;
-
-            if (IsOrthographic)
-            {
-                float distAlongForward = math.dot(targetPoint - CameraPos, CameraForward);
-                origin = targetPoint - CameraForward * distAlongForward;
-                direction = CameraForward;
-                distanceToPoint = distAlongForward;
-            }
-            else
-            {
-                float3 vectorToTarget = targetPoint - CameraPos;
-                distanceToPoint = math.length(vectorToTarget);
-                direction = vectorToTarget / distanceToPoint;
-                origin = CameraPos;
-            }
-
-            TargetDistances[rayIndex] = distanceToPoint;
-            RaycastCommands[rayIndex] = new RaycastCommand(origin, direction, distanceToPoint, Physics.DefaultRaycastLayers);
-        }
-
-        private bool IsInsideFrustum(float3 center, float3 extents)
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                float4 plane = FrustumPlanes[i];
-                // Tính toán khoảng cách
-                float d = math.dot(plane.xyz, center) + plane.w;
-                float r = math.dot(extents, math.abs(plane.xyz));
-                // Nếu nằm hoàn toàn ở chiều âm của mặt phẳng -> Nằm ngoài Camera
-                if (d + r < 0) return false;
-            }
-            return true;
-        }
-    }
-
     /// <summary>
-    /// Tìm Cube hợp lệ trên màn hình, không bị che bởi vật cản. Hỗ trợ cả 2D và 3D.
+    /// Finds the nearest visible cube of <paramref name="targetColor"/>.
+    /// Replaces the original Job-based batched-raycast version with plain
+    /// Physics.Raycast calls â€” fully Luna/WebGL compatible.
     /// </summary>
     public static int GetObjectToShoot(
         Camera mainCamera,
         CubeShooterColor targetColor,
-        NativeArray<PieceTargetData> inputPieces,
-        ObjectBaseMono[] pieceReferences,
-        NativeArray<RaycastCommand> raycastCommands,
-        NativeArray<RaycastHit> raycastHits,
-        NativeArray<float> targetDistances,
-        NativeArray<float4> frustumPlanes)
+        PieceTargetData[] inputPieces,
+        ObjectBaseMono[] pieceReferences)
     {
-        if (!inputPieces.IsCreated || inputPieces.Length == 0 || !frustumPlanes.IsCreated) return -1;
+        if (inputPieces == null || inputPieces.Length == 0) return -1;
 
-        // 1. Trích xuất Frustum
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(mainCamera);
-        for (int i = 0; i < 6; i++)
-        {
-            frustumPlanes[i] = new float4(planes[i].normal, planes[i].distance);
-        }
+        // Pre-compute frustum planes once per call
+        Matrix4x4 mat = mainCamera.projectionMatrix * mainCamera.worldToCameraMatrix;
+        Plane[] frustumPlanes = new Plane[6];
+        frustumPlanes[0] = new Plane(new Vector3(mat.m30 + mat.m00, mat.m31 + mat.m01, mat.m32 + mat.m02).normalized, 0); frustumPlanes[0].distance = (mat.m33 + mat.m03) / new Vector3(mat.m30 + mat.m00, mat.m31 + mat.m01, mat.m32 + mat.m02).magnitude;
+        frustumPlanes[1] = new Plane(new Vector3(mat.m30 - mat.m00, mat.m31 - mat.m01, mat.m32 - mat.m02).normalized, 0); frustumPlanes[1].distance = (mat.m33 - mat.m03) / new Vector3(mat.m30 - mat.m00, mat.m31 - mat.m01, mat.m32 - mat.m02).magnitude;
+        frustumPlanes[2] = new Plane(new Vector3(mat.m30 + mat.m10, mat.m31 + mat.m11, mat.m32 + mat.m12).normalized, 0); frustumPlanes[2].distance = (mat.m33 + mat.m13) / new Vector3(mat.m30 + mat.m10, mat.m31 + mat.m11, mat.m32 + mat.m12).magnitude;
+        frustumPlanes[3] = new Plane(new Vector3(mat.m30 - mat.m10, mat.m31 - mat.m11, mat.m32 - mat.m12).normalized, 0); frustumPlanes[3].distance = (mat.m33 - mat.m13) / new Vector3(mat.m30 - mat.m10, mat.m31 - mat.m11, mat.m32 - mat.m12).magnitude;
+        frustumPlanes[4] = new Plane(new Vector3(mat.m30 + mat.m20, mat.m31 + mat.m21, mat.m32 + mat.m22).normalized, 0); frustumPlanes[4].distance = (mat.m33 + mat.m23) / new Vector3(mat.m30 + mat.m20, mat.m31 + mat.m21, mat.m32 + mat.m22).magnitude;
+        frustumPlanes[5] = new Plane(new Vector3(mat.m30 - mat.m20, mat.m31 - mat.m21, mat.m32 - mat.m22).normalized, 0); frustumPlanes[5].distance = (mat.m33 - mat.m23) / new Vector3(mat.m30 - mat.m20, mat.m31 - mat.m21, mat.m32 - mat.m22).magnitude;
+
+        Vector3 camPos = mainCamera.transform.position;
+        Vector3 camFwd = mainCamera.transform.forward;
+        Vector3 camRight = mainCamera.transform.right;
+        Vector3 camUp = mainCamera.transform.up;
+        bool isOrtho = mainCamera.orthographic;
 
         int count = inputPieces.Length;
 
-        // 2. Chạy Job chuẩn bị danh sách các tia Raycast cần bắn
-        PrepareRaycastJob prepareJob = new PrepareRaycastJob
-        {
-            InputData = inputPieces,
-            FrustumPlanes = frustumPlanes,
-            TargetColor = targetColor,
-            CameraPos = mainCamera.transform.position,
-            CameraForward = mainCamera.transform.forward,
-            CameraRight = mainCamera.transform.right,
-            CameraUp = mainCamera.transform.up,
-            IsOrthographic = mainCamera.orthographic,
-            TargetDistances = targetDistances,
-            RaycastCommands = raycastCommands
-        };
-
-        JobHandle prepareHandle = prepareJob.Schedule(count, 64);
-
-        // 3. Đưa danh sách tia vào Physics Engine chạy đồng loạt (Batching - Cực kỳ tối ưu)
-        // Lưu ý: Có 5 lệnh Raycast cho mỗi Cube (tâm + 4 góc)
-        JobHandle raycastHandle = RaycastCommand.ScheduleBatch(raycastCommands, raycastHits, 32, prepareHandle);
-
-        // Buộc hệ thống tính toán xong ngay trong frame này
-        raycastHandle.Complete();
-
-        // 4. Lọc kết quả tìm vật không bị che
-        int selectedIndex = -1;
         for (int i = 0; i < count; i++)
         {
-            bool isVisible = false;
+            var data = inputPieces[i];
+            if (data.IsBulletIncoming || data.Color != targetColor || !data.IsActive) continue;
 
-            // Duyệt qua 5 tia của từng Cube (tâm + 4 góc ngoài)
-            for (int j = 0; j < 5; j++)
+            Vector3 piecePos = new Vector3(data.Position.x, data.Position.y, data.Position.z);
+            Vector3 extents = new Vector3(data.Extents.x, data.Extents.y, data.Extents.z);
+
+            // Frustum cull
+            if (!IsInsideFrustum(frustumPlanes, piecePos, extents)) continue;
+
+            // 5-point visibility check (centre + 4 corners)
+            float r = Mathf.Min(extents.x, Mathf.Min(extents.y, extents.z)) * 0.5f;
+            Vector3 rightOff = camRight * r;
+            Vector3 upOff = camUp * r;
+
+            bool visible = false;
+            for (int p = 0; p < 5; p++)
             {
-                int rayIndex = i * 5 + j;
-                float distToPoint = targetDistances[rayIndex];
+                Vector3 targetPoint = piecePos;
+                if (p == 1) targetPoint = piecePos + rightOff + upOff;
+                else if (p == 2) targetPoint = piecePos - rightOff + upOff;
+                else if (p == 3) targetPoint = piecePos + rightOff - upOff;
+                else if (p == 4) targetPoint = piecePos - rightOff - upOff;
 
-                if (distToPoint > 0f) // Nếu khối Cube vượt qua Frustum và Color
+                Vector3 origin, direction;
+                float distance;
+
+                if (isOrtho)
                 {
-                    RaycastHit hit = raycastHits[rayIndex];
+                    float dFwd = Vector3.Dot(targetPoint - camPos, camFwd);
+                    origin = targetPoint - camFwd * dFwd;
+                    direction = camFwd;
+                    distance = dFwd;
+                }
+                else
+                {
+                    Vector3 toTarget = targetPoint - camPos;
+                    distance = toTarget.magnitude;
+                    direction = toTarget / distance;
+                    origin = camPos;
+                }
 
-                    // Nếu tia xuyên thấu (không đụng collider nào) -> Phần bề mặt này lộ diện!
-                    if (hit.distance == 0f && hit.collider == null)
+                if (distance <= 0f) continue;
+
+                // Cast the ray â€” check if it hits the piece or nothing at all
+                if (!Physics.Raycast(origin, direction, out RaycastHit hit, distance))
+                {
+                    // Nothing hit â†’ piece surface is fully visible
+                    visible = true;
+                    break;
+                }
+
+                if (pieceReferences != null && pieceReferences[i] != null)
+                {
+                    Transform hitTr = hit.collider.transform;
+                    Transform pieceTr = pieceReferences[i].transform;
+                    if (hitTr == pieceTr || hitTr.IsChildOf(pieceTr))
                     {
-                        isVisible = true;
+                        visible = true;
                         break;
-                    }
-
-                    // Đã đụng vào một Collider. Kiểm tra chính xác xem Collider đó có thuộc về Cube này không
-                    if (hit.collider != null && pieceReferences != null && pieceReferences[i] != null)
-                    {
-                        Transform hitTransform = hit.collider.transform;
-                        Transform targetTransform = pieceReferences[i].transform;
-
-                        // Nếu vật bị chạm chính là Transform của Cube hoặc là con của Cube
-                        if (hitTransform == targetTransform || hitTransform.IsChildOf(targetTransform))
-                        {
-                            isVisible = true;
-                            break;
-                        }
                     }
                 }
             }
 
-            // Nếu ÍT NHẤT 1 trong 5 tia (1 điểm trên bề mặt) có thể nhìn thấy được -> Chọn bắn!
-            if (isVisible)
-            {
-                selectedIndex = i;
-                break;
-            }
+            if (visible) return i;
         }
 
-        return selectedIndex;
+        return -1;
+    }
+
+    // -----------------------------------------------------------------------
+    // Frustum helper (OBB-aware via projected extent)
+    // -----------------------------------------------------------------------
+    private static bool IsInsideFrustum(Plane[] planes, Vector3 center, Vector3 extents)
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            float d = planes[i].GetDistanceToPoint(center);
+            // Projected extent along plane normal
+            float r = Mathf.Abs(extents.x * planes[i].normal.x)
+                    + Mathf.Abs(extents.y * planes[i].normal.y)
+                    + Mathf.Abs(extents.z * planes[i].normal.z);
+            if (d + r < 0f) return false;
+        }
+        return true;
     }
 }

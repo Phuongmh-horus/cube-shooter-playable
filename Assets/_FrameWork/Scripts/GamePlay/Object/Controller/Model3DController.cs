@@ -32,7 +32,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
     private MathTargetPickingSystem _mathPicking = new MathTargetPickingSystem();
 
     [Header("Job System Cache")]
-    private Unity.Collections.NativeArray<PieceTargetData> _cachedJobData;
+    private PieceTargetData[] _cachedJobData;
     private ObjectBaseMono[] _jobIndexToPiece;
     private Dictionary<ObjectBaseMono, int> _pieceToJobIndex = new Dictionary<ObjectBaseMono, int>();
 
@@ -58,39 +58,44 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
     [Header("Instancing Renderer")]
     private MaterialPropertyBlock _instancingPropertyBlock;
     private Mesh _cachedPieceMesh;
+    private readonly Matrix4x4[] _instanceMatrices = new Matrix4x4[1023];
+
+    private struct LocalTransform
+    {
+        public Vector3 position;
+        public Quaternion rotation;
+        public Vector3 scale;
+    }
 
     private class InstancedBatchGroup
     {
         public Material material;
         public int activeCount = 0;
-        public bool isDirty = false;
 
-        public Matrix4x4[] localMatrices = new Matrix4x4[4000];
+        public LocalTransform[] localTransforms = new LocalTransform[4000];
         public ObjPieceMono[] pieces = new ObjPieceMono[4000];
 
-        public List<Matrix4x4[]> renderMatrices = new List<Matrix4x4[]>();
         public List<Vector4[]> renderColors = new List<Vector4[]>();
         public List<float[]> renderSpecSizes = new List<float[]>();
         public List<float[]> renderSpecSmooths = new List<float[]>();
 
-        public void AddPiece(ObjPieceMono p, Matrix4x4 localMat, Vector4 color, float sSize, float sSmooth)
+        public void AddPiece(ObjPieceMono p, LocalTransform localTransform, Vector4 color, float sSize, float sSmooth)
         {
-            if (activeCount >= localMatrices.Length)
+            if (activeCount >= localTransforms.Length)
             {
-                int newCap = Mathf.Max(1024, localMatrices.Length * 2);
-                Array.Resize(ref localMatrices, newCap);
+                int newCap = Mathf.Max(1024, localTransforms.Length * 2);
+                Array.Resize(ref localTransforms, newCap);
                 Array.Resize(ref pieces, newCap);
             }
 
-            localMatrices[activeCount] = localMat;
+            localTransforms[activeCount] = localTransform;
             pieces[activeCount] = p;
 
             int batchIndex = activeCount / 1023;
             int itemIndex = activeCount % 1023;
 
-            while (renderMatrices.Count <= batchIndex)
+            while (renderColors.Count <= batchIndex)
             {
-                renderMatrices.Add(new Matrix4x4[1023]);
                 renderColors.Add(new Vector4[1023]);
                 renderSpecSizes.Add(new float[1023]);
                 renderSpecSmooths.Add(new float[1023]);
@@ -101,7 +106,6 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
             renderSpecSmooths[batchIndex][itemIndex] = sSmooth;
 
             activeCount++;
-            isDirty = true;
         }
 
         public void RemovePiece(ObjPieceMono p)
@@ -111,7 +115,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
             {
                 activeCount--;
 
-                localMatrices[idx] = localMatrices[activeCount];
+                localTransforms[idx] = localTransforms[activeCount];
                 pieces[idx] = pieces[activeCount];
                 pieces[activeCount] = null;
 
@@ -123,25 +127,31 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
                 renderColors[dstBatch][dstItem] = renderColors[srcBatch][srcItem];
                 renderSpecSizes[dstBatch][dstItem] = renderSpecSizes[srcBatch][srcItem];
                 renderSpecSmooths[dstBatch][dstItem] = renderSpecSmooths[srcBatch][srcItem];
-                renderMatrices[dstBatch][dstItem] = renderMatrices[srcBatch][srcItem];
-
-                isDirty = true;
             }
         }
     }
 
     private Dictionary<CubeShooterColor, InstancedBatchGroup> _renderBatches = new Dictionary<CubeShooterColor, InstancedBatchGroup>();
-    private Matrix4x4 _lastParentMatrix;
 
-    private Matrix4x4 GetLocalMatrixRelativeToParent(ObjPieceMono p)
+    private LocalTransform GetLocalTransformRelativeToParent(ObjPieceMono p)
     {
-        Matrix4x4 pLocal = Matrix4x4.TRS(p.transform.localPosition, p.transform.localRotation, p.transform.localScale);
+        LocalTransform result;
+        result.position = p.transform.localPosition;
+        result.rotation = p.transform.localRotation;
+        result.scale = p.transform.localScale;
+
         if (p.MeshTransform != p.transform)
         {
-            Matrix4x4 childLocal = Matrix4x4.TRS(p.MeshTransform.localPosition, p.MeshTransform.localRotation, p.MeshTransform.localScale);
-            return pLocal * childLocal;
+            Vector3 childPos = p.MeshTransform.localPosition;
+            Quaternion childRot = p.MeshTransform.localRotation;
+            Vector3 childScale = p.MeshTransform.localScale;
+
+            result.position += result.rotation * Vector3.Scale(result.scale, childPos);
+            result.rotation *= childRot;
+            result.scale = Vector3.Scale(result.scale, childScale);
         }
-        return pLocal;
+
+        return result;
     }
 
     #endregion
@@ -165,14 +175,14 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
     /// </summary>
     public virtual ObjectBaseMono GetObjectToShoot(CubeShooterColor color)
     {
-        if (!_cachedJobData.IsCreated || _cachedJobData.Length == 0) return null;
+        if (_cachedJobData == null || _cachedJobData.Length == 0) return null;
 
         int resultIndex = -1;
         Camera cam = CameraManager.Instance?.MainCamera ?? Camera.main;
 
         // Vẽ Camera phụ bằng Math Raycast (Không dùng Physics, không tốn GPU)
-        // Truyền Parent World To Local Matrix để tính toán toàn bộ bằng Local Space cực nhanh!
-        resultIndex = _mathPicking.GetTarget(cam, color, _cachedJobData, _jobIndexToPiece, _parentObject.worldToLocalMatrix);
+        // Truyền Transform cha để tính toán trong không gian local.
+        resultIndex = _mathPicking.GetTarget(cam, color, _cachedJobData, _jobIndexToPiece, _parentObject);
 
         if (resultIndex != -1)
         {
@@ -302,7 +312,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
     /// </summary>
     public void SyncPieceStateToJob(ObjectBaseMono piece)
     {
-        if (_pieceToJobIndex.TryGetValue(piece, out int jobIndex) && _cachedJobData.IsCreated)
+        if (_pieceToJobIndex.TryGetValue(piece, out int jobIndex) && _cachedJobData != null && _cachedJobData.Length > 0)
         {
             var data = _cachedJobData[jobIndex];
             data.IsBulletIncoming = piece.IsBulletIncoming;
@@ -316,7 +326,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
         // Khi xóa Piece, đánh dấu không hợp lệ trong Job cache
         if (_pieceToJobIndex.TryGetValue(objectBase, out int jobIndex))
         {
-            if (_cachedJobData.IsCreated)
+            if (_cachedJobData != null && _cachedJobData.Length > 0)
             {
                 var data = _cachedJobData[jobIndex];
                 data.IsBulletIncoming = true; // Sẽ không được pick nữa
@@ -482,10 +492,8 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
         }
 
         // --- CACHE DỮ LIỆU CHO JOB SYSTEM ---
-        if (_cachedJobData.IsCreated) _cachedJobData.Dispose();
-
         int count = _objectBaseThisLevel.Count;
-        _cachedJobData = new Unity.Collections.NativeArray<PieceTargetData>(count, Unity.Collections.Allocator.Persistent);
+        _cachedJobData = new PieceTargetData[count];
         _jobIndexToPiece = new ObjectBaseMono[count];
         _pieceToJobIndex.Clear();
 
@@ -524,7 +532,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
 
                 group.AddPiece(
                     p,
-                    GetLocalMatrixRelativeToParent(p),
+                    GetLocalTransformRelativeToParent(p),
                     p.CurrentBaseColor.linear,
                     p.CurrentSpecularSize,
                     p.CurrentSpecularSmoothness
@@ -553,7 +561,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
         _pieceToJobIndex.Clear();
         _renderBatches.Clear();
 
-        if (_cachedJobData.IsCreated) _cachedJobData.Dispose();
+        _cachedJobData = null;
 
         ResetShootState();
         _mathPicking.Release();
@@ -563,7 +571,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
     private void OnDestroy()
     {
         StopUpdateLoop();
-        if (_cachedJobData.IsCreated) _cachedJobData.Dispose();
+        _cachedJobData = null;
 
         _mathPicking.Release();
         _rotationModel.ResetRotation();
@@ -574,8 +582,6 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
         if (_cachedPieceMesh == null) return;
 
         Matrix4x4 currentParentMatrix = _parentObject.localToWorldMatrix;
-        bool isParentMoved = currentParentMatrix != _lastParentMatrix;
-        _lastParentMatrix = currentParentMatrix;
 
         foreach (var kvp in _renderBatches)
         {
@@ -585,60 +591,31 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
 
             for (int i = 0; i < totalPieces; i += 1023)
             {
-                int batchIndex = i / 1023;
                 int batchSize = Mathf.Min(1023, totalPieces - i);
 
-                Matrix4x4[] rMats = group.renderMatrices[batchIndex];
-
-                if (isParentMoved || group.isDirty)
+                for (int j = 0; j < batchSize; j++)
                 {
-                    for (int j = 0; j < batchSize; j++)
-                    {
-                        MultiplyMatrix(ref currentParentMatrix, ref group.localMatrices[i + j], ref rMats[j]);
-                    }
+                    LocalTransform local = group.localTransforms[i + j];
+                    _instanceMatrices[j] = currentParentMatrix * Matrix4x4.TRS(local.position, local.rotation, local.scale);
                 }
 
-                _instancingPropertyBlock.SetVectorArray("_BaseColor", group.renderColors[batchIndex]);
-                _instancingPropertyBlock.SetFloatArray("_SpecularToonSize", group.renderSpecSizes[batchIndex]);
-                _instancingPropertyBlock.SetFloatArray("_SpecularToonSmoothness", group.renderSpecSmooths[batchIndex]);
+                _instancingPropertyBlock.SetVectorArray("_BaseColor", group.renderColors[i / 1023]);
+                _instancingPropertyBlock.SetFloatArray("_SpecularToonSize", group.renderSpecSizes[i / 1023]);
+                _instancingPropertyBlock.SetFloatArray("_SpecularToonSmoothness", group.renderSpecSmooths[i / 1023]);
 
-                Graphics.DrawMeshInstanced(
-                    _cachedPieceMesh,
-                    0,
-                    group.material,
-                    rMats,
-                    batchSize,
-                    _instancingPropertyBlock,
-                    UnityEngine.Rendering.ShadowCastingMode.Off,
-                    false
-                );
+                // Graphics.DrawMeshInstanced(
+                //     _cachedPieceMesh,
+                //     0,
+                //     group.material,
+                //     _instanceMatrices,
+                //     batchSize,
+                //     _instancingPropertyBlock,
+                //     UnityEngine.Rendering.ShadowCastingMode.Off,
+                //     false
+                // );
             }
-            group.isDirty = false;
         }
     }
 
-    // Tối ưu hóa cực độ: Nhân ma trận bằng tham chiếu (ref) để tránh C# sinh ra hàng nghìn bản copy struct (gây String.memcpy)
-    private static void MultiplyMatrix(ref Matrix4x4 lhs, ref Matrix4x4 rhs, ref Matrix4x4 res)
-    {
-        res.m00 = lhs.m00 * rhs.m00 + lhs.m01 * rhs.m10 + lhs.m02 * rhs.m20 + lhs.m03 * rhs.m30;
-        res.m01 = lhs.m00 * rhs.m01 + lhs.m01 * rhs.m11 + lhs.m02 * rhs.m21 + lhs.m03 * rhs.m31;
-        res.m02 = lhs.m00 * rhs.m02 + lhs.m01 * rhs.m12 + lhs.m02 * rhs.m22 + lhs.m03 * rhs.m32;
-        res.m03 = lhs.m00 * rhs.m03 + lhs.m01 * rhs.m13 + lhs.m02 * rhs.m23 + lhs.m03 * rhs.m33;
-
-        res.m10 = lhs.m10 * rhs.m00 + lhs.m11 * rhs.m10 + lhs.m12 * rhs.m20 + lhs.m13 * rhs.m30;
-        res.m11 = lhs.m10 * rhs.m01 + lhs.m11 * rhs.m11 + lhs.m12 * rhs.m21 + lhs.m13 * rhs.m31;
-        res.m12 = lhs.m10 * rhs.m02 + lhs.m11 * rhs.m12 + lhs.m12 * rhs.m22 + lhs.m13 * rhs.m32;
-        res.m13 = lhs.m10 * rhs.m03 + lhs.m11 * rhs.m13 + lhs.m12 * rhs.m23 + lhs.m13 * rhs.m33;
-
-        res.m20 = lhs.m20 * rhs.m00 + lhs.m21 * rhs.m10 + lhs.m22 * rhs.m20 + lhs.m23 * rhs.m30;
-        res.m21 = lhs.m20 * rhs.m01 + lhs.m21 * rhs.m11 + lhs.m22 * rhs.m21 + lhs.m23 * rhs.m31;
-        res.m22 = lhs.m20 * rhs.m02 + lhs.m21 * rhs.m12 + lhs.m22 * rhs.m22 + lhs.m23 * rhs.m32;
-        res.m23 = lhs.m20 * rhs.m03 + lhs.m21 * rhs.m13 + lhs.m22 * rhs.m23 + lhs.m23 * rhs.m33;
-
-        res.m30 = lhs.m30 * rhs.m00 + lhs.m31 * rhs.m10 + lhs.m32 * rhs.m20 + lhs.m33 * rhs.m30;
-        res.m31 = lhs.m30 * rhs.m01 + lhs.m31 * rhs.m11 + lhs.m32 * rhs.m21 + lhs.m33 * rhs.m31;
-        res.m32 = lhs.m30 * rhs.m02 + lhs.m31 * rhs.m12 + lhs.m32 * rhs.m22 + lhs.m33 * rhs.m32;
-        res.m33 = lhs.m30 * rhs.m03 + lhs.m31 * rhs.m13 + lhs.m32 * rhs.m23 + lhs.m33 * rhs.m33;
-    }
     #endregion
 }

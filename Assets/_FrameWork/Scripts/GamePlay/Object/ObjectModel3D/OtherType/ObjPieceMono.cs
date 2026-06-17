@@ -2,9 +2,6 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-#if UNITY_EDITOR
-[ExecuteAlways]
-#endif
 public class ObjPieceMono : ObjectBaseMono
 {
     [SerializeField] private MeshRenderer _meshRenderer;
@@ -14,47 +11,6 @@ public class ObjPieceMono : ObjectBaseMono
     public Color CurrentBaseColor { get; private set; }
     public float CurrentSpecularSize { get; private set; }
     public float CurrentSpecularSmoothness { get; private set; }
-
-#if UNITY_EDITOR
-    [SerializeField]
-    [Range(0, 1)] private float _specularSize = 0.1f;
-    [SerializeField][Range(0, 1)] private float _specularSmoothing = 1.0f;
-    [SerializeField][Range(0, 3)] private float _saturation = 1.0f;
-    [SerializeField][Range(0, 3)] private float _brightness = 1.0f;
-    [SerializeField]
-    private bool _testEdtior = false;
-
-    private void Update()
-    {
-        if (!_testEdtior) return;
-        if (_propertyBlock == null)
-            _propertyBlock = new MaterialPropertyBlock();
-        _propertyBlock.SetFloat("_SpecularToonSize", _specularSize);
-        _propertyBlock.SetFloat("_SpecularToonSmoothness", _specularSmoothing);
-
-        if (ConfigHolder.Instance != null && ConfigHolder.Instance.ColorPallete_ForPiece != null)
-        {
-            CubeShooterColor color;
-            try
-            {
-                color = GetColor();
-            }
-            catch
-            {
-                color = CubeShooterColor.Snow;
-            }
-
-            Color baseColor = ConfigHolder.Instance.ColorPallete_ForPiece.GetColorBase(color);
-            float h, s, v;
-            Color.RGBToHSV(baseColor, out h, out s, out v);
-            Color finalColor = Color.HSVToRGB(h, s + _saturation / 255f, v + _brightness / 255f);
-            _propertyBlock.SetColor("_BaseColor", finalColor);
-        }
-
-        _meshRenderer.SetPropertyBlock(_propertyBlock);
-    }
-
-#endif
 
     public override CubeShooterColor GetColor() => _data.Color;
 
@@ -66,7 +22,7 @@ public class ObjPieceMono : ObjectBaseMono
         base.OnInit(piece);
         _data = piece as PieceData;
         _meshRenderer.sharedMaterial = ConfigHolder.Instance.ColorPallete_ForPiece.colorDictionary[GetColor()];
-        if (_meshRenderer != null) _meshRenderer.enabled = false;
+        if (_meshRenderer != null) _meshRenderer.enabled = true;
         if (_propertyBlock == null)
             _propertyBlock = new MaterialPropertyBlock();
         RandomColor();

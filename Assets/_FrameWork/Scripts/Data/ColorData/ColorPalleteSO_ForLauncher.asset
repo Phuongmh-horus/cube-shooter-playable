@@ -46,6 +46,3 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 4c916090b8854054c85c42f59d3d3ae9, type: 2}
   HiddenMaterial: {fileID: 2100000, guid: 94643d3c5b9593b409b7d2056d72183c, type: 2}
   HiddenLineColor: {r: 0.3019608, g: 0.27058825, b: 0.5568628, a: 1}
-  newColors:
-  - name: 
-    color: {fileID: 0}

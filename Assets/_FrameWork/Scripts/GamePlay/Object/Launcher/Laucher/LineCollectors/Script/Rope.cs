@@ -1,8 +1,5 @@
 using UnityEngine;
 using System;
-#if UNITY_EDITOR
-#endif
-
 namespace GogoGaga.OptimizedRopesAndCables
 {
     [ExecuteAlways]
@@ -73,7 +70,7 @@ namespace GogoGaga.OptimizedRopesAndCables
         private float prevRopeLength;
 
 
-        public bool IsPrefab => gameObject.scene.rootCount == 0;
+        public bool IsPrefab => string.IsNullOrEmpty(gameObject.scene.name);
 
         public void OnInit()
         {

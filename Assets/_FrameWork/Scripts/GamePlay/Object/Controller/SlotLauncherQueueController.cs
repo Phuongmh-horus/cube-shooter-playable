@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
@@ -259,9 +258,9 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         }
         for (int i = 0; i < group.Count; i++)
         {
-            var l = group[i];
+            var launcherBase = group[i];
             SlotLauncherMono slot = slots[i];
-            if (l is LauncherNormalMono normal)
+            if (launcherBase is LauncherNormalMono normal)
             {
                 if (normal == null || slot == null)
                     return;
@@ -279,6 +278,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
 
                 // Bỏ súng khỏi cột dọc để tránh bấm lại
                 normal.RemoveLauncherAtVertical();
+                normal.SetupSlotLauncher(slot);
 
                 RegisterTransitioningLauncher(normal);
 
@@ -296,8 +296,15 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                         UnregisterTransitioningLauncher(normal);
                         if (!_isLevelActive) return; // Bảo vệ: level đã bị hủy
 
-                        l.ChangeLayerRenderer(LayerNameGamePlay.LauncherInSlot);
-                        AssignLauncher(slot, l);
+                        // Parent launcher vào slot và bật visual bắn
+                        normal.SetupSlotLauncher(slot);
+                        normal.transform.SetParent(slot.transform, true);
+                        normal.transform.localPosition = new Vector3(0f, 0f, -0.5f);
+                        normal.transform.localRotation = Quaternion.identity;
+                        normal.SetupVisualNormal(true);
+
+                        launcherBase.ChangeLayerRenderer(LayerNameGamePlay.LauncherInSlot);
+                        AssignLauncher(slot, launcherBase);
                         normal.AddACShootPiece();
                         if (_isLevelActive)
                             StartCoroutine(MatchLauncherNormal());
@@ -778,6 +785,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
             }));
 
         yield return StartCoroutine(WaitAll(new List<Coroutine> { moveStart, moveEnd }));
+        SoundManager.Instance.PlayOneShot(AudioClipName.Bonus_Slot_Arrive);
 
         if (middleLauncher != null && threeSmallest[1].CurrentLauncher == middleLauncher)
         {
@@ -792,7 +800,6 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                 }
             }
         }
-
         GameEventBus.Match3Suscess?.Invoke();
 
         // Gọi lại Match để quét tiếp
@@ -833,8 +840,8 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
 
         // Duyệt các cột từ trái qua phải (theo ColumnIndex)
         //TODO: tối ưu
-        var verticals = LevelSystem.Instance.LauncherController.GetVerticalLaunchers()
-            .OrderBy(v => v.ColumnIndex);
+        var verticals = LevelSystem.Instance.LauncherController.GetVerticalLaunchers();
+        verticals.Sort((a, b) => a.ColumnIndex.CompareTo(b.ColumnIndex));
 
         foreach (var vertical in verticals)
         {
@@ -1017,6 +1024,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
 
                         // Bỏ súng khỏi cột không sắp xếp - bay lên luôn
                         normal.RemoveLauncherDirectWithoutArrange();
+                        normal.SetupSlotLauncher(slot);
 
                         RegisterTransitioningLauncher(normal);
 
@@ -1032,6 +1040,14 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                             onComplete: () =>
                             {
                                 UnregisterTransitioningLauncher(normal);
+
+                                // Parent launcher vào slot và bật visual shooter
+                                normal.SetupSlotLauncher(slot);
+                                normal.transform.SetParent(slot.transform, true);
+                                normal.transform.localPosition = new Vector3(0f, 0f, -0.5f);
+                                normal.transform.localRotation = Quaternion.identity;
+                                normal.SetupVisualNormal(true);
+
                                 l.ChangeLayerRenderer(LayerNameGamePlay.LauncherInSlot);
                                 AssignLauncher(slot, normal);
                                 normal.AddACShootPiece();
@@ -1385,7 +1401,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
 
                         // Snap vị trí ngay lập tức, bỏ qua animation
                         normal.transform.SetParent(slot != null ? slot.transform : null);
-                        normal.transform.localPosition = Vector3.zero;
+                        normal.transform.localPosition = new Vector3(0f, 0f, -0.5f);
                         normal.transform.localRotation = Quaternion.identity;
                         normal.SetupVisualNormal(true);
 

@@ -86,9 +86,6 @@ public class SoundManager : MonoSingleton<SoundManager>
         float soundValue = currentValue == 0 ? -100 : Mathf.Log10(currentValue) * 20;
         var parameterName = Enum.GetName(typeof(SoundMixerGroup), SoundMixerGroup.BGMusic);
         var checkSet = audioMixer.SetFloat(parameterName, soundValue);
-#if UNITY_EDITOR
-        if (!checkSet) Debug.LogError($"không set được giá trị audio mixer với parameter {parameterName}");
-#endif
     }
     private void OnSoundFxChange(float currentValue)
     {
@@ -96,9 +93,6 @@ public class SoundManager : MonoSingleton<SoundManager>
         float soundValue = currentValue == 0 ? -100 : Mathf.Log10(currentValue) * 20;
         var parameterName = Enum.GetName(typeof(SoundMixerGroup), SoundMixerGroup.SoundFx);
         var checkSet = audioMixer.SetFloat(parameterName, soundValue);
-#if UNITY_EDITOR
-        if (!checkSet) Debug.LogError($"không set được giá trị audio mixer với parameter {parameterName}");
-#endif
     }
 
     /// <summary>

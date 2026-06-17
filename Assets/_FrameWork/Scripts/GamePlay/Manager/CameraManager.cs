@@ -30,8 +30,8 @@ public class CameraManager : MonoSingleton<CameraManager>
         if (rawImage != null)
         {
             rawImage.Release();
-            rawImage.width = Screen.width;
-            rawImage.height = Screen.height;
+            // rawImage.width = Screen.width;
+            // rawImage.height = Screen.height;
             rawImage.Create();
 
             if (HightLineCamera != null)

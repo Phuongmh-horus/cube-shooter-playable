@@ -66,7 +66,7 @@ public class PlayableAdsUIController : MonoBehaviour
         LevelSystem.Instance.ChangeSpeedGame(false);
 
         // KHÔNG dùng GameEventBus.BlockLauncherShoot?.Invoke(true) 
-        // vì ta muốn các súng ĐÃ ở trên slot vẫn tiếp tục bắn đến khi hết đạn.
+        // vì các súng ĐÃ ở trên slot vẫn tiếp tục bắn đến khi hết đạn.
 
         // Chỉ chặn người chơi tương tác (click chọn súng mới hoặc xoay khối)
         GameEventBus.OnActiveInputGameplay?.Invoke(false);
@@ -81,8 +81,7 @@ public class PlayableAdsUIController : MonoBehaviour
         if (EndcardPanelObject != null)
         {
             EndcardPanelObject.SetActive(true);
-
-            // Kích hoạt animation gốc của game (nếu object này mượn script từ game gốc)
+            SoundManager.Instance.PlayOneShot(AudioClipName.Game_Win);
 
         }
         else
@@ -94,9 +93,11 @@ public class PlayableAdsUIController : MonoBehaviour
     private void RedirectToStore()
     {
 #if LUNA_PLAYABLE
-        try {
-            Luna.Unity.LifeCycle.TryInstallFullGame();
-        } catch { }
+        try
+        {
+            Luna.Unity.Playable.InstallFullGame();
+        }
+        catch { }
 #else
         try
         {

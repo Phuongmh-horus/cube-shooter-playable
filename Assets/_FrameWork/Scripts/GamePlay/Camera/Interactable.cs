@@ -29,14 +29,6 @@ public class Interactable : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         _isLocked = false;
     }
 
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        interactableImage ??= GetComponent<Image>();
-        parentCanvas ??= GetComponentInParent<Canvas>();
-    }
-#endif
-
     #endregion
 
     #region ===== IMPLEMENT INTERFACES =====

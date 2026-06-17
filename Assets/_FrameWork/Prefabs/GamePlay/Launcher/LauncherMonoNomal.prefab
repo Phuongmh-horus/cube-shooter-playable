@@ -261,6 +261,7 @@ MonoBehaviour:
   - {fileID: 3466523180695411369}
   _peaAnimator: {fileID: 1763444512655577412}
   _shooterAnimator: {fileID: 5897039815533393016}
+  _shooterRotateObject: {fileID: 0}
   _frozenedGameObject: {fileID: 6296770596911105513}
   _tmpFrozened: {fileID: 8451618947140119990}
   _objectHideIfEnableFrozened: {fileID: 6915728822344072016}
@@ -619,7 +620,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1.0790607, z: 1.0034373}
+  m_Size: {x: 1.3, y: 1.3, z: 1.3}
   m_Center: {x: 0, y: 0.11515373, z: -0.63764226}
 --- !u!1001 &53176634822576617
 PrefabInstance:
@@ -718,12 +719,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5351890332335842938, guid: 499fd79d585f1184a9f9d3b25e525ffd, type: 3}
+      propertyPath: m_AABB.m_Extent.x
+      value: 2.108079
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351890332335842938, guid: 499fd79d585f1184a9f9d3b25e525ffd, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 1.650284
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351890332335842938, guid: 499fd79d585f1184a9f9d3b25e525ffd, type: 3}
+      propertyPath: m_AABB.m_Extent.z
+      value: 1.924187
+      objectReference: {fileID: 0}
+    - target: {fileID: 5351890332335842938, guid: 499fd79d585f1184a9f9d3b25e525ffd, type: 3}
       propertyPath: m_LightProbeUsage
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5351890332335842938, guid: 499fd79d585f1184a9f9d3b25e525ffd, type: 3}
       propertyPath: m_ReflectionProbeUsage
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 499fd79d585f1184a9f9d3b25e525ffd, type: 3}
+      propertyPath: m_Avatar
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: 499fd79d585f1184a9f9d3b25e525ffd, type: 3}
       propertyPath: m_Controller
@@ -744,6 +761,22 @@ PrefabInstance:
     - target: {fileID: 6987102554228414377, guid: 499fd79d585f1184a9f9d3b25e525ffd, type: 3}
       propertyPath: m_ReflectionProbeUsage
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8057220597021012459, guid: 499fd79d585f1184a9f9d3b25e525ffd, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8057220597021012459, guid: 499fd79d585f1184a9f9d3b25e525ffd, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8057220597021012459, guid: 499fd79d585f1184a9f9d3b25e525ffd, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8057220597021012459, guid: 499fd79d585f1184a9f9d3b25e525ffd, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

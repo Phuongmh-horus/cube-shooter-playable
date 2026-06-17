@@ -234,6 +234,7 @@ public class LauncherNormalMono : LauncherBaseMono
 
     public void SetupSlotLauncher(SlotLauncherMono slotLauncherMono) => _slotLauncherMonoParent = slotLauncherMono;
 
+
     public Coroutine PlayJumpIntoHoleAndThenToSlot(
         float timeJump,
         float timeZPull,
@@ -262,12 +263,12 @@ public class LauncherNormalMono : LauncherBaseMono
         _tf ??= transform;
         _slotLauncherMonoParent = slot;
 
-        // Ensure the launcher moves in world space from the start
         _tf.SetParent(null, true);
 
         PlayAnimPeaJump();
         Vector3 startPos = _tf.position;
-        // 1a. Bay vào hố (holePosition)
+
+        // 1a. Bay vAo h (holePosition)
         float durationXY = timeJump;
         float elapsedXY = 0f;
         while (elapsedXY < durationXY)
@@ -277,64 +278,53 @@ public class LauncherNormalMono : LauncherBaseMono
             t = t * t * (3f - 2f * t); // SmoothStep
 
             Vector3 currentPos = Vector3.Lerp(startPos, holePosition, t);
-            currentPos.z += (-zPullDistance) * Mathf.Sin(Mathf.PI * t); // Arc theo Z
+            currentPos.z += (-zPullDistance) * Mathf.Sin(Mathf.PI * t);
             _tf.position = currentPos;
 
             yield return null;
         }
 
-        //1b. Scale xuống khi vào hố, giữ nguyên vị trí hole
-        float durationScale = timeZPull > 0 ? timeZPull : (timeJump / 3);
+        //1b. Scale xung khi vAo h, gi_ nguyn v< trA- hole
+        float durationScale = timeZPull > 0 ? timeZPull : 0.1f;
         var startScale = _tf.localScale;
-        var targetScale = startScale * 0.2f; // scale nhỏ lại
+        var targetScale = startScale * 0.2f;
         float elapsedScale = 0f;
         while (elapsedScale < durationScale)
         {
             elapsedScale += Time.deltaTime;
             float t = elapsedScale / durationScale;
-            t = t * t * (3f - 2f * t); // SmoothStep
             _tf.localScale = Vector3.Lerp(startScale, targetScale, t);
-            _tf.position = holePosition;
             yield return null;
         }
 
-        _tf.localScale = targetScale;
-        _tf.position = holePosition;
+        // 2. Chui xuyng di slot, thay i v< trA- XY thnh slot
+        Vector3 slotWorldPos = slot.GetSlotPosition();
 
-        Vector3 slotWorldPos = slot != null ? slot.GetSlotPosition() : _tf.position;
+        // n di slot, scale nh?, z cch xa v m<nh h<nh hn slot  to c?m gic chui di lAn
+        _tf.position = new Vector3(slotWorldPos.x, slotWorldPos.y, slotWorldPos.z - zRiseDistance);
+
+        // 3. Ni ln trn slot, chiu dy v t~ng scale
+        float durationRise = timeRise > 0 ? timeRise : 0.1f;
         float elapsedRise = 0f;
-        float durationRise = Mathf.Max(0.01f, timeRise);
-
         while (elapsedRise < durationRise)
         {
             elapsedRise += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsedRise / durationRise);
-            t = t * t * (3f - 2f * t); // SmoothStep
+            float t = elapsedRise / durationRise;
 
-            _tf.localScale = Vector3.Lerp(targetScale, Vector3.one, t);
-            _tf.position = slotWorldPos;
+            _tf.localScale = Vector3.Lerp(targetScale, startScale, t);
+
+            float newZ = Mathf.Lerp(slotWorldPos.z - zRiseDistance, slotWorldPos.z, t);
+            _tf.position = new Vector3(slotWorldPos.x, slotWorldPos.y, newZ);
+
             yield return null;
         }
 
-        ChangeLayerRenderer(LayerNameGamePlay.LauncherInSlot);
-        _tf.SetParent(slot != null ? slot.transform : null);
+        // Ensure final state
         _tf.position = slotWorldPos;
+        _tf.localScale = startScale;
 
-        SetupVisualNormal(true);
-        PlayAnimShooterAppear();
-        _tf.localScale = Vector3.one;
-
-        yield return new WaitForSeconds(0.5f); // Đợi nửa giây trước khi trồi lên
-
-        // _tf.localPosition = Vector3.up * 0.5f;
         onComplete?.Invoke();
-        _moveCts = null;
     }
-
-    #region MECHANIC
-
-    #region Frozen
-
     public override void OnInitFrozen(int frozened)
     {
         base.OnInitFrozen(frozened);
@@ -346,7 +336,6 @@ public class LauncherNormalMono : LauncherBaseMono
         _tmpBulletAmount.gameObject.SetActive(true);
     }
 
-    #endregion
 
     #region Hidden
 
@@ -456,4 +445,3 @@ public class LauncherNormalMono : LauncherBaseMono
 
 
 }
-    #endregion

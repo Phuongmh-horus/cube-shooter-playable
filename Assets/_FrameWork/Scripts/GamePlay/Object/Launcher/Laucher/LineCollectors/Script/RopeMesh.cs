@@ -2,10 +2,6 @@ using UnityEngine;
 
 
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 namespace GogoGaga.OptimizedRopesAndCables
 {
     [RequireComponent(typeof(MeshFilter)), RequireComponent(typeof(MeshRenderer)), RequireComponent(typeof(Rope))]
@@ -69,9 +65,6 @@ namespace GogoGaga.OptimizedRopesAndCables
                 meshRenderer.material = material;
             }
             // We are using delay call to generate mesh to avoid errors in the editor
-#if UNITY_EDITOR
-            EditorApplication.delayCall += DelayedGenerateMesh;
-#endif
         }
         private void Awake()
         {
@@ -84,9 +77,6 @@ namespace GogoGaga.OptimizedRopesAndCables
         {
             if (!Application.isPlaying)
             {
-#if UNITY_EDITOR
-                EditorApplication.delayCall += DelayedGenerateMesh;
-#endif
             }
             SubscribeToRopeEvents();
             ReOffsetTextureTwoHalf();
@@ -96,9 +86,6 @@ namespace GogoGaga.OptimizedRopesAndCables
         private void OnDisable()
         {
             UnsubscribeFromRopeEvents();
-#if UNITY_EDITOR
-            EditorApplication.delayCall -= DelayedGenerateMesh;
-#endif
         }
 
         private void InitializeComponents()
@@ -116,7 +103,7 @@ namespace GogoGaga.OptimizedRopesAndCables
         private void CheckEndPoints()
         {
             // Check if start and end points are assigned
-            if (gameObject.scene.rootCount == 0)
+            if (string.IsNullOrEmpty(gameObject.scene.name))
             {
                 isStartOrEndPointMissing = false;
                 return;
@@ -400,10 +387,6 @@ namespace GogoGaga.OptimizedRopesAndCables
         private void OnDestroy()
         {
             UnsubscribeFromRopeEvents();
-#if UNITY_EDITOR
-            EditorApplication.delayCall -= DelayedGenerateMesh;
-#endif
-
             if (meshRenderer != null)
                 Destroy(meshRenderer);
             if (meshFilter != null)
