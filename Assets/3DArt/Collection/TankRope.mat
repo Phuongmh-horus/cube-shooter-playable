@@ -12,15 +12,21 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - CUTOUT
+  - LUNA_GAMMA_CORRECTION
+  - MATCAP
+  - TWOHALFCOLORS
+  - _EMISSION
+  - _LIGHTMAPUV_UV1
+  - _MATCAPBLEND_MULTIPLY
+  m_InvalidKeywords:
   - AMBIENT
   - ANIME_SOFT
   - BASE_CONTRAST
   - BASE_SATURATION
-  - CUTOUT
-  - MATCAP
   - OUTLINE
   - OUTLINE_WIDTH_INDEPENDENT
-  - TWOHALFCOLORS
+  - ROPE_COLORS
   - _DETAILBLEND_MULTIPLY
   - _DETAILUV_UV1
   - _HEIGHTCOLORSBLEND_ALPHA_BLEND
@@ -30,8 +36,6 @@ Material:
   - _LAYER2UV_UV1
   - _LAYER3BLEND_ALPHA_BLEND
   - _LAYER3UV_UV1
-  - _LIGHTMAPUV_UV1
-  - _MATCAPBLEND_MULTIPLY
   - _NORMALUV2_UV1
   - _NORMALUV_UV1
   - _PLANTTYPE_PLANT
@@ -39,9 +43,6 @@ Material:
   - _SHADOWOVERLAYANIMATION_SCROLL
   - _SPECULARUV_UV1
   - _TWOHALFCOLORSMODE_REPLACE
-  m_InvalidKeywords:
-  - ROPE_COLORS
-  - _EMISSION
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -72,6 +73,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: -1}
+    - _DissolveTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -154,7 +159,7 @@ Material:
         m_Offset: {x: 0, y: -0.5}
     m_Ints: []
     m_Floats:
-    - _AmbientBrightness: 1.5
+    - _AmbientBrightness: 3
     - _Anime: 0
     - _AnimeSoftness: 0.01
     - _AnimeThreshold1: 0.45
@@ -164,7 +169,7 @@ Material:
     - _BumpScale: 1
     - _CameraFadeEnd: 0
     - _CameraFadeStart: 0
-    - _Contrast: 7.4
+    - _Contrast: 1.1
     - _Cull: 2
     - _Cutoff: 0.5
     - _Cutout: 1
@@ -182,7 +187,15 @@ Material:
     - _DiffuseContrast: 1
     - _DiffusePerPixel: 0
     - _DiffuseWrap: 1
+    - _DissolveAmount: 0
+    - _DissolveBurnSize: 0.1
+    - _DissolveEnabled: 0
+    - _DissolveTiling: 10
     - _DstBlend: 0
+    - _EmissiveAnimated: 0
+    - _EmissiveAnimationIntensity: 1
+    - _EmissiveAnimationMin: 0
+    - _EmissiveAnimationSpeed: 1
     - _Flat: 0
     - _Fog: 0
     - _GlossMapScale: 1
@@ -213,6 +226,8 @@ Material:
     - _Layer3VertexColor: 0
     - _LightmapBrightness: 1
     - _LightmapUV: 0
+    - _LunaContrast: 0.5
+    - _LunaGamma: 1
     - _MatCapBlend: 0
     - _MatCapBrightness: 2.7
     - _MatCapContrast: 1
@@ -306,6 +321,7 @@ Material:
     - _ColorBlack: {r: 1, g: 0, b: 0, a: 1}
     - _ColorWhite: {r: 0, g: 1, b: 0, a: 1}
     - _DetailColor: {r: 1, g: 1, b: 1, a: 1}
+    - _DissolveBurnColor: {r: 0.09999997, g: 0.09999997, b: 0.09999997, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Emissive: {r: 0.0009765625, g: 0.0009765625, b: 0.0009765625, a: 1}
     - _HeightColorsColor: {r: 1, g: 1, b: 1, a: 1}

@@ -11,16 +11,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: 5c6982d6b46098049a41518854c08f59, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - TCP2_OUTLINE_CONST_SIZE
-  - TCP2_REFLECTIONS_FRESNEL
-  - TCP2_RIM_LIGHTING_LIGHTMASK
-  - TCP2_SHADOW_LIGHT_COLOR
-  - TCP2_SPECULAR
-  - TCP2_SPECULAR_STYLIZED
-  - TCP2_UV_NORMALS_FULL
-  - _NORMALMAP
-  - _RECEIVE_SHADOWS_OFF
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - AMBIENT
   - ANIME_SOFT
@@ -32,6 +23,13 @@ Material:
   - OUTLINE_PASS_DISABLED
   - SHADOWS_ENABLED
   - SPECULAR_MAP
+  - TCP2_OUTLINE_CONST_SIZE
+  - TCP2_REFLECTIONS_FRESNEL
+  - TCP2_RIM_LIGHTING_LIGHTMASK
+  - TCP2_SHADOW_LIGHT_COLOR
+  - TCP2_SPECULAR
+  - TCP2_SPECULAR_STYLIZED
+  - TCP2_UV_NORMALS_FULL
   - _DETAILBLEND_MULTIPLY
   - _DETAILUV_UV1
   - _HEIGHTCOLORSBLEND_ALPHA_BLEND
@@ -43,9 +41,11 @@ Material:
   - _LAYER3UV_UV1
   - _LIGHTMAPUV_UV1
   - _MATCAPBLEND_MULTIPLY
+  - _NORMALMAP
   - _NORMALUV2_UV1
   - _NORMALUV_UV1
   - _PLANTTYPE_PLANT
+  - _RECEIVE_SHADOWS_OFF
   - _RIMBLEND_ADDITIVE
   - _SHADOWOVERLAYANIMATION_SCROLL
   - _SPECULARUV_UV1
@@ -66,6 +66,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DissolveMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -108,12 +112,15 @@ Material:
     - _Cull: 2
     - _Cutoff: 0.5
     - _DirectIntensityOutline: 1
+    - _DissolveAmount: 0
+    - _DissolveEdgeWidth: 0.05
     - _DstBlend: 0
     - _EmissionChannel: 3
     - _FresnelMax: 1.5
     - _FresnelMin: 0
     - _IndirectIntensity: 1
     - _IndirectIntensityOutline: 0
+    - _LunaGamma: 0
     - _MatCapMaskChannel: 0
     - _MatCapType: 0
     - _NormalsSource: 0
@@ -167,6 +174,7 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.7854545, g: 0.7259504, b: 0.96, a: 1}
+    - _DissolveEdgeColor: {r: 1, g: 0.3, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FakeLightDir: {r: -0.5, g: 0.6423, b: -0.5, a: 1.8}
     - _HColor: {r: 0.89240015, g: 0.873098, b: 0.9490196, a: 1}

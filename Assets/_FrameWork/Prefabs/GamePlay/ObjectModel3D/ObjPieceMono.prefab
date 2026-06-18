@@ -46,11 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _meshRenderer: {fileID: 3053429555631782085}
-  _specularSize: 0.1
-  _specularSmoothing: 1
-  _saturation: 1
-  _brightness: 1
-  _testEdtior: 0
 --- !u!1 &1339938306403501578
 GameObject:
   m_ObjectHideFlags: 0

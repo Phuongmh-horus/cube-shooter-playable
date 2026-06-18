@@ -1,73 +1,27 @@
-//------------------------------------
-//             OmniShade
-//     Copyright© 2025 OmniShade     
-//------------------------------------
+Shader "OmniShade/Standard_Luna"
+{
+    Properties
+    {
+        _MainTex ("Main Texture", 2D) = "white" {}
+        _Color ("Color", Color) = (1,1,1,1)
+        _Brightness ("Brightness", Range(0,25)) = 1
+        _Contrast ("Contrast", Range(0,25)) = 1
+        _Saturation ("Saturation", Range(0,2)) = 1
+        [Toggle] _IgnoreMainTexAlpha ("Ignore Main Texture Alpha", Float) = 0
 
-Shader "OmniShade/Standard" { 
-	Properties {
-		_MainTex ("Main Texture", 2D) = "white" {}
-		_Color ("Color", Color) = (1, 1, 1, 1)
-		_Brightness ("Brightness", range(0, 25)) = 1
-		_Contrast ("Contrast", range(0, 25)) = 1
-		_Saturation ("Saturation", range(0, 2)) = 1
-		[Toggle] _IgnoreMainTexAlpha ("Ignore Main Texture Alpha", Float) = 0
+        [HeaderGroup(Diffuse)]
+        [Toggle(DIFFUSE)] _Diffuse ("Enable Diffuse", Float) = 1
+        _DiffuseWrap ("Diffuse Softness", Range(-1,1)) = 0
+        _DiffuseBrightness ("Diffuse Brightness", Range(0,25)) = 1
+        _DiffuseContrast ("Diffuse Contrast", Range(0.01,25)) = 1
 
-		[HeaderGroup(Diffuse)]
-		[Toggle(DIFFUSE)] _Diffuse ("Enable Diffuse", Float) = 1
-		_DiffuseWrap ("Diffuse Softness", range(-1, 1)) = 0
-		_DiffuseBrightness ("Diffuse Brightness", range(0, 25)) = 1
-		_DiffuseContrast ("Diffuse Contrast", range(0.01, 25)) = 1
-		[Toggle(DIFFUSE_PER_PIXEL)] _DiffusePerPixel ("Per-Pixel Point Lights", Float) = 0
+        [HeaderGroup(Occlusion Map)]
+        _LightmapTex ("Occlusion Map", 2D) = "white" {}
+        _LightmapColor ("Occlusion Color", Color) = (1,1,1,1)
+        _LightmapBrightness ("Occlusion Brightness", Range(0,25)) = 1
+        [KeywordEnum(UV1, UV2)] _LightmapUV ("Occlusion UV", Float) = 0
 
-		[HeaderGroup(Specular)]
-		[Toggle(SPECULAR)] _Specular ("Enable Specular", Float) = 0
-		_SpecularColor ("Specular Color", Color) = (1, 1, 1, 1)
-		_SpecularBrightness ("Specular Brightness", range(0, 25)) = 1
-		[PowerSlider(10)] _SpecularSmoothness ("Specular Smoothness", range(1, 500)) = 20
-		_SpecularTex ("Specular Map", 2D) = "white" {}
-		[KeywordEnum(UV1, UV2)] _SpecularUV ("Specular UV", Float) = 0
-		[Toggle(SPECULAR_HAIR)] _SpecularHair ("Specular Hair", Float) = 0
-
-		[HeaderGroup(Normal Map)]
-		[Normal] _NormalTex ("Normal Map", 2D) = "bump" {}
-		[KeywordEnum(UV1, UV2)] _NormalUV ("Normal Map UV", Float) = 0
-		_NormalStrength ("Normal Strength", range(0, 5)) = 1
-		[Normal] _NormalTex2 ("Normal Map 2", 2D) = "bump" {}
-		[KeywordEnum(UV1, UV2)] _NormalUV2 ("Normal Map 2 UV", Float) = 0
-		_Normal2Strength ("Normal 2 Strength", range(0, 5)) = 1
-
-		[HeaderGroup(Occlusion Map)]
-		_LightmapTex ("Occlusion Map", 2D) = "white" {}
-		_LightmapColor ("Occlusion Color", Color) = (1, 1, 1, 1)
-		_LightmapBrightness ("Occlusion Brightness", range(0, 25)) = 1
-		[KeywordEnum(UV1, UV2)] _LightmapUV ("Occlusion UV", Float) = 0
-
-		[HeaderGroup(Rim Light)]
-		[Toggle(RIM)] _Rim ("Enable Rim Light", Float) = 0
-		[HDR] _RimColor ("Rim Color", Color) = (1, 1, 1, 1)
-		_RimAmount ("Rim Amount", range(0, 25)) = 1
-		_RimContrast ("Rim Contrast", range(0, 50)) = 5
-		[KeywordEnum(Alpha Blend, Additive, Multiply, Multiply Lighten, Transparency)] _RimBlend ("Rim Blend Mode", Float) = 1
-		[Toggle] _RimInverse ("Rim Invert", Float) = 0
-		_RimDirection ("Rim Direction", Vector) = (0, 0, 0, 0)
-
-		[HeaderGroup(Reflection)]
-		[Toggle(REFLECTION)] _Reflection ("Enable Reflection", Float) = 0
-		[NoScaleOffset] _ReflectionTex ("Reflection Cubemap", Cube) = "" {}
-		[HDR] _ReflectionColor ("Reflection Color", Color) = (1, 1, 1, 1)
-		_ReflectionAmount ("Reflection Amount", range(0, 1)) = 1
-		[Toggle(REFLECTION_RIM)] _ReflectionRim ("Mask With Rim", Float) = 0
-		[Toggle(REFLECTION_SPECULAR)] _ReflectionSpecular ("Mask With Specular Map", Float) = 0
-
-		[HeaderGroup(Emissive)]
-		[HDR] _Emissive ("Emissive Color", Color) = (0, 0, 0, 0)
-		_EmissiveTex ("Emissive Map", 2D) = "white" {}
-		[Toggle(EMISSIVE_ANIMATED)] _EmissiveAnimated ("Animate Emissive Intensity", Float) = 0
-		_EmissiveAnimationSpeed ("Emissive Animation Speed", Range(0, 10)) = 1
-		_EmissiveAnimationIntensity ("Emissive Animation Intensity", Range(0, 5)) = 1
-		_EmissiveAnimationMin ("Emissive Animation Minimum", Range(0, 1)) = 0
-
-		[HeaderGroup(MatCap)]
+        [HeaderGroup(MatCap)]
 		_MatCapTex ("MatCap Texture", 2D) = "black" {}
 		_MatCapColor ("MatCap Color", Color) = (1, 1, 1, 1)
 		_MatCapBrightness ("MatCap Brightness", range(0, 25)) = 1
@@ -77,437 +31,239 @@ Shader "OmniShade/Standard" {
 		[Toggle(MATCAP_STATIC)] _MatCapStatic ("Use Static Rotation", Float) = 0
 		_MatCapRot ("MatCap Static Rotation", Vector) = (0, 0, 0, 0)
 
-		[HeaderGroup(Vertex Colors)]
-		[Toggle(VERTEX_COLORS)] _VertexColors ("Enable Vertex Colors", Float) = 0
-        _VertexColorsAmount ("Vertex Colors Amount", range(0, 1)) = 1
-		_VertexColorsContrast ("Vertex Colors Contrast", range(0, 25)) = 1
+        [HeaderGroup(Emissive)]
+        [HDR] _Emissive ("Emissive Color", Color) = (0,0,0,0)
+        _EmissiveTex ("Emissive Map", 2D) = "white" {}
 
-		[HeaderGroup(Detail Map)]
-		_DetailTex ("Detail Map", 2D) = "white" {}
-		_DetailColor ("Detail Color", Color) = (1, 1, 1, 1)
-		_DetailBrightness ("Detail Brightness", range(0, 25)) = 1
-		_DetailContrast ("Detail Contrast", range(0, 25)) = 1
-		[KeywordEnum(Alpha Blend, Additive, Multiply, Multiply Lighten)] _DetailBlend ("Detail Blend Mode", Float) = 2
-		[KeywordEnum(UV1, UV2)] _DetailUV ("Detail UV", Float) = 0
-		[Toggle(DETAIL_LIGHTING)] _DetailLighting ("Apply To Lighting", Float) = 0
-		[Toggle(DETAIL_VERTEX_COLORS)] _DetailVertexColors ("Mask With Vertex Color (A)", Float) = 0
+        [Header(Vertex Colors)]
+        [Toggle(VERTEX_COLORS)] _VertexColors ("Vertex Colors", Float) = 0
+        _VertexColorsAmount ("Vertex Colors Amount", Range(0, 1)) = 1.0
+        _VertexColorsContrast ("Vertex Colors Contrast", Range(0, 3)) = 1.0
 
-		[HeaderGroup(Layer 1)]
-		_Layer1Tex ("Layer Texture", 2D) = "white" {}
-		_Layer1Color ("Layer Color", Color) = (1, 1, 1, 1)
-		_Layer1Brightness ("Layer Brightness", range(0, 25)) = 1
-		_Layer1Alpha ("Layer Alpha", range(0, 25)) = 1
-		[KeywordEnum(Alpha Blend, Additive, Multiply, Multiply Lighten)] _Layer1Blend ("Layer Blend Mode", Float) = 0
-		[KeywordEnum(UV1, UV2)] _Layer1UV ("Layer 1 UV", Float) = 0
-        [Toggle] _Layer1VertexColor ("Mask With Vertex Color (R)", Float) = 0
-		
-		[HeaderGroup(Layer 2)]
-		_Layer2Tex ("Layer Texture", 2D) = "white" {}
-		_Layer2Color ("Layer Color", Color) = (1, 1, 1, 1)
-		_Layer2Brightness ("Layer Brightness", range(0, 25)) = 1
-		_Layer2Alpha ("Layer Alpha", range(0, 25)) = 1
-		[KeywordEnum(Alpha Blend, Additive, Multiply, Multiply Lighten)] _Layer2Blend ("Layer Blend Mode", Float) = 0
-		[KeywordEnum(UV1, UV2)] _Layer2UV ("Layer 2 UV", Float) = 0
-		[Toggle] _Layer2VertexColor ("Mask With Vertex Color (G)", Float) = 0
+        [Header(Rope Colors)]
+        [Toggle(TWOHALFCOLORS)] _TwoHalfColors ("Two Half Colors", Float) = 0
+        _TwoHalfColorsColor1 ("Two Half Colors Color 1", Color) = (1,1,1,1)
+        _TwoHalfColorsColor2 ("Two Half Colors Color 2", Color) = (1,1,1,1)
+        _TwoHalfColorsMaskTex ("Two Half Colors Mask", 2D) = "white" {}
 
-		[HeaderGroup(Layer 3)]
-		_Layer3Tex ("Layer Texture", 2D) = "white" {}
-		_Layer3Color ("Layer Color", Color) = (1, 1, 1, 1)
-		_Layer3Brightness ("Layer Brightness", range(0, 25)) = 1
-		_Layer3Alpha ("Layer Alpha", range(0, 25)) = 1
-		[KeywordEnum(Alpha Blend, Additive, Multiply, Multiply Lighten)] _Layer3Blend ("Layer Blend Mode", Float) = 0
-        [KeywordEnum(UV1, UV2)] _Layer3UV ("Layer 3 UV", Float) = 0
-        [Toggle] _Layer3VertexColor ("Mask With Vertex Color (B)", Float) = 0
+        [HeaderGroup(Transparency Mask)]
+        _TransparencyMaskTex ("Transparency Mask", 2D) = "white" {}
+        _TransparencyMaskAmount ("Mask Amount", Range(0,25)) = 1
+        _TransparencyMaskContrast ("Mask Contrast", Range(0,25)) = 1
 
-		[HeaderGroup(Transparency Mask)]
-		_TransparencyMaskTex ("Transparency Mask", 2D) = "white" {}
-		_TransparencyMaskAmount ("Mask Amount", range(0, 25)) = 1
-		_TransparencyMaskContrast ("Mask Contrast", range(0, 25)) = 1
+        [HeaderGroup(Environment)]
+        _AmbientBrightness ("Ambient Brightness", Range(0,25)) = 1
+        [Toggle(FOG)] _Fog ("Enable Fog", Float) = 1
 
-		[HeaderGroup(Height Based Colors)]
-		[Toggle(HEIGHT_COLORS)] _HeightColors ("Enable Height Based Colors", Float) = 0
-		_HeightColorsColor ("Color", Color) = (1, 1, 1, 1)
-		_HeightColorsAlpha ("Alpha", range(0, 25)) = 1
-		_HeightColorsHeight ("Height", range(-100, 100)) = 0
-		_HeightColorsEdgeThickness ("Edge Thickness", range(0.001, 100)) = 1
-		_HeightColorsThickness ("Thickness", range(0, 100)) = 0
-		[Enum(World, 0, Local, 1)] _HeightColorsSpace ("Coordinate Space", Float) = 0
-		[KeywordEnum(Alpha Blend, Additive, Lit)] _HeightColorsBlend ("Height Colors Blend Mode", Float) = 0
-		_HeightColorsTex ("Height Colors Texture", 2D) = "white" {}
+        [HeaderGroup(Culling And Blending)]
+        [Enum(Opaque,0, Transparent,1, Transparent Additive,2, Transparent Additive Alpha,3, Opaque Cutout,4)]
+        _Preset ("Culling And Blend Preset", Float) = 0
 
-		[HeaderGroup(Shadow Overlay)]
-		_ShadowOverlayTex ("Shadow Overlay Tex", 2D) = "white" {}
-		_ShadowOverlayBrightness ("Shadow Brightness", range(0, 2)) = 1
-		_ShadowOverlaySpeedU ("Shadow Speed U", range(-5, 5)) = 0.1
-		_ShadowOverlaySpeedV ("Shadow Speed V", range(-5, 5)) = 0.03
-		_ShadowOverlaySwayAmount ("Shadow Sway Amount", range(0, 0.01)) = 0.01
-		[KeywordEnum(Scroll, Sway)] _ShadowOverlayAnimation ("Animation Type", Float) = 0
+        [Header(Culling)]
+        [Enum(UnityEngine.Rendering.CullMode)] _Cull ("Culling", Float) = 2
+        [Enum(Off,0, On,1)] _ZWrite ("Z Write", Float) = 1
+        [Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", Float) = 4
+        _ZOffset ("Depth Offset", Range(-5,5)) = 0
+        [Toggle(CUTOUT)] _Cutout ("Cutout Transparency", Float) = 0
+        _CutoutCutoff ("Cutoff", Range(0,1)) = 0.5
 
-		[HeaderGroup(Plant Sway)]
-		[Toggle(PLANT_SWAY)] _Plant ("Enable Plant Sway", Float) = 0
-		_PlantSwayAmount ("Sway Amount", range(0, 10)) = 0.15
-		_PlantSwaySpeed ("Sway Speed", range(0, 10)) = 1
-		_PlantBaseHeight ("Base Height", range(-100, 100)) = 0
-		_PlantPhaseVariation ("Phase Variation", range(0, 100)) = 0.3
-		[KeywordEnum(Plant, Leaf, Vertex Color Alpha)] _PlantType ("Plant Type", Float) = 0
-		[Toggle(PLANT_SWAY_LOCAL)] _PlantLocal ("Use Local Space", Float) = 0
+        [Header(Blending)]
+        [Enum(UnityEngine.Rendering.BlendMode)] _SourceBlend ("Source Blend", Float) = 1
+        [Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend", Float) = 0
+        [Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Mode", Float) = 0
 
-		[HeaderGroup(Outline)]
-		[Toggle(OUTLINE)] _Outline ("Enable Outline", Float) = 0
-		_OutlineWidth ("Outline Width", range(0, 0.1)) = 0.002
-		[Toggle(OUTLINE_WIDTH_INDEPENDENT)] _OutlineWidthIndependent ("Outline Width Camera-Independent", Float) = 0
-		_OutlineColor ("Outline Color", Color) = (0, 0, 0, 1)
-        _OutlineZPos ("Outline Z Offset", Range(-0.1, 1)) = 0   
-        [Enum(Show, 8, Hide, 6)] _OutlineComp ("Interior Outlines", Float) = 8
-		_OutlineGroup ("Outline Group", Float) = 0
-		[HideInInspector] _OutlinePass ("Outline Pass", Float) = 0
+        [Header(Luna Correction)]
+        [Toggle(LUNA_GAMMA_CORRECTION)] _LunaGamma ("Luna Gamma Correction", Float) = 1.0
+        _LunaContrast ("Luna Gamma Contrast", Range(0, 3)) = 1.0
+    }
 
-		[HeaderGroup(Anime)]
-		[Toggle(ANIME)] _Anime ("Enable Anime", Float) = 0
-		[HDR] _AnimeColor1 ("Color 1", Color) = (1, 1, 1, 1)
-		_AnimeThreshold1 ("Luminance Threshold 1", range(0, 3)) = 0.45
-		[HDR] _AnimeColor2 ("Color 2", Color) = (1.35, 1.35, 1.35, 1)
-		_AnimeThreshold2 ("Luminance Threshold 2", range(0, 3)) = 0.85
-		[HDR] _AnimeColor3 ("Color 3", Color) = (2, 2, 2, 1)
-		_AnimeSoftness ("Softness", range(0, 0.25)) = 0.01
-
-		[HeaderGroup(Camera Fade)]
-		_CameraFadeStart ("Fade Start Distance", range(0, 25)) = 0
-		_CameraFadeEnd ("Fade End Distance", range(0, 25)) = 0
-
-        [HeaderGroup(UV Tile Discard)]
-		[Toggle(UVTILE)] _UVTile ("Enable UV Tile Discard", Float) = 0
-		[Enum(UV0, 1, UV1, 2, UV2, 3, UV3, 4)] _UVTileDiscardUV ("Discard UV", Float) = 1
-        [Toggle] _UVTileV3U0 ("v = 3", Float) = 0
-        [Toggle] _UVTileV3U1 ("", Float) = 0
-        [Toggle] _UVTileV3U2 ("", Float) = 0
-        [Toggle] _UVTileV3U3 ("", Float) = 0
-        [Toggle] _UVTileV2U0 ("v = 2", Float) = 0
-        [Toggle] _UVTileV2U1 ("", Float) = 0
-        [Toggle] _UVTileV2U2 ("", Float) = 0
-        [Toggle] _UVTileV2U3 ("", Float) = 0
-        [Toggle] _UVTileV1U0 ("v = 1", Float) = 0
-        [Toggle] _UVTileV1U1 ("", Float) = 0
-        [Toggle] _UVTileV1U2 ("", Float) = 0
-        [Toggle] _UVTileV1U3 ("", Float) = 0
-        [Toggle] _UVTileV0U0 ("v = 0", Float) = 0
-        [Toggle] _UVTileV0U1 ("", Float) = 0
-        [Toggle] _UVTileV0U2 ("", Float) = 0
-        [Toggle] _UVTileV0U3 ("", Float) = 0
-
-		[HeaderGroup(Environment And Shadows)]
-		_AmbientBrightness ("Ambient Brightness", range(0, 25)) = 1
-		[Toggle(FOG)] _Fog ("Enable Fog", Float) = 1
-
-		[Header(Shadows)]
-		[Toggle(SHADOWS_ENABLED)] _ShadowsEnabled ("Enable Shadows", Float) = 1
-		[HDR] _ShadowColor ("Shadow Color", Color) = (0.3, 0.3, 0.3, 1)
-		
-		[HeaderGroup(Culling And Blending)]
-		[Enum(Opaque, 0, Transparent, 1, Transparent Additive, 2, Transparent Additive Alpha, 3, Opaque Cutout, 4)] _Preset ("Culling And Blend Preset", Float) = 0
-
-		[Header(Culling)]
-		[Enum(UnityEngine.Rendering.CullMode)] _Cull ("Culling", Float) = 2 				// Back
-		[Enum(Off, 0, On, 1)] _ZWrite ("Z Write", Float) = 1.0								// On
-		[Enum(UnityEngine.Rendering.CompareFunction)] _ZTest ("Z Test", Float) = 4 			// LessEqual
-		_ZOffset ("Depth Offset", range(-5, 5)) = 0
-		[Toggle(CUTOUT)] _Cutout ("Cutout Transparency", Float) = 0
-		_CutoutCutoff ("Cutoff", range(0, 1)) = 0.5                              
-
-		[Header(Blending)]
-		[Enum(UnityEngine.Rendering.BlendMode)] _SourceBlend ("Source Blend", Float) = 1 	// One
-		[Enum(UnityEngine.Rendering.BlendMode)] _DestBlend ("Dest Blend", Float) = 0 		// Zero
-		[Enum(UnityEngine.Rendering.BlendOp)] _BlendOp ("Blend Mode", Float) = 0  			// Add
-
-		[HeaderGroup(Two Half Colors)]
-		[Toggle(TWOHALFCOLORS)] _TwoHalfColors ("Enable Two Half Colors", Float) = 0
-		_TwoHalfColorsMaskTex ("Mask Texture", 2D) = "white" {}
-		_TwoHalfColorsColor1 ("Color 1", Color) = (1, 1, 1, 1)
-		_TwoHalfColorsColor2 ("Color 2", Color) = (0, 0, 0, 1)
-		_TwoHalfColorsThreshold ("Threshold", Range(0, 1)) = 0.5
-		_TwoHalfColorsSmoothness ("Transition Smoothness", Range(0.001, 0.5)) = 0.1
-		[KeywordEnum(Multiply, Replace)] _TwoHalfColorsMode ("Mode", Float) = 1
-
-		[HeaderGroup(Rendering)]
-		[Toggle(FLAT)] _Flat ("Enable Flat Shading", Float) = 0
-	}
-	
-    Subshader {
-        Name "Normal Shader"
-
-        Pass {
+    SubShader
+    {
+        Name "Luna Shader"
+        Pass
+        {
             Name "ForwardBase"
-            Tags { "LightMode" = "ForwardBase" }
+            Tags { "LightMode"="ForwardBase" }
+
             Cull [_Cull]
             ZWrite [_ZWrite]
             ZTest [_ZTest]
             Blend [_SourceBlend][_DestBlend]
             BlendOp [_BlendOp]
 
-            Stencil {
-                Ref [_OutlineGroup]
-                Pass [_OutlinePass]
-            }
-
             CGPROGRAM
             #include "UnityCG.cginc"
             #include "UnityLightingCommon.cginc"
-            #include "AutoLight.cginc"
-            #include "OmniShadeCore.cginc"
-            #pragma target 3.5
+            #pragma target 3.0
             #pragma vertex vert
             #pragma fragment frag
-            #pragma multi_compile_fog
-            #pragma multi_compile_instancing
-            #pragma multi_compile _ VERTEXLIGHT_ON
-            #pragma multi_compile _ LIGHTMAP_ON
-            #pragma multi_compile _ DIRLIGHTMAP_COMBINED
-            #pragma multi_compile _ SHADOWS_SCREEN
-            #pragma multi_compile _ SHADOWS_SHADOWMASK
-            #pragma shader_feature BASE_CONTRAST
-            #pragma shader_feature BASE_SATURATION
-            #pragma shader_feature DIFFUSE
-            #pragma shader_feature DIFFUSE_PER_PIXEL
-            #pragma shader_feature MIXED_LIGHTING
-            #pragma shader_feature SPECULAR
-            #pragma shader_feature SPECULAR_MAP
-            #pragma shader_feature _SPECULARUV_UV1 _SPECULARUV_UV2
-            #pragma shader_feature SPECULAR_HAIR
-            #pragma shader_feature RIM
-            #pragma shader_feature _RIMBLEND_ALPHA_BLEND _RIMBLEND_ADDITIVE _RIMBLEND_MULTIPLY _RIMBLEND_MULTIPLY_LIGHTEN _RIMBLEND_TRANSPARENCY
-            #pragma shader_feature RIM_DIRECTION
-            #pragma shader_feature REFLECTION
-            #pragma shader_feature REFLECTION_TEX
-            #pragma shader_feature REFLECTION_RIM
-            #pragma shader_feature REFLECTION_SPECULAR
-            #pragma shader_feature NORMAL_MAP
-            #pragma shader_feature NORMAL_MAP2
-            #pragma shader_feature _NORMALUV_UV1 _NORMALUV_UV2
-            #pragma shader_feature _NORMALUV2_UV1 _NORMALUV2_UV2
-            #pragma shader_feature LIGHT_MAP
-            #pragma shader_feature _LIGHTMAPUV_UV1 _LIGHTMAPUV_UV2
-            #pragma shader_feature EMISSIVE_MAP
-            #pragma shader_feature EMISSIVE_ANIMATED
-            #pragma shader_feature MATCAP
+            //#pragma multi_compile_fog
+
+            #pragma multi_compile_local _ DIFFUSE
+            #pragma shader_feature_local LIGHT_MAP
+            #pragma multi_compile_local _LIGHTMAPUV_UV1 _LIGHTMAPUV_UV2
+            #pragma multi_compile_local _ EMISSIVE_MAP
+            #pragma multi_compile_local _ MATCAP
+            #pragma shader_feature MATCAP_BRIGHTNESS
             #pragma shader_feature MATCAP_CONTRAST
             #pragma shader_feature _MATCAPBLEND_MULTIPLY _MATCAPBLEND_MULTIPLY_LIGHTEN
             #pragma shader_feature MATCAP_PERSPECTIVE
             #pragma shader_feature MATCAP_STATIC
-            #pragma shader_feature VERTEX_COLORS
-            #pragma shader_feature VERTEX_COLORS_CONTRAST
-            #pragma shader_feature DETAIL
-            #pragma shader_feature DETAIL_CONTRAST
-            #pragma shader_feature _DETAILBLEND_ALPHA_BLEND _DETAILBLEND_ADDITIVE _DETAILBLEND_MULTIPLY _DETAILBLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature _DETAILUV_UV1 _DETAILUV_UV2
-            #pragma shader_feature DETAIL_LIGHTING
-            #pragma shader_feature DETAIL_VERTEX_COLORS
-            #pragma shader_feature LAYER1
-            #pragma shader_feature _LAYER1BLEND_ALPHA_BLEND _LAYER1BLEND_ADDITIVE _LAYER1BLEND_MULTIPLY _LAYER1BLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature _LAYER1UV_UV1 _LAYER1UV_UV2
-            #pragma shader_feature LAYER2
-            #pragma shader_feature _LAYER2BLEND_ALPHA_BLEND _LAYER2BLEND_ADDITIVE _LAYER2BLEND_MULTIPLY _LAYER2BLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature _LAYER2UV_UV1 _LAYER2UV_UV2
-            #pragma shader_feature LAYER3
-            #pragma shader_feature _LAYER3BLEND_ALPHA_BLEND _LAYER3BLEND_ADDITIVE _LAYER3BLEND_MULTIPLY _LAYER3BLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature _LAYER3UV_UV1 _LAYER3UV_UV2
-            #pragma shader_feature TRANSPARENCY_MASK
-            #pragma shader_feature TRANSPARENCY_MASK_CONTRAST
-            #pragma shader_feature HEIGHT_COLORS
-            #pragma shader_feature _HEIGHTCOLORSBLEND_ALPHA_BLEND _HEIGHTCOLORSBLEND_ADDITIVE _HEIGHTCOLORSBLEND_LIT
-            #pragma shader_feature HEIGHT_COLORS_TEX
-            #pragma shader_feature SHADOW_OVERLAY
-            #pragma shader_feature _SHADOWOVERLAYANIMATION_SCROLL _SHADOWOVERLAYANIMATION_SWAY
-            #pragma shader_feature PLANT_SWAY
-            #pragma shader_feature PLANT_SWAY_LOCAL
-            #pragma shader_feature _PLANTTYPE_PLANT _PLANTTYPE_LEAF _PLANTTYPE_VERTEX_COLOR_ALPHA
-            #pragma shader_feature ANIME
-            #pragma shader_feature ANIME_SOFT
-            #pragma shader_feature CAMERA_FADE
-            #pragma shader_feature UVTILE
-            #pragma shader_feature AMBIENT
-            #pragma shader_feature FOG
-            #pragma shader_feature SHADOWS_ENABLED
-            #pragma shader_feature ZOFFSET
-            #pragma shader_feature CUTOUT
-            #pragma shader_feature FLAT
-            #pragma shader_feature TWOHALFCOLORS
-            #pragma shader_feature _TWOHALFCOLORSMODE_MULTIPLY _TWOHALFCOLORSMODE_REPLACE
-            ENDCG
-        }
+            #pragma multi_compile_local _ VERTEX_COLORS
+            #pragma shader_feature_local TRANSPARENCY_MASK
+            #pragma multi_compile_local _ FOG
+            #pragma multi_compile_local _ CUTOUT
+            #pragma multi_compile_local _ TWOHALFCOLORS
+            #pragma multi_compile_local _ LUNA_GAMMA_CORRECTION
 
-        Pass {
-            Name "Outline"
-            Tags { "LightMode" = "Always" }
-            Cull Front
-            Blend One Zero
+            sampler2D _MainTex; float4 _MainTex_ST;
+            half4 _Color;
+            half _Brightness, _Contrast, _Saturation, _IgnoreMainTexAlpha;
+            half _LunaContrast;
 
-            Stencil {
-                Ref [_OutlineGroup]
-                Comp [_OutlineComp]
+            half _DiffuseWrap, _DiffuseBrightness, _DiffuseContrast;
+
+            sampler2D _LightmapTex; float4 _LightmapTex_ST;
+            half4 _LightmapColor; half _LightmapBrightness;
+
+            half4 _Emissive;
+            sampler2D _EmissiveTex; float4 _EmissiveTex_ST;
+
+            #if defined(VERTEX_COLORS)
+            half _VertexColorsAmount, _VertexColorsContrast;
+            #endif
+
+            #if defined(TWOHALFCOLORS)
+            sampler2D _TwoHalfColorsMaskTex; float4 _TwoHalfColorsMaskTex_ST;
+            half4 _TwoHalfColorsColor1;
+            half4 _TwoHalfColorsColor2;
+            #endif
+
+            sampler2D _TransparencyMaskTex; float4 _TransparencyMaskTex_ST;
+            half _TransparencyMaskAmount, _TransparencyMaskContrast;
+
+            half _AmbientBrightness, _CutoutCutoff, _ZOffset;
+
+            struct appdata {
+                float4 vertex: POSITION;
+                float3 normal: NORMAL;
+                float2 uv: TEXCOORD0;
+                float2 uv2: TEXCOORD1;
+                fixed4 color: COLOR;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            struct v2f {
+                float4 pos: SV_POSITION;
+                float2 uv: TEXCOORD0;
+                float2 uv2: TEXCOORD1;
+                half3 worldNormal: TEXCOORD2;
+                fixed4 vertexColor: COLOR;
+                UNITY_FOG_COORDS(3)
+            };
+
+            v2f vert(appdata v)
+            {
+                v2f o;
+                UNITY_SETUP_INSTANCE_ID(v);
+                o.pos = UnityObjectToClipPos(v.vertex);
+
+                #if defined(ZOFFSET)
+                    o.pos.z += _ZOffset * 0.001;
+                #endif
+
+                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv2 = v.uv2;
+                o.worldNormal = UnityObjectToWorldNormal(v.normal);
+                o.vertexColor = v.color;
+                UNITY_TRANSFER_FOG(o, o.pos);
+                return o;
             }
 
-            CGPROGRAM
-            #define OUTLINE_PASS 1
-            #include "UnityCG.cginc"
-            #include "OmniShadeCore.cginc"
-            #pragma target 3.5
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile_instancing
-            #pragma shader_feature TRANSPARENCY_MASK
-            #pragma shader_feature TRANSPARENCY_MASK_CONTRAST
-            #pragma shader_feature PLANT_SWAY
-            #pragma shader_feature PLANT_SWAY_LOCAL
-            #pragma shader_feature _PLANTTYPE_PLANT _PLANTTYPE_LEAF _PLANTTYPE_VERTEX_COLOR_ALPHA
-            #pragma shader_feature OUTLINE
-            #pragma shader_feature OUTLINE_WIDTH_INDEPENDENT
-            #pragma shader_feature OUTLINE_PASS_DISABLED
-            #pragma shader_feature CAMERA_FADE
-            #pragma shader_feature UVTILE
-            #pragma shader_feature ZOFFSET
-            #pragma shader_feature CUTOUT
-            ENDCG
-        }
+            inline half3 ApplySaturation(half3 c, half sat)
+            {
+                half luma = dot(c, half3(0.2126h, 0.7152h, 0.0722h));
+                return lerp(half3(luma,luma,luma), c, sat);
+            }
 
-        Pass {
-            Name "ShadowCaster"
-            Tags { "LightMode" = "ShadowCaster" }
-            Cull [_Cull]
-            ZWrite [_ZWrite]
-            ZTest [_ZTest]
-            Blend [_SourceBlend][_DestBlend]
-            BlendOp [_BlendOp]
+            half4 frag(v2f i) : SV_Target
+            {
+                // In Linear projects, tex2D(sRGB texture) returns Linear already.
+                half4 col = (half4)tex2D(_MainTex, i.uv) * _Color;
 
-            CGPROGRAM
-            #define SHADOW_CASTER 1
-            #include "UnityCG.cginc"
-            #include "OmniShadeCore.cginc"
-            #pragma target 3.5
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile_instancing
-            #pragma shader_feature TRANSPARENCY_MASK
-            #pragma shader_feature TRANSPARENCY_MASK_CONTRAST
-            #pragma shader_feature PLANT_SWAY
-            #pragma shader_feature PLANT_SWAY_LOCAL
-            #pragma shader_feature _PLANTTYPE_PLANT _PLANTTYPE_LEAF _PLANTTYPE_VERTEX_COLOR_ALPHA
-            #pragma shader_feature UVTILE
-            #pragma shader_feature CUTOUT
-            ENDCG
-        }
+                if (_IgnoreMainTexAlpha > 0.5h) col.a = _Color.a;
 
-        Pass {
-            Name "Meta"
-            Tags { "LightMode" = "Meta" }
-            Cull Off
-            ZWrite [_ZWrite]
-            ZTest [_ZTest]
-            Blend [_SourceBlend][_DestBlend]
-            BlendOp [_BlendOp]
+                col.rgb = ((col.rgb - 0.5h) * _Contrast + 0.5h) * _Brightness;
+                col.rgb = ApplySaturation(col.rgb, _Saturation);
 
-            CGPROGRAM
-            #define META 1
-            #include "UnityCG.cginc"
-            #include "UnityMetaPass.cginc"
-            #include "OmniShadeCore.cginc"
-            #pragma target 3.5
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile_instancing
-            #pragma shader_feature BASE_CONTRAST
-            #pragma shader_feature EMISSIVE_MAP
-            #pragma shader_feature EMISSIVE_ANIMATED
-            #pragma shader_feature MATCAP
-            #pragma shader_feature MATCAP_CONTRAST
-            #pragma shader_feature _MATCAPBLEND_MULTIPLY _MATCAPBLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature VERTEX_COLORS
-            #pragma shader_feature VERTEX_COLORS_CONTRAST
-            #pragma shader_feature DETAIL
-            #pragma shader_feature DETAIL_CONTRAST
-            #pragma shader_feature _DETAILBLEND_ALPHA_BLEND _DETAILBLEND_ADDITIVE _DETAILBLEND_MULTIPLY _DETAILBLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature _DETAILUV_UV1 _DETAILUV_UV2
-            #pragma shader_feature DETAIL_LIGHTING
-            #pragma shader_feature DETAIL_VERTEX_COLORS
-            #pragma shader_feature LAYER1
-            #pragma shader_feature _LAYER1BLEND_ALPHA_BLEND _LAYER1BLEND_ADDITIVE _LAYER1BLEND_MULTIPLY _LAYER1BLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature _LAYER1UV_UV1 _LAYER1UV_UV2
-            #pragma shader_feature LAYER2
-            #pragma shader_feature _LAYER2BLEND_ALPHA_BLEND _LAYER2BLEND_ADDITIVE _LAYER2BLEND_MULTIPLY _LAYER2BLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature _LAYER2UV_UV1 _LAYER2UV_UV2
-            #pragma shader_feature LAYER3
-            #pragma shader_feature _LAYER3BLEND_ALPHA_BLEND _LAYER3BLEND_ADDITIVE _LAYER3BLEND_MULTIPLY _LAYER3BLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature _LAYER3UV_UV1 _LAYER3UV_UV2
-            #pragma shader_feature TRANSPARENCY_MASK
-            #pragma shader_feature TRANSPARENCY_MASK_CONTRAST
-            #pragma shader_feature HEIGHT_COLORS
-            #pragma shader_feature _HEIGHTCOLORSBLEND_ALPHA_BLEND _HEIGHTCOLORSBLEND_ADDITIVE _HEIGHTCOLORSBLEND_LIT
-            #pragma shader_feature HEIGHT_COLORS_TEX
-            #pragma shader_feature UVTILE
-            #pragma shader_feature CUTOUT
-            #pragma shader_feature TWOHALFCOLORS
-            #pragma shader_feature _TWOHALFCOLORSMODE_MULTIPLY _TWOHALFCOLORSMODE_REPLACE
+                #if defined(VERTEX_COLORS)
+                    half3 vertCol = pow((half3)i.vertexColor.rgb, _VertexColorsContrast);
+                    col.rgb = lerp(col.rgb, col.rgb * vertCol, _VertexColorsAmount);
+                #endif
+
+                half3 lightColor = (half3)_LightColor0.rgb;
+                half3 ambientColor = (half3)unity_AmbientSky.rgb;
+
+                #if defined(DIFFUSE)
+                    half3 n = normalize(i.worldNormal);
+                    half3 ldir = normalize((half3)_WorldSpaceLightPos0.xyz);
+                    half ndl = dot(n, ldir);
+                    half diff = saturate((ndl + _DiffuseWrap) / (1.0h + _DiffuseWrap));
+                    diff = pow(diff, _DiffuseContrast) * _DiffuseBrightness;
+                    col.rgb *= diff * lightColor + ambientColor * _AmbientBrightness;
+                #else
+                    col.rgb *= ambientColor * _AmbientBrightness;
+                #endif
+
+                #if defined(LIGHT_MAP)
+                    float2 luv = i.uv;
+                    #if defined(_LIGHTMAPUV_UV2)
+                        luv = i.uv2;
+                    #endif
+                    half3 lm = (half3)tex2D(_LightmapTex, luv * _LightmapTex_ST.xy + _LightmapTex_ST.zw).rgb;
+                    col.rgb *= lm * (half3)_LightmapColor.rgb * _LightmapBrightness;
+                #endif
+
+                #if defined(EMISSIVE_MAP)
+                    half3 e = (half3)tex2D(_EmissiveTex, i.uv * _EmissiveTex_ST.xy + _EmissiveTex_ST.zw).rgb;
+                    col.rgb += e * (half3)_Emissive.rgb;
+                #else
+                    col.rgb += (half3)_Emissive.rgb;
+                #endif
+
+                #if defined(TRANSPARENCY_MASK)
+                    half mask = (half)tex2D(_TransparencyMaskTex, i.uv * _TransparencyMaskTex_ST.xy + _TransparencyMaskTex_ST.zw).r;
+                    mask = pow(mask, _TransparencyMaskContrast) * _TransparencyMaskAmount;
+                    col.a *= mask;
+                #endif
+
+                #if defined(CUTOUT)
+                    clip(col.a - _CutoutCutoff);
+                #endif
+
+                #if defined(FOG)
+                    UNITY_APPLY_FOG(i.fogCoord, col);
+                #endif
+
+                #if defined(LUNA_GAMMA_CORRECTION)
+                #if !defined(UNITY_COLORSPACE_GAMMA)
+                col.rgb = LinearToGammaSpace(col.rgb);
+                col.rgb = ((col.rgb - 0.5) * 1.0) + 0.5;
+                #endif
+                #endif
+
+                // Return in project color space the way Unity expects.
+                // In Linear projects, Unity will handle output conversion appropriately per platform.
+                #if defined(TWOHALFCOLORS)
+                half maskVal = tex2D(_TwoHalfColorsMaskTex, i.uv.xy * _TwoHalfColorsMaskTex_ST.xy + _TwoHalfColorsMaskTex_ST.zw).r;
+                col.rgb *= lerp(_TwoHalfColorsColor1.rgb, _TwoHalfColorsColor2.rgb, maskVal);
+                #endif
+
+                return col;
+            }
             ENDCG
         }
     }
 
-    Subshader {
-        Name "Fallback Shader"
-
-        Pass {
-            Name "Fallback"
-            Tags { "LightMode" = "ForwardBase" }
-            Cull [_Cull]
-            ZWrite [_ZWrite]
-            ZTest [_ZTest]
-            Blend [_SourceBlend][_DestBlend]
-            BlendOp [_BlendOp]
-
-            CGPROGRAM
-            #define FALLBACK_PASS 1
-            #include "UnityCG.cginc"
-            #include "UnityLightingCommon.cginc"
-            #include "AutoLight.cginc"
-            #include "OmniShadeCore.cginc"
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile_fog
-            #pragma multi_compile _ LIGHTMAP_ON
-            #pragma shader_feature BASE_SATURATION
-            #pragma shader_feature DIFFUSE
-            #pragma shader_feature MIXED_LIGHTING
-            #pragma shader_feature SPECULAR
-            #pragma shader_feature RIM
-            #pragma shader_feature _RIMBLEND_ALPHA_BLEND _RIMBLEND_ADDITIVE _RIMBLEND_MULTIPLY _RIMBLEND_MULTIPLY_LIGHTEN _RIMBLEND_TRANSPARENCY
-            #pragma shader_feature LIGHT_MAP
-            #pragma shader_feature _LIGHTMAPUV_UV1 _LIGHTMAPUV_UV2
-            #pragma shader_feature MATCAP
-            #pragma shader_feature _MATCAPBLEND_MULTIPLY _MATCAPBLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature MATCAP_STATIC
-            #pragma shader_feature VERTEX_COLORS
-            #pragma shader_feature LAYER1
-            #pragma shader_feature _LAYER1BLEND_ALPHA_BLEND _LAYER1BLEND_ADDITIVE _LAYER1BLEND_MULTIPLY _LAYER1BLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature _LAYER1UV_UV1 _LAYER1UV_UV2
-            #pragma shader_feature LAYER2
-            #pragma shader_feature _LAYER2BLEND_ALPHA_BLEND _LAYER2BLEND_ADDITIVE _LAYER2BLEND_MULTIPLY _LAYER2BLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature _LAYER2UV_UV1 _LAYER2UV_UV2
-            #pragma shader_feature LAYER3
-            #pragma shader_feature _LAYER3BLEND_ALPHA_BLEND _LAYER3BLEND_ADDITIVE _LAYER3BLEND_MULTIPLY _LAYER3BLEND_MULTIPLY_LIGHTEN
-            #pragma shader_feature _LAYER3UV_UV1 _LAYER3UV_UV2
-            #pragma shader_feature TRANSPARENCY_MASK
-            #pragma shader_feature ANIME
-            #pragma shader_feature UVTILE
-            #pragma shader_feature AMBIENT
-            #pragma shader_feature FOG
-            #pragma shader_feature ZOFFSET
-            #pragma shader_feature CUTOUT
-            #pragma shader_feature FLAT
-            #pragma shader_feature TWOHALFCOLORS
-            #pragma shader_feature _TWOHALFCOLORSMODE_MULTIPLY _TWOHALFCOLORSMODE_REPLACE
-            ENDCG
-        }
-    }
-
-	Fallback "Diffuse"
-	CustomEditor "OmniShadeGUI"
-    // float4 color : COLOR;  This line is for Polybrush support
+    Fallback "Standard"
 }

@@ -11,7 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: b450d8945d0d68f4ebc6ca21258677cf, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - LUNA_GAMMA_CORRECTION
   m_InvalidKeywords:
   - AMBIENT
   - ANIME_SOFT
@@ -102,7 +103,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Brightness: 1.1
+    - _Brightness: 1
     - _BumpScale: 0.9
     - _Cull: 2
     - _Cutoff: 0.5
@@ -113,6 +114,8 @@ Material:
     - _FresnelMin: 0
     - _IndirectIntensity: 1
     - _IndirectIntensityOutline: 0
+    - _LunaContrast: 1.3
+    - _LunaGamma: 1
     - _MatCapMaskChannel: 0
     - _MatCapType: 0
     - _NormalsSource: 0
@@ -131,8 +134,8 @@ Material:
     - _RampBandsSmoothing: 1
     - _RampOffset: 0
     - _RampScale: 1.42
-    - _RampSmoothing: 0.9
-    - _RampThreshold: 0.28
+    - _RampSmoothing: 0.8
+    - _RampThreshold: 0.8
     - _RampType: 0
     - _ReceiveShadowsOff: 0
     - _ReflectionMapType: 0
@@ -145,8 +148,8 @@ Material:
     - _SingleIndirectColor: 0
     - _SpecularMapType: 0
     - _SpecularRoughness: 0.5
-    - _SpecularToonSize: 0.36
-    - _SpecularToonSmoothness: 0.36
+    - _SpecularToonSize: 0.05
+    - _SpecularToonSmoothness: 1
     - _SpecularType: 1
     - _SrcBlend: 1
     - _UseAlphaTest: 0
@@ -167,7 +170,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.95, g: 0.47297874, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FakeLightDir: {r: -0.5, g: 0.6, b: -0.5, a: 1.8}
+    - _FakeLightDir: {r: -0.5, g: 0.8, b: -0.5, a: 1.5}
     - _HColor: {r: 0.9490196, g: 0.90156865, b: 0.85411763, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}

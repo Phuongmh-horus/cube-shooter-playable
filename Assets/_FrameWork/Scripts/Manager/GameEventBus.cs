@@ -34,7 +34,7 @@ public static class GameEventBus
     public static Action<bool> BlockLauncherShoot;
     public static Action<bool> ActiveAutoRotationModel;
 
-    public static List<Action> ACLauncherShoot = new List<Action>();
+    public static List<LauncherNormalMono> ACLauncherShoot = new List<LauncherNormalMono>();
     public static List<Action> ACDespawnLauncherProjectile = new List<Action>();
     #endregion
 

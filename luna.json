@@ -191,8 +191,8 @@
             },
             {
                 "name": "particle-system",
-                "excluded": true,
-                "forceIncluded": false
+                "excluded": false,
+                "forceIncluded": true
             },
             {
                 "name": "reflection",
@@ -1445,10 +1445,6 @@
                 "excluded": true
             },
             {
-                "name": "Luna.Unity.DTO.UnityEngine.ParticleSystemTypes.Data.GradientColorKey",
-                "excluded": true
-            },
-            {
                 "name": "Luna.Unity.DTO.UnityEngine.ParticleSystemTypes.MinMaxGradient",
                 "excluded": true
             },
@@ -1697,10 +1693,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.PropertyHelper",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.PropertyName",
                 "excluded": true
             },
@@ -1842,10 +1834,6 @@
             },
             {
                 "name": "UnityEngine.TouchScreenKeyboard",
-                "excluded": true
-            },
-            {
-                "name": "UnityEngine.TrailModule",
                 "excluded": true
             },
             {
@@ -2189,10 +2177,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.ParticleSystem",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.ReflectionProbe",
                 "excluded": true
             },
@@ -2262,10 +2246,6 @@
             },
             {
                 "name": "UnityEngine.HingeJoint",
-                "excluded": true
-            },
-            {
-                "name": "UnityEngine.ParticleSystemRenderer",
                 "excluded": true
             },
             {
@@ -2814,7 +2794,7 @@
             },
             {
                 "name": "Luna.Unity.DTO.UnityEngine.ParticleSystemTypes.Data.GradientAlphaKey",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "Luna.Unity.DTO.UnityEngine.ParticleSystemTypes.Gradient",
@@ -4262,7 +4242,7 @@
             },
             {
                 "name": "UnityEngine.ParticleSystemAnimationMode",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemAnimationRowMode",
@@ -4274,7 +4254,7 @@
             },
             {
                 "name": "UnityEngine.ParticleSystemAnimationType",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemColliderQueryMode",
@@ -4314,7 +4294,7 @@
             },
             {
                 "name": "UnityEngine.ParticleSystemEmitterVelocityMode",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemForceFieldShape",
@@ -4330,7 +4310,7 @@
             },
             {
                 "name": "UnityEngine.ParticleSystemInheritVelocityMode",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemMeshDistribution",
@@ -4338,11 +4318,11 @@
             },
             {
                 "name": "UnityEngine.ParticleSystemMeshShapeType",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemNoiseQuality",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemOverlapAction",
@@ -4350,11 +4330,11 @@
             },
             {
                 "name": "UnityEngine.ParticleSystemRenderMode",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemRenderSpace",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemRingBufferMode",
@@ -4362,11 +4342,11 @@
             },
             {
                 "name": "UnityEngine.ParticleSystemScalingMode",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemShapeMultiModeValue",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemShapeTextureChannel",
@@ -4374,23 +4354,23 @@
             },
             {
                 "name": "UnityEngine.ParticleSystemShapeType",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemSimulationSpace",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemSortMode",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemStopAction",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemStopBehavior",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.ParticleSystemSubEmitterProperties",
@@ -5102,7 +5082,7 @@
             },
             {
                 "name": "UnityEngine.Space",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.SpriteAlignment",
@@ -7377,179 +7357,15 @@
                 "excluded": false
             },
             {
-                "name": "DG.Tweening.DOTweenCYInstruction.WaitForCompletion",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.DOTweenCYInstruction.WaitForElapsedLoops",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.DOTweenCYInstruction.WaitForKill",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.DOTweenCYInstruction.WaitForPosition",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.DOTweenCYInstruction.WaitForRewind",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.DOTweenCYInstruction.WaitForStart",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.DOTweenModuleAudio",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.DOTweenModulePhysics",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.DOTweenModulePhysics2D",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.DOTweenModuleSprite",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.DOTweenModuleUI",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.DOTweenModuleUI.Utils",
-                "excluded": true
-            },
-            {
-                "name": "DG.Tweening.DOTweenModuleUnityVersion",
-                "excluded": true
-            },
-            {
-                "name": "GPUOcclusionSystem",
-                "excluded": true
-            },
-            {
-                "name": "GPUOcclusionSystem.CubeData",
-                "excluded": true
-            },
-            {
-                "name": "IDPickingSystem",
-                "excluded": true
-            },
-            {
-                "name": "LevelInfor",
-                "excluded": true
-            },
-            {
-                "name": "RemoteConfigDataSO",
-                "excluded": true
-            },
-            {
-                "name": "TargetSelectionSystem",
-                "excluded": true
-            },
-            {
-                "name": "VFX_Cube_Break",
-                "excluded": true
-            },
-            {
-                "name": "AudioClipName",
-                "excluded": false
-            },
-            {
                 "name": "BaseLevelGenerator",
                 "excluded": false
-            },
-            {
-                "name": "CameraState",
-                "excluded": false
-            },
-            {
-                "name": "ColorAndBulletAmound",
-                "excluded": false
-            },
-            {
-                "name": "CubeShooterColor",
-                "excluded": false
-            },
-            {
-                "name": "DG.Tweening.DOTweenCYInstruction",
-                "excluded": true
-            },
-            {
-                "name": "GameConstants",
-                "excluded": true
-            },
-            {
-                "name": "IFrozenCube",
-                "excluded": true
-            },
-            {
-                "name": "LauncherMode",
-                "excluded": false
-            },
-            {
-                "name": "LayerNameGamePlay",
-                "excluded": false
-            },
-            {
-                "name": "LevelContainer",
-                "excluded": true
-            },
-            {
-                "name": "LevelInforOld",
-                "excluded": true
-            },
-            {
-                "name": "LevelReward",
-                "excluded": true
             },
             {
                 "name": "LevelType",
                 "excluded": true
             },
             {
-                "name": "LinePosition",
-                "excluded": false
-            },
-            {
-                "name": "ModelSide",
-                "excluded": false
-            },
-            {
-                "name": "PlayableAdsController.PlayableMode",
-                "excluded": false
-            },
-            {
-                "name": "PrefabsDataConfigSO",
-                "excluded": false
-            },
-            {
                 "name": "SoundMixerGroup",
-                "excluded": false
-            },
-            {
-                "name": "FrozenCubeData",
-                "excluded": false
-            },
-            {
-                "name": "LargeCubeData",
-                "excluded": false
-            },
-            {
-                "name": "LauncherKeyMono",
-                "excluded": false
-            },
-            {
-                "name": "LauncherLockMono",
-                "excluded": false
-            },
-            {
-                "name": "LauncherScissorsMono",
                 "excluded": false
             },
             {
@@ -8553,8 +8369,176 @@
                 "excluded": false
             },
             {
+                "name": "DG.Tweening.DOTweenCYInstruction.WaitForCompletion",
+                "excluded": true
+            },
+            {
+                "name": "DG.Tweening.DOTweenCYInstruction.WaitForElapsedLoops",
+                "excluded": true
+            },
+            {
+                "name": "DG.Tweening.DOTweenCYInstruction.WaitForKill",
+                "excluded": true
+            },
+            {
+                "name": "DG.Tweening.DOTweenCYInstruction.WaitForPosition",
+                "excluded": true
+            },
+            {
+                "name": "DG.Tweening.DOTweenCYInstruction.WaitForRewind",
+                "excluded": true
+            },
+            {
+                "name": "DG.Tweening.DOTweenCYInstruction.WaitForStart",
+                "excluded": true
+            },
+            {
+                "name": "DG.Tweening.DOTweenModuleAudio",
+                "excluded": true
+            },
+            {
+                "name": "DG.Tweening.DOTweenModulePhysics",
+                "excluded": true
+            },
+            {
+                "name": "DG.Tweening.DOTweenModulePhysics2D",
+                "excluded": true
+            },
+            {
+                "name": "DG.Tweening.DOTweenModuleSprite",
+                "excluded": true
+            },
+            {
+                "name": "DG.Tweening.DOTweenModuleUI",
+                "excluded": true
+            },
+            {
+                "name": "DG.Tweening.DOTweenModuleUI.Utils",
+                "excluded": true
+            },
+            {
+                "name": "DG.Tweening.DOTweenModuleUnityVersion",
+                "excluded": true
+            },
+            {
+                "name": "GogoGaga.OptimizedRopesAndCables.Rope",
+                "excluded": true
+            },
+            {
+                "name": "GogoGaga.OptimizedRopesAndCables.RopeMesh",
+                "excluded": true
+            },
+            {
+                "name": "GPUOcclusionSystem",
+                "excluded": true
+            },
+            {
+                "name": "GPUOcclusionSystem.CubeData",
+                "excluded": true
+            },
+            {
+                "name": "IDPickingSystem",
+                "excluded": true
+            },
+            {
+                "name": "LevelInfor",
+                "excluded": true
+            },
+            {
                 "name": "LunaVector2",
                 "excluded": true
+            },
+            {
+                "name": "RemoteConfigDataSO",
+                "excluded": true
+            },
+            {
+                "name": "TargetSelectionSystem",
+                "excluded": true
+            },
+            {
+                "name": "AudioClipName",
+                "excluded": false
+            },
+            {
+                "name": "CameraState",
+                "excluded": false
+            },
+            {
+                "name": "ColorAndBulletAmound",
+                "excluded": false
+            },
+            {
+                "name": "CubeShooterColor",
+                "excluded": false
+            },
+            {
+                "name": "DG.Tweening.DOTweenCYInstruction",
+                "excluded": true
+            },
+            {
+                "name": "GameConstants",
+                "excluded": true
+            },
+            {
+                "name": "IFrozenCube",
+                "excluded": true
+            },
+            {
+                "name": "LauncherMode",
+                "excluded": false
+            },
+            {
+                "name": "LayerNameGamePlay",
+                "excluded": false
+            },
+            {
+                "name": "LevelContainer",
+                "excluded": true
+            },
+            {
+                "name": "LevelInforOld",
+                "excluded": true
+            },
+            {
+                "name": "LevelReward",
+                "excluded": true
+            },
+            {
+                "name": "LinePosition",
+                "excluded": false
+            },
+            {
+                "name": "ModelSide",
+                "excluded": false
+            },
+            {
+                "name": "PlayableAdsController.PlayableMode",
+                "excluded": false
+            },
+            {
+                "name": "PrefabsDataConfigSO",
+                "excluded": false
+            },
+            {
+                "name": "FrozenCubeData",
+                "excluded": false
+            },
+            {
+                "name": "LargeCubeData",
+                "excluded": false
+            },
+            {
+                "name": "LauncherKeyMono",
+                "excluded": false
+            },
+            {
+                "name": "LauncherLockMono",
+                "excluded": false
+            },
+            {
+                "name": "LauncherScissorsMono",
+                "excluded": false
             }
         ],
         "unusedMethods": [
@@ -8984,7 +8968,7 @@
                     },
                     {
                         "name": "toString",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "parse",
@@ -12464,7 +12448,7 @@
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Dispose",
@@ -12492,7 +12476,7 @@
                     },
                     {
                         "name": "$clone",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -15352,7 +15336,7 @@
                     },
                     {
                         "name": "PingPong",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SmoothDamp",
@@ -17980,7 +17964,7 @@
                     },
                     {
                         "name": "Rotate",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Rotate$1",
@@ -17988,7 +17972,7 @@
                     },
                     {
                         "name": "Rotate$2",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "RotateAround",
@@ -18516,7 +18500,7 @@
                     },
                     {
                         "name": "projectionMatrix#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "projectionMatrix#set",
@@ -18572,7 +18556,7 @@
                     },
                     {
                         "name": "worldToCameraMatrix#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "worldToCameraMatrix#set",
@@ -19012,19 +18996,19 @@
                     },
                     {
                         "name": "anchorMax#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "anchorMax#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "anchorMin#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "anchorMin#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "offsetMin#get",
@@ -19032,7 +19016,7 @@
                     },
                     {
                         "name": "offsetMin#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "offsetMax#get",
@@ -19040,7 +19024,7 @@
                     },
                     {
                         "name": "offsetMax#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "pivot#get",
@@ -19048,23 +19032,23 @@
                     },
                     {
                         "name": "pivot#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "anchoredPosition#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "anchoredPosition#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "sizeDelta#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "sizeDelta#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "rect#get",
@@ -20132,7 +20116,7 @@
                     },
                     {
                         "name": "raycastTarget#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "color#get",
@@ -23777,355 +23761,19 @@
                 ]
             },
             {
-                "className": "MonoSingleton$1",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "Instance#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "CameraManager",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "inherits",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Start",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDestroy",
-                        "excluded": true
-                    },
-                    {
-                        "name": "SetCameraState",
-                        "excluded": false
-                    },
-                    {
-                        "name": "TransitionCameraTo",
-                        "excluded": true
-                    },
-                    {
-                        "name": "EnableHightLineCamera",
-                        "excluded": true
-                    },
-                    {
-                        "name": "MoveCameraToBoosterView",
-                        "excluded": true
-                    },
-                    {
-                        "name": "MoveCameraToDefaultView",
-                        "excluded": true
-                    },
-                    {
-                        "name": "LerpCameraPosition",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "ConfigHolder",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "inherits",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "GameManager",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "inherits",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Start",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
                 "className": "GamePlayManager",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
-                        "name": "inherits",
-                        "excluded": false
-                    },
-                    {
                         "name": "Awake",
                         "excluded": true
                     },
                     {
-                        "name": "OnDestroy",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "GameStateManager",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
                         "name": "inherits",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "LevelSystem",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "inherits",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetCurrentLevelProgress",
-                        "excluded": true
-                    },
-                    {
-                        "name": "GetCurrentLevelDisplay",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopTrackingTime",
-                        "excluded": true
-                    },
-                    {
-                        "name": "SlotLauncherQueueController#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "LauncherController#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Model3DController#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
                         "excluded": false
                     },
                     {
                         "name": "OnDestroy",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnActiveInputGameplayAC",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnInitTracingStartGame",
-                        "excluded": true
-                    },
-                    {
-                        "name": "LoadLevelFromPLA",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ClearLevel",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ShowOnlyModel3D",
-                        "excluded": true
-                    },
-                    {
-                        "name": "ShowOnlyModel3D$1",
-                        "excluded": false
-                    },
-                    {
-                        "name": "HandleWin",
-                        "excluded": true
-                    },
-                    {
-                        "name": "HandleShowUIWinRoutine",
-                        "excluded": true
-                    },
-                    {
-                        "name": "HandleLose",
-                        "excluded": true
-                    },
-                    {
-                        "name": "ReturnMainMenuInPause",
-                        "excluded": true
-                    },
-                    {
-                        "name": "ReplayInPause",
-                        "excluded": true
-                    },
-                    {
-                        "name": "HandlePreLose",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CheckWinGame",
-                        "excluded": true
-                    },
-                    {
-                        "name": "CheckPreloseGameAndWarning",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetPieceLauncherProjectilePool",
-                        "excluded": true
-                    },
-                    {
-                        "name": "ChangeSpeedGame",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StartTrackingTime",
-                        "excluded": true
-                    },
-                    {
-                        "name": "UpdateTimeTrackingRoutine",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "PoolHolder",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "inherits",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetKey",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Start",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Release",
-                        "excluded": false
-                    },
-                    {
-                        "name": "PreWarm",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetMaxSize",
-                        "excluded": true
-                    },
-                    {
-                        "name": "DeSpawnByKey",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnDestroy",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "SoundManager",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "inherits",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnValidate",
-                        "excluded": true
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Start",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Update",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopBackGroundMusic",
-                        "excluded": true
-                    },
-                    {
-                        "name": "PlayBackGroundMusic",
-                        "excluded": true
-                    },
-                    {
-                        "name": "RandomBGM",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnSoundChange",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnSoundFxChange",
-                        "excluded": false
-                    },
-                    {
-                        "name": "PlayOneShot$1",
-                        "excluded": true
-                    },
-                    {
-                        "name": "PlayOneShot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopOneShot",
-                        "excluded": true
-                    },
-                    {
-                        "name": "StopInGameMusic",
-                        "excluded": true
-                    },
-                    {
-                        "name": "PlayInGameMusic",
                         "excluded": true
                     }
                 ]
@@ -24147,15 +23795,15 @@
                         "excluded": true
                     },
                     {
-                        "name": "OnEnable",
-                        "excluded": false
-                    },
-                    {
                         "name": "Lock",
                         "excluded": true
                     },
                     {
                         "name": "Unlock",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnEnable",
                         "excluded": false
                     }
                 ]
@@ -27678,7 +27326,7 @@
                     },
                     {
                         "name": "OnDisable",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnDestroy",
@@ -27708,7 +27356,7 @@
                     },
                     {
                         "name": "alpha#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "interactable#get",
@@ -27716,7 +27364,7 @@
                     },
                     {
                         "name": "interactable#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "blocksRaycasts#get",
@@ -27724,7 +27372,7 @@
                     },
                     {
                         "name": "blocksRaycasts#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ignoreParentGroups#get",
@@ -27782,7 +27430,7 @@
                     },
                     {
                         "name": "RemoveRaycasters",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -28140,7 +27788,7 @@
                     },
                     {
                         "name": "OnDisable",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnCanvasHierarchyChanged",
@@ -29358,7 +29006,7 @@
                     },
                     {
                         "name": "ResizeMeshInfo",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ResizeMeshInfo$1",
@@ -32539,1749 +32187,11 @@
                 ]
             },
             {
-                "className": "CameraConfig",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetConfigData",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "CameraConfigData",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "Coffee.UIExtensions.ShinyEffectForUGUI",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "_PackToFloat$1",
-                        "excluded": false
-                    },
-                    {
-                        "name": "_PackToFloat",
-                        "excluded": false
-                    },
-                    {
-                        "name": "graphic$1#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "location#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "location#set",
-                        "excluded": false
-                    },
-                    {
-                        "name": "width#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "width#set",
-                        "excluded": true
-                    },
-                    {
-                        "name": "softness#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "softness#set",
-                        "excluded": true
-                    },
-                    {
-                        "name": "alpha#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "alpha#set",
-                        "excluded": true
-                    },
-                    {
-                        "name": "brightness#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "brightness#set",
-                        "excluded": true
-                    },
-                    {
-                        "name": "highlight#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "highlight#set",
-                        "excluded": true
-                    },
-                    {
-                        "name": "rotation#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "rotation#set",
-                        "excluded": true
-                    },
-                    {
-                        "name": "effectMaterial#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnEnable",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDisable",
-                        "excluded": false
-                    },
-                    {
-                        "name": "LateUpdate",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ModifyMesh$1",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Play",
-                        "excluded": true
-                    },
-                    {
-                        "name": "Play$1",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Play$2",
-                        "excluded": true
-                    },
-                    {
-                        "name": "_SetDirty",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CoPlay",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "Coffee.UIExtensions.ShinyEffectForUGUI.Matrix2x3",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "op_Multiply",
-                        "excluded": false
-                    },
-                    {
-                        "name": "getDefaultValue",
-                        "excluded": true
-                    },
-                    {
-                        "name": "$ctor1",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ctor",
-                        "excluded": false
-                    },
-                    {
-                        "name": "getHashCode",
-                        "excluded": true
-                    },
-                    {
-                        "name": "equals",
-                        "excluded": true
-                    },
-                    {
-                        "name": "$clone",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "ColorPallete",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnEnable",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetColorBase",
-                        "excluded": false
-                    },
-                    {
-                        "name": "colorDictionary#get",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "DG.Tweening.DOTweenModuleUtils",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "Init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Preserver",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "DG.Tweening.DOTweenModuleUtils.Physics",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "SetOrientationOnPath",
-                        "excluded": true
-                    },
-                    {
-                        "name": "HasRigidbody2D",
-                        "excluded": true
-                    },
-                    {
-                        "name": "HasRigidbody",
-                        "excluded": true
-                    },
-                    {
-                        "name": "CreateDOTweenPathTween",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "EndcardFlareEffect",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnEnable",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ScaleUpRoutine",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Update",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "EndGameConfigSO",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "ObjectBaseData",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "GameEventBus",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "HoleMono",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "OnInit",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetModelSide",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDespawn",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "Interactable",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnPointerDown",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnPointerUp",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDrag",
-                        "excluded": false
-                    },
-                    {
-                        "name": "IsPointerInsideDragZone",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnMouseTap",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "Interactable_HightLine",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnPointerDown",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnPointerUp",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnMouseTap",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "LauncherBaseMono",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "DissolveBlock#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "TF#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ColumnIndex#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CanSelect#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "ColorAndBullet#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "IsTextRenderer",
-                        "excluded": true
-                    },
-                    {
-                        "name": "ResetDissolveState",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetRenderersActive",
-                        "excluded": true
-                    },
-                    {
-                        "name": "SetRenderersActiveAsync",
-                        "excluded": true
-                    },
-                    {
-                        "name": "ApplyDissolvePropertyBlock",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetCountColorAndBullet",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetID",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetPieceLauncherMode",
-                        "excluded": true
-                    },
-                    {
-                        "name": "GetColorCodeIndex0",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetFrozened",
-                        "excluded": true
-                    },
-                    {
-                        "name": "GetHidden",
-                        "excluded": true
-                    },
-                    {
-                        "name": "GetConnectedReferencesIDs",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetParentColumn",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RemoveLauncherAtVertical",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RemoveLauncherDirectWithoutArrange",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnInit",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnDespawn",
-                        "excluded": false
-                    },
-                    {
-                        "name": "PlayAnimPeaIdle",
-                        "excluded": false
-                    },
-                    {
-                        "name": "PlayAnimPeaBunny",
-                        "excluded": false
-                    },
-                    {
-                        "name": "PlayAnimPeaJump",
-                        "excluded": false
-                    },
-                    {
-                        "name": "PlayAnimShooterIdle",
-                        "excluded": true
-                    },
-                    {
-                        "name": "PlayAnimShooterAppear",
-                        "excluded": true
-                    },
-                    {
-                        "name": "PlayAnimShooterShoot",
-                        "excluded": true
-                    },
-                    {
-                        "name": "SetupAnim",
-                        "excluded": false
-                    },
-                    {
-                        "name": "PlayShooterAnim$1",
-                        "excluded": true
-                    },
-                    {
-                        "name": "PlayShooterAnim",
-                        "excluded": true
-                    },
-                    {
-                        "name": "PlayPeaAnim$1",
-                        "excluded": true
-                    },
-                    {
-                        "name": "PlayPeaAnim",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RotateToObjectBaseMono",
-                        "excluded": false
-                    },
-                    {
-                        "name": "IsAtTopColumn",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ChangeLayerRenderer",
-                        "excluded": false
-                    },
-                    {
-                        "name": "PlayMoveToPosition",
-                        "excluded": true
-                    },
-                    {
-                        "name": "MoveToPosition",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnBecomeTop",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnInitFrozen",
-                        "excluded": false
-                    },
-                    {
-                        "name": "UpdateStateFrozen",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnDestroyFrozen",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "LauncherConfigSO",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "LauncherData",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ctor",
-                        "excluded": false
-                    },
-                    {
-                        "name": "$ctor1",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "LauncherProjectile",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetSpeed",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnInit",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnDespawn",
-                        "excluded": true
-                    },
-                    {
-                        "name": "MoveToTarget",
-                        "excluded": true
-                    },
-                    {
-                        "name": "HitTarget",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "LineConnectorMono",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "Rope#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RopeMesh#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnInit$1",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnInit",
-                        "excluded": true
-                    },
-                    {
-                        "name": "UpdateColor",
-                        "excluded": true
-                    },
-                    {
-                        "name": "SetStartColor",
-                        "excluded": true
-                    },
-                    {
-                        "name": "SetEndColor",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnDespawn",
-                        "excluded": true
-                    },
-                    {
-                        "name": "SetRenderersActive",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "ListVerticalLauncherData",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ctor",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "MathTargetPickingSystem",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "IsInsideFrustum",
-                        "excluded": true
-                    },
-                    {
-                        "name": "IntersectRayOBB",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Initialize",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Release",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetTarget",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "Model3DController.InstancedBatchGroup",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "AddPiece",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RemovePiece",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "ModelData",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ctor",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "ObjectBaseMono",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "TF#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "IsBulletIncoming#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetPosition",
-                        "excluded": true
-                    },
-                    {
-                        "name": "GetRotation",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnBulletInComming",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnInit",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDespawn",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "PieceConfig",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "PieceConfigSO",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "PlayableAdsController",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Start",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDestroy",
-                        "excluded": true
-                    },
-                    {
-                        "name": "LoadCustomLevelAsync",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ConfigurePlayableSlotBehavior",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnLauncherClicked",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CheckNMinus1AfterClick",
-                        "excluded": true
-                    },
-                    {
-                        "name": "IsOneStepLeft",
-                        "excluded": true
-                    },
-                    {
-                        "name": "TriggerRedirectAfterDelay",
-                        "excluded": true
-                    },
-                    {
-                        "name": "SendEndGameIfNeeded",
-                        "excluded": true
-                    },
-                    {
-                        "name": "ShowEndcardAndDimScreen",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "PlayableAdsUIController",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Update",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ShowEndcard",
-                        "excluded": true
-                    },
-                    {
-                        "name": "RedirectToStore",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "RotationModel3D",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "DelayBeforeAutoResume#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDestroy",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnBlockGamePlayInput",
-                        "excluded": true
-                    },
-                    {
-                        "name": "StartRotation",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopRotation",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ResetRotation",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetEndGameSpeed",
-                        "excluded": true
-                    },
-                    {
-                        "name": "SetDefaultSpeed",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetFindColorSpeed",
-                        "excluded": false
-                    },
-                    {
-                        "name": "UpdateLoopRoutine",
-                        "excluded": false
-                    },
-                    {
-                        "name": "AutoRotate",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ChangeAutoSpeedRoutine",
-                        "excluded": true
-                    },
-                    {
-                        "name": "DelayAutoResumeRoutine",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnGameMouseDown",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnGameDrag",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ActiveAutoRotationModel",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "RotationModel3DConfigSO",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "RoundDataAsset",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetLevelData",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "RoundDataBytes",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "ctor",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "SlotAppearanceConfigSO",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "SlotLauncherConfigSO",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "SlotLauncherMono",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "CurrentLauncher#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "IsEmpty#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Index#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnInit",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetModelSide",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDespawn",
-                        "excluded": true
-                    },
-                    {
-                        "name": "AssignLauncher",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ClearSlot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetSlotPosition",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetResigneLauncher",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StartBlinking",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StartBlinking$1",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopBlinking",
-                        "excluded": false
-                    },
-                    {
-                        "name": "BlinkMaterialAsync",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetRenderersActive",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
                 "className": "SoundData",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
                         "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "SoundDataSO",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetSoundData",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetSoundDataByName",
-                        "excluded": true
-                    },
-                    {
-                        "name": "RebuildCache",
-                        "excluded": true
-                    },
-                    {
-                        "name": "BuildCache",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnValidate",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "VerticalLauncherData",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ctor",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "VerticalLauncherMono",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "LauncherBaseMonos#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "LauncherBaseMonos#set",
-                        "excluded": true
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RemoveLauncher",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RemoveLauncherDirect",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnInit",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDespawn",
-                        "excluded": true
-                    },
-                    {
-                        "name": "ArrangeVerticalTopCenter",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RabbitJumpToPosition",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ArrangeVerticalTopCenterAnimAsync",
-                        "excluded": true
-                    },
-                    {
-                        "name": "IsAtTop",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetRenderersActive",
-                        "excluded": true
-                    },
-                    {
-                        "name": "WaitAll",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "WallControl",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "RevertPosition",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "GiftBoxData",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "ctor",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "LauncherController",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDestroy",
-                        "excluded": true
-                    },
-                    {
-                        "name": "GetCountUnusedLauncher",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetVerticalLaunchers",
-                        "excluded": false
-                    },
-                    {
-                        "name": "VerticalPieceLauncherArrangeHorizontal",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetupLauncherConnectGroups",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetupLineConnectors",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnInitPoolAsync",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnLoadLevel",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnClear",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetRenderersActive",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "LauncherNormalMono",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "LaunchersConnect#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "DoneShoot#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "GetSlotLauncherMono#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "LateUpdate",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetLaunchersConnect",
-                        "excluded": false
-                    },
-                    {
-                        "name": "AddLineConnector",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnInit",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDespawn",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetupVisualNormal",
-                        "excluded": false
-                    },
-                    {
-                        "name": "UpdateTMPBullet",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetCanShoot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ShootPiece",
-                        "excluded": false
-                    },
-                    {
-                        "name": "IsAllConnectDoneShoot",
-                        "excluded": true
-                    },
-                    {
-                        "name": "DespawnAllConnect",
-                        "excluded": true
-                    },
-                    {
-                        "name": "AddACShootPiece",
-                        "excluded": false
-                    },
-                    {
-                        "name": "AddBulletAmount",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ChangeLayerRenderer",
-                        "excluded": false
-                    },
-                    {
-                        "name": "MoveToPosition",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetupSlotLauncher",
-                        "excluded": false
-                    },
-                    {
-                        "name": "PlayJumpIntoHoleAndThenToSlot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "JumpIntoHoleAndThenToSlot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnInitFrozen",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDestroyFrozen",
-                        "excluded": true
-                    },
-                    {
-                        "name": "InitializeHiddenState",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnRevealHidden",
-                        "excluded": true
-                    },
-                    {
-                        "name": "UpdateLineHiddenColor",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnBecomeTop",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "Model3DController",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "ObjectBase#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetLocalTransformRelativeToParent",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetProgressInThisLevel",
-                        "excluded": true
-                    },
-                    {
-                        "name": "GetObjectToShoot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StartUpdateLoop",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopUpdateLoop",
-                        "excluded": false
-                    },
-                    {
-                        "name": "UpdateLoopAsync",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnRevice",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ResetShootState",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SyncPieceStateToJob",
-                        "excluded": true
-                    },
-                    {
-                        "name": "RemovePiece",
-                        "excluded": true
-                    },
-                    {
-                        "name": "IsClearAllObjectInModel",
-                        "excluded": true
-                    },
-                    {
-                        "name": "RotationEndGame",
-                        "excluded": true
-                    },
-                    {
-                        "name": "RotationDeffault",
-                        "excluded": false
-                    },
-                    {
-                        "name": "IsVisiblePiecesByColor",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnInitPoolAsync",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnLoadLevel",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnClear",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDestroy",
-                        "excluded": true
-                    },
-                    {
-                        "name": "LateUpdate",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "ObjFrozenMono",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "GetColor",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnInit",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnFrozen",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "ObjGiftBoxMono",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "GetColor",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnInit",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "ObjLargeCubeMono",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "GetColor",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnInit",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "ObjPieceMono",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "MeshTransform#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetColor",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnInit",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDespawn",
-                        "excluded": true
-                    },
-                    {
-                        "name": "RandomColor",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "PieceData",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "ctor",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "SlotLauncherQueueController",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "LauncherSlotThisLevel#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RegisterTransitioningLauncher",
-                        "excluded": false
-                    },
-                    {
-                        "name": "UnregisterTransitioningLauncher",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Awake",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDestroy",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnLoadLevelDone",
-                        "excluded": false
-                    },
-                    {
-                        "name": "LauncherSlotArrangeHorizontal",
-                        "excluded": false
-                    },
-                    {
-                        "name": "IsFullQueue",
-                        "excluded": true
-                    },
-                    {
-                        "name": "GetCountSlotEmpty",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetSlotAndSort",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnLauncherClickedMethos",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CanUseBoosterBonusSlot",
-                        "excluded": true
-                    },
-                    {
-                        "name": "ShuffleShooterForBoosterAsync",
-                        "excluded": true
-                    },
-                    {
-                        "name": "GetLaunchersToRemoveForPrelose",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnRevecePrelose",
-                        "excluded": true
-                    },
-                    {
-                        "name": "IsMatch3UnlockedAtCurrentLevel",
-                        "excluded": false
-                    },
-                    {
-                        "name": "IsAutoFillUnlockedAtCurrentLevel",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetAutoFillSlotsEnabled",
-                        "excluded": false
-                    },
-                    {
-                        "name": "MatchLauncherNormal",
-                        "excluded": false
-                    },
-                    {
-                        "name": "_isMatchingMatch3CleanUp",
-                        "excluded": false
-                    },
-                    {
-                        "name": "MatchLauncherNormalLogic",
-                        "excluded": false
-                    },
-                    {
-                        "name": "AssignLauncher",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CanMoveAnyTopLauncherToSlot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "TryAutoFillEmptySlots",
-                        "excluded": false
-                    },
-                    {
-                        "name": "HasLauncherTransitioning",
-                        "excluded": false
-                    },
-                    {
-                        "name": "TriggerAutoFillWithDebounce",
-                        "excluded": false
-                    },
-                    {
-                        "name": "TriggerAutoFillDelayed",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ClearLauncherSlot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "BlockLauncherShootAC",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StartUpdateLoop",
-                        "excluded": false
-                    },
-                    {
-                        "name": "UpdateLoop",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopUpdateLoop",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnInitPoolAsync",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnLoadLevel",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnClear",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SpawnHoles",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ClearSpawnedHoles",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ResigneLauncherSlot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "AddLauncherToSlotForTutorial",
-                        "excluded": true
-                    },
-                    {
-                        "name": "ChangeFireRateLauncher",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StartBlinkingAllSlot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopBlinkingAllSlot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetRenderersActive",
-                        "excluded": false
-                    },
-                    {
-                        "name": "PlayJumpAppearanceAnim",
-                        "excluded": false
-                    },
-                    {
-                        "name": "JumpSlot",
-                        "excluded": true
-                    },
-                    {
-                        "name": "WaitAll",
                         "excluded": false
                     }
                 ]
@@ -35227,16 +33137,6 @@
                 ]
             },
             {
-                "className": "AnimHash",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
                 "className": "System.Collections.Generic.KeyNotFoundException",
                 "staticMethods": [],
                 "instanceMethods": [
@@ -35386,7 +33286,7 @@
                     },
                     {
                         "name": "gravity#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "gravity#set",
@@ -35644,11 +33544,11 @@
                 "instanceMethods": [
                     {
                         "name": "getDefaultValue",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "normal#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "normal#set",
@@ -35664,7 +33564,7 @@
                     },
                     {
                         "name": "$ctor1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor3",
@@ -35708,7 +33608,7 @@
                     },
                     {
                         "name": "$clone",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -36051,66 +33951,6 @@
                     {
                         "name": "InitState",
                         "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "Model3DController.LocalTransform",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "getDefaultValue",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ctor",
-                        "excluded": false
-                    },
-                    {
-                        "name": "getHashCode",
-                        "excluded": true
-                    },
-                    {
-                        "name": "equals",
-                        "excluded": true
-                    },
-                    {
-                        "name": "$clone",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "PieceTargetData",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "getDefaultValue",
-                        "excluded": true
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ctor",
-                        "excluded": false
-                    },
-                    {
-                        "name": "getHashCode",
-                        "excluded": true
-                    },
-                    {
-                        "name": "equals",
-                        "excluded": true
-                    },
-                    {
-                        "name": "$clone",
-                        "excluded": false
                     }
                 ]
             },
@@ -37189,119 +35029,733 @@
                 ]
             },
             {
-                "className": "GogoGaga.OptimizedRopesAndCables.Rope",
+                "className": "Luna.Unity.DTO.UnityEngine.ParticleSystemTypes.Data.GradientColorKey",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
                         "name": "init",
                         "excluded": false
-                    },
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.ParticleSystemRenderer",
+                "staticMethods": [],
+                "instanceMethods": [
                     {
-                        "name": "StartPoint#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "MidPoint#get",
+                        "name": "mesh#get",
                         "excluded": true
                     },
                     {
-                        "name": "EndPoint#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CurrentValue#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "IsPrefab#get",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnInit",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnValidate",
+                        "name": "mesh#set",
                         "excluded": true
                     },
                     {
-                        "name": "InitializeLineRenderer",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Update",
-                        "excluded": false
-                    },
-                    {
-                        "name": "AreEndPointsValid",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetSplinePoint",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CalculateYFactorAdjustment",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetMidPoint",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetRationalBezierPoint",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetPointAt",
-                        "excluded": false
-                    },
-                    {
-                        "name": "FixedUpdate",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SimulatePhysics",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDrawGizmos",
+                        "name": "meshCount#get",
                         "excluded": true
                     },
                     {
-                        "name": "SetStartPoint",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SetMidPoint",
+                        "name": "meshCount#set",
                         "excluded": true
                     },
                     {
-                        "name": "SetEndPoint",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RecalculateRope",
-                        "excluded": false
-                    },
-                    {
-                        "name": "NotifyPointsChanged",
-                        "excluded": false
-                    },
-                    {
-                        "name": "IsPointsMoved",
+                        "name": "activeVertexStreamsCount#get",
                         "excluded": true
                     },
                     {
-                        "name": "IsRopeSettingsChanged",
+                        "name": "activeVertexStreamsCount#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "alignment#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "alignment#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "renderMode#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "renderMode#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "sortMode#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "sortMode#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "lengthScale#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "lengthScale#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "velocityScale#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "velocityScale#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "cameraVelocityScale#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "cameraVelocityScale#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "normalDirection#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "normalDirection#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "sortingFudge#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "sortingFudge#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "minParticleSize#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "minParticleSize#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "maxParticleSize#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "maxParticleSize#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "pivot#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "pivot#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "trailMaterial#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "trailMaterial#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "applyActiveColorSpace#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "applyActiveColorSpace#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BakeTrailsMesh",
+                        "excluded": true
+                    },
+                    {
+                        "name": "BakeMesh",
                         "excluded": true
                     }
                 ]
             },
             {
-                "className": "GogoGaga.OptimizedRopesAndCables.RopeMesh",
+                "className": "UnityEngine.TrailModule",
                 "staticMethods": [],
                 "instanceMethods": [
+                    {
+                        "name": "enabled#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "enabled#set",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.ParticleSystem",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "main#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "emission#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "colorBySpeed#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "colorOverLifetime#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "rotationBySpeed#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "rotationOverLifetime#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "shape#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "sizeBySpeed#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "sizeOverLifetime#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "textureSheetAnimation#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "velocityOverLifetime#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "noise#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "inheritVelocity#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "forceOverLifetime#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "limitVelocityOverLifetime#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "enableEmission#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "enableEmission#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "maxParticles#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "maxParticles#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "isPlaying#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "isPaused#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "isStopped#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "time#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "isEmitting#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "particleCount#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "duration#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "duration#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "loop#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "loop#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "startDelay#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "startDelay#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "prewarm#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "prewarm#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "simulationSpace#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "simulationSpace#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "simulationSpeed#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "simulationSpeed#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "useRigidbodyForVelocity#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "useRigidbodyForVelocity#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "useUnscaledTime#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "useUnscaledTime#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "scalingMode#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "scalingMode#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "moveWithCustomTransform#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "moveWithCustomTransform#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "startSize3D#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "startSize3D#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "playOnAwake#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "playOnAwake#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetParticles",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetParticles",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetCustomParticleData",
+                        "excluded": true
+                    },
+                    {
+                        "name": "IsAlive",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Play",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Play$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Pause",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Pause$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Stop",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Stop$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Stop$2",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Emit",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Clear",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Simulate",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.PropertyHelper",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "SetColor",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetStruct",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetClass",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "MonoSingleton$1",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Instance#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "CameraManager",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "inherits",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDestroy",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetCameraState",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TransitionCameraTo",
+                        "excluded": true
+                    },
+                    {
+                        "name": "EnableHightLineCamera",
+                        "excluded": true
+                    },
+                    {
+                        "name": "MoveCameraToBoosterView",
+                        "excluded": true
+                    },
+                    {
+                        "name": "MoveCameraToDefaultView",
+                        "excluded": true
+                    },
+                    {
+                        "name": "LerpCameraPosition",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "ConfigHolder",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "inherits",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "GameManager",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "inherits",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "GameStateManager",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "inherits",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "LevelSystem",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "inherits",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetCurrentLevelProgress",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetCurrentLevelDisplay",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopTrackingTime",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SlotLauncherQueueController#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "LauncherController#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Model3DController#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDestroy",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnActiveInputGameplayAC",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnInitTracingStartGame",
+                        "excluded": true
+                    },
+                    {
+                        "name": "LoadLevelFromPLA",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ClearLevel",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ShowOnlyModel3D",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ShowOnlyModel3D$1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HandleWin",
+                        "excluded": true
+                    },
+                    {
+                        "name": "HandleShowUIWinRoutine",
+                        "excluded": true
+                    },
+                    {
+                        "name": "HandleLose",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ReturnMainMenuInPause",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ReplayInPause",
+                        "excluded": true
+                    },
+                    {
+                        "name": "HandlePreLose",
+                        "excluded": true
+                    },
+                    {
+                        "name": "CheckWinGame",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CheckPreloseGameAndWarning",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetPieceLauncherProjectilePool",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ChangeSpeedGame",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartTrackingTime",
+                        "excluded": true
+                    },
+                    {
+                        "name": "UpdateTimeTrackingRoutine",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "PoolHolder",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "inherits",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetKey",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Release",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PreWarm",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetMaxSize",
+                        "excluded": true
+                    },
+                    {
+                        "name": "DeSpawnByKey",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnDestroy",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "SoundManager",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "inherits",
+                        "excluded": false
+                    },
                     {
                         "name": "init",
                         "excluded": false
@@ -37315,39 +35769,7 @@
                         "excluded": false
                     },
                     {
-                        "name": "OnEnable",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDisable",
-                        "excluded": true
-                    },
-                    {
-                        "name": "InitializeComponents",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CheckEndPoints",
-                        "excluded": false
-                    },
-                    {
-                        "name": "SubscribeToRopeEvents",
-                        "excluded": false
-                    },
-                    {
-                        "name": "UnsubscribeFromRopeEvents",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CreateRopeMesh",
-                        "excluded": false
-                    },
-                    {
-                        "name": "NeedUpdateMesh",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GenerateMesh",
+                        "name": "Start",
                         "excluded": false
                     },
                     {
@@ -37355,32 +35777,714 @@
                         "excluded": false
                     },
                     {
-                        "name": "DelayedGenerateMesh",
+                        "name": "StopBackGroundMusic",
                         "excluded": true
                     },
                     {
-                        "name": "OnDestroy",
+                        "name": "PlayBackGroundMusic",
                         "excluded": true
                     },
                     {
-                        "name": "SetColor",
+                        "name": "RandomBGM",
                         "excluded": true
                     },
                     {
-                        "name": "SetColor$1",
+                        "name": "OnSoundChange",
                         "excluded": false
                     },
                     {
-                        "name": "ReOffsetTextureTwoHalf",
+                        "name": "OnSoundFxChange",
                         "excluded": false
                     },
                     {
-                        "name": "SetColorGreen",
+                        "name": "PlayOneShot$1",
                         "excluded": true
                     },
                     {
-                        "name": "SetColorRed",
+                        "name": "PlayOneShot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopOneShot",
                         "excluded": true
+                    },
+                    {
+                        "name": "StopInGameMusic",
+                        "excluded": true
+                    },
+                    {
+                        "name": "PlayInGameMusic",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "AnimHash",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "CameraConfig",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetConfigData",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "CameraConfigData",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "Coffee.UIExtensions.ShinyEffectForUGUI",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "_PackToFloat$1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "_PackToFloat",
+                        "excluded": false
+                    },
+                    {
+                        "name": "graphic$1#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "location#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "location#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "width#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "width#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "softness#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "softness#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "alpha#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "alpha#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "brightness#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "brightness#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "highlight#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "highlight#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "rotation#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "rotation#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "effectMaterial#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "LateUpdate",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ModifyMesh$1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Play",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Play$1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Play$2",
+                        "excluded": true
+                    },
+                    {
+                        "name": "_SetDirty",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CoPlay",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "Coffee.UIExtensions.ShinyEffectForUGUI.Matrix2x3",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "op_Multiply",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$ctor1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "ColorPallete",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "colorDictionary#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetColorBase",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "DG.Tweening.DOTweenModuleUtils",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Preserver",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "DG.Tweening.DOTweenModuleUtils.Physics",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "SetOrientationOnPath",
+                        "excluded": true
+                    },
+                    {
+                        "name": "HasRigidbody2D",
+                        "excluded": true
+                    },
+                    {
+                        "name": "HasRigidbody",
+                        "excluded": true
+                    },
+                    {
+                        "name": "CreateDOTweenPathTween",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "EndcardFlareEffect",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ScaleUpRoutine",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "EndGameConfigSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "ObjectBaseData",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "GameEventBus",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "HoleMono",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "OnInit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetModelSide",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDespawn",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "Interactable",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnPointerDown",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnPointerUp",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDrag",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsPointerInsideDragZone",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnMouseTap",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "Interactable_HightLine",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnPointerDown",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnPointerUp",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnMouseTap",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "LauncherBaseMono",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DissolveBlock#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TF#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ColumnIndex#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CanSelect#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ColorAndBullet#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsTextRenderer",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ResetDissolveState",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetRenderersActive",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetRenderersActiveAsync",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ApplyDissolvePropertyBlock",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetCountColorAndBullet",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetID",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetPieceLauncherMode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetColorCodeIndex0",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetFrozened",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetHidden",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetConnectedReferencesIDs",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetParentColumn",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RemoveLauncherAtVertical",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RemoveLauncherDirectWithoutArrange",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnDespawn",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayAnimPeaIdle",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayAnimPeaBunny",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayAnimPeaJump",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayAnimShooterIdle",
+                        "excluded": true
+                    },
+                    {
+                        "name": "PlayAnimShooterAppear",
+                        "excluded": true
+                    },
+                    {
+                        "name": "PlayAnimShooterShoot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetupAnim",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayShooterAnim$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "PlayShooterAnim",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayPeaAnim$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "PlayPeaAnim",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RotateToObjectBaseMono",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsAtTopColumn",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ChangeLayerRenderer",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayMoveToPosition",
+                        "excluded": true
+                    },
+                    {
+                        "name": "MoveToPosition",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnBecomeTop",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnInitFrozen",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateStateFrozen",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnDestroyFrozen",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "LauncherConfigSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "LauncherData",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "$ctor1",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "LauncherProjectile",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetSpeed",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDespawn",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MoveToTarget",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HitTarget",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "LineConnectorMono",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Rope#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "RopeMesh#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnInit$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": true
+                    },
+                    {
+                        "name": "UpdateColor",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetStartColor",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetEndColor",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnDespawn",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetRenderersActive",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "ListVerticalLauncherData",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
                     }
                 ]
             },
@@ -37418,6 +36522,1178 @@
                     },
                     {
                         "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "MathTargetPickingSystem",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "IsInsideFrustum",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IntersectRayOBB",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Initialize",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Release",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetTarget",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "Model3DController.InstancedBatchGroup",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AddPiece",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RemovePiece",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "Model3DController.LocalTransform",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "ModelData",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "ObjectBaseMono",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "TF#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsBulletIncoming#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetPosition",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetRotation",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnBulletInComming",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDespawn",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "PieceConfig",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "PieceConfigSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "PieceTargetData",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "getDefaultValue",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "getHashCode",
+                        "excluded": true
+                    },
+                    {
+                        "name": "equals",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$clone",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "PlayableAdsController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDestroy",
+                        "excluded": true
+                    },
+                    {
+                        "name": "LoadCustomLevelAsync",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ConfigurePlayableSlotBehavior",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnLauncherClicked",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CheckNMinus1AfterClick",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsOneStepLeft",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TriggerRedirectAfterDelay",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SendEndGameIfNeeded",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ShowEndcardAndDimScreen",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "PlayableAdsUIController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ShowEndcard",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RedirectToStore",
+                        "excluded": true
+                    },
+                    {
+                        "name": "IsShowingEndcard#get",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "RotationModel3D",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "DelayBeforeAutoResume#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDestroy",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnBlockGamePlayInput",
+                        "excluded": true
+                    },
+                    {
+                        "name": "StartRotation",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopRotation",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ResetRotation",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetEndGameSpeed",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetDefaultSpeed",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetFindColorSpeed",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateLoopRoutine",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AutoRotate",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ChangeAutoSpeedRoutine",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DelayAutoResumeRoutine",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnGameMouseDown",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnGameDrag",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ActiveAutoRotationModel",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "RotationModel3DConfigSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "RoundDataAsset",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetLevelData",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "RoundDataBytes",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "SlotAppearanceConfigSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "SlotLauncherConfigSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "SlotLauncherMono",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "CurrentLauncher#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsEmpty#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Index#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetModelSide",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDespawn",
+                        "excluded": true
+                    },
+                    {
+                        "name": "AssignLauncher",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ClearSlot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetSlotPosition",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetResigneLauncher",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartBlinking",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartBlinking$1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopBlinking",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BlinkMaterialAsync",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetRenderersActive",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "SoundDataSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetSoundData",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetSoundDataByName",
+                        "excluded": true
+                    },
+                    {
+                        "name": "RebuildCache",
+                        "excluded": true
+                    },
+                    {
+                        "name": "BuildCache",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "VerticalLauncherData",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "VerticalLauncherMono",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "LauncherBaseMonos#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "LauncherBaseMonos#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RemoveLauncher",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RemoveLauncherDirect",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDespawn",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ArrangeVerticalTopCenter",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RabbitJumpToPosition",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ArrangeVerticalTopCenterAnimAsync",
+                        "excluded": true
+                    },
+                    {
+                        "name": "IsAtTop",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetRenderersActive",
+                        "excluded": true
+                    },
+                    {
+                        "name": "WaitAll",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "WallControl",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "RevertPosition",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "GiftBoxData",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "LauncherController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDestroy",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetCountUnusedLauncher",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetVerticalLaunchers",
+                        "excluded": false
+                    },
+                    {
+                        "name": "VerticalPieceLauncherArrangeHorizontal",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetupLauncherConnectGroups",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetupLineConnectors",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnInitPoolAsync",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnLoadLevel",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnClear",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetRenderersActive",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "LauncherNormalMono",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "LaunchersConnect#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DoneShoot#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetSlotLauncherMono#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "LateUpdate",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetLaunchersConnect",
+                        "excluded": true
+                    },
+                    {
+                        "name": "AddLineConnector",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDespawn",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetupVisualNormal",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateTMPBullet",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetCanShoot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ShootPiece",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsAllConnectDoneShoot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DespawnAllConnect",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AddACShootPiece",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AddBulletAmount",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ChangeLayerRenderer",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MoveToPosition",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetupSlotLauncher",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayJumpIntoHoleAndThenToSlot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "JumpIntoHoleAndThenToSlot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnInitFrozen",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDestroyFrozen",
+                        "excluded": true
+                    },
+                    {
+                        "name": "InitializeHiddenState",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnRevealHidden",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateLineHiddenColor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnBecomeTop",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "Model3DController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ObjectBase#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetLocalTransformRelativeToParent",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetProgressInThisLevel",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetObjectToShoot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartUpdateLoop",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopUpdateLoop",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateLoopAsync",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnRevice",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ResetShootState",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SyncPieceStateToJob",
+                        "excluded": true
+                    },
+                    {
+                        "name": "RemovePiece",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsClearAllObjectInModel",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RotationEndGame",
+                        "excluded": true
+                    },
+                    {
+                        "name": "RotationDeffault",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsVisiblePiecesByColor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnInitPoolAsync",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnLoadLevel",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnClear",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDestroy",
+                        "excluded": true
+                    },
+                    {
+                        "name": "LateUpdate",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "ObjFrozenMono",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "GetColor",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnFrozen",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "ObjGiftBoxMono",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "GetColor",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "ObjLargeCubeMono",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "GetColor",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "ObjPieceMono",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "MeshTransform#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetColor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDespawn",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RandomColor",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "PieceData",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "SlotLauncherQueueController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "LauncherSlotThisLevel#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RegisterTransitioningLauncher",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UnregisterTransitioningLauncher",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDestroy",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnLoadLevelDone",
+                        "excluded": false
+                    },
+                    {
+                        "name": "LauncherSlotArrangeHorizontal",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsFullQueue",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetCountSlotEmpty",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetSlotAndSort",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnLauncherClickedMethos",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CanUseBoosterBonusSlot",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ShuffleShooterForBoosterAsync",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetLaunchersToRemoveForPrelose",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnRevecePrelose",
+                        "excluded": true
+                    },
+                    {
+                        "name": "IsMatch3UnlockedAtCurrentLevel",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsAutoFillUnlockedAtCurrentLevel",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetAutoFillSlotsEnabled",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MatchLauncherNormal",
+                        "excluded": false
+                    },
+                    {
+                        "name": "_isMatchingMatch3CleanUp",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MatchLauncherNormalLogic",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AssignLauncher",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CanMoveAnyTopLauncherToSlot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TryAutoFillEmptySlots",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HasLauncherTransitioning",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TriggerAutoFillWithDebounce",
+                        "excluded": false
+                    },
+                    {
+                        "name": "TriggerAutoFillDelayed",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ClearLauncherSlot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BlockLauncherShootAC",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartUpdateLoop",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateLoop",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopUpdateLoop",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnInitPoolAsync",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnLoadLevel",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnClear",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SpawnHoles",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ClearSpawnedHoles",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ResigneLauncherSlot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AddLauncherToSlotForTutorial",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ChangeFireRateLauncher",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartBlinkingAllSlot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopBlinkingAllSlot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetRenderersActive",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayJumpAppearanceAnim",
+                        "excluded": false
+                    },
+                    {
+                        "name": "JumpSlot",
+                        "excluded": true
+                    },
+                    {
+                        "name": "WaitAll",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RunTracked",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "VFX_Cube_Break",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "OnInit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetColorsFromBase",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DespawnAfterSeconds",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DespawnAfterSecondsAsync",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDespawn",
                         "excluded": false
                     }
                 ]

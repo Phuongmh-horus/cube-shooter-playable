@@ -506,7 +506,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         float animDuration = ConfigHolder.Instance.LauncherConfigSo.TimeMoveLauncherNormal;
         if (animDuration <= 0) animDuration = 0.3f;
 
-        List<Coroutine> animTasks = new List<Coroutine>();
+        List<IEnumerator> animTasks = new List<IEnumerator>();
 
         foreach (var vertical in allVerticals)
         {
@@ -518,10 +518,10 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                     shooter.OnBecomeTop();
                 }
             }
-            animTasks.Add(StartCoroutine(vertical.ArrangeVerticalTopCenterAnimAsync(spacing, animDuration)));
+            animTasks.Add(vertical.ArrangeVerticalTopCenterAnimAsync(spacing, animDuration));
         }
 
-        yield return StartCoroutine(WaitAll(animTasks));
+        yield return WaitAll(animTasks);
     }
 
     #endregion
@@ -598,7 +598,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         if (launchersToRemove.Count <= 0) yield break;
 
         // 3. Tiến hành giải phóng các launcher đã gom khỏi slot và di chuyển chúng sang booster slots
-        List<Coroutine> tasks = new List<Coroutine>();
+        List<IEnumerator> tasks = new List<IEnumerator>();
         HashSet<LauncherBaseMono> processedLaunchers = new HashSet<LauncherBaseMono>();
 
         foreach (var launcher in launchersToRemove)
@@ -630,7 +630,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         }
 
         if (tasks.Count > 0)
-            yield return StartCoroutine(WaitAll(tasks));
+            yield return WaitAll(tasks);
         Model3DController.CallBackOnRevice?.Invoke();
         UIFullScreenBlocker.Instance.Unlock(10);
     }
@@ -742,7 +742,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         listSlotLauncherSameColor.Remove(threeSmallest[2]);
 
         startLauncher.SetCanShoot(false, true);
-        middleLauncher.SetCanShoot(false, false);
+        middleLauncher.SetCanShoot(false, true);
         endLauncher.SetCanShoot(false, true);
 
         // Giải phóng slot 2 bên ngay lập tức trước khi di chuyển để tránh việc dồn hàng quét trúng
@@ -752,7 +752,10 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         ClearLauncherSlot(threeSmallest[0]);
         ClearLauncherSlot(threeSmallest[2]);
 
-        Coroutine moveStart = StartCoroutine(startLauncher.MoveToPosition(
+        bool startDone = false;
+        bool endDone = false;
+
+        StartCoroutine(startLauncher.MoveToPosition(
             null,
             middleLauncher.TF.position,
             onComplete: () =>
@@ -761,14 +764,16 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                 if (middleLauncher == null || middleLauncher.ColorAndBullet == null || startLauncher == null || startLauncher.ColorAndBullet == null)
                 {
                     _activeMergeCount--;
+                    startDone = true;
                     return;
                 }
                 middleLauncher.AddBulletAmount(startLauncher.ColorAndBullet.Amount);
                 startLauncher.OnDespawn();
                 _activeMergeCount--;
+                startDone = true;
             }));
 
-        Coroutine moveEnd = StartCoroutine(endLauncher.MoveToPosition(
+        StartCoroutine(endLauncher.MoveToPosition(
             null,
             middleLauncher.TF.position,
             onComplete: () =>
@@ -777,19 +782,24 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                 if (middleLauncher == null || middleLauncher.ColorAndBullet == null || endLauncher == null || endLauncher.ColorAndBullet == null)
                 {
                     _activeMergeCount--;
+                    endDone = true;
                     return;
                 }
                 middleLauncher.AddBulletAmount(endLauncher.ColorAndBullet.Amount);
                 endLauncher.OnDespawn();
                 _activeMergeCount--;
+                endDone = true;
             }));
 
-        yield return StartCoroutine(WaitAll(new List<Coroutine> { moveStart, moveEnd }));
+        while (!startDone || !endDone)
+        {
+            yield return null;
+        }
         SoundManager.Instance.PlayOneShot(AudioClipName.Bonus_Slot_Arrive);
 
         if (middleLauncher != null && threeSmallest[1].CurrentLauncher == middleLauncher)
         {
-            middleLauncher.SetCanShoot(true, false);
+            middleLauncher.AddACShootPiece();
 
             // Trả lại súng ở giữa vào list để nó có thể được match tiếp
             if (_dicColorAndSlotLauncherActive.TryGetValue(middleLauncher.GetColorCodeIndex0(), out var activeList))
@@ -1059,7 +1069,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                 }
 
                 // Check match sau mỗi group
-                yield return StartCoroutine(MatchLauncherNormal());
+                yield return MatchLauncherNormal();
             }
 
             // Kiểm tra xem thực sự tất cả launcher trên các cột đã lên slot hết chưa
@@ -1121,7 +1131,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         if (false) yield break;
 
         _isPendingAutoFill = false;
-        yield return StartCoroutine(TryAutoFillEmptySlots());
+        yield return TryAutoFillEmptySlots();
     }
 
     public void ClearLauncherSlot(SlotLauncherMono slotLauncherMono)
@@ -1168,9 +1178,14 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
             // Snapshot để tránh lỗi Collection was modified khi ShootPiece() gọi Remove() trong lúc duyệt
             if (!_blockLauncherShoot)
             {
-                var snapshot = new List<Action>(GameEventBus.ACLauncherShoot);
+                var snapshot = new List<LauncherNormalMono>(GameEventBus.ACLauncherShoot);
                 foreach (var VARIABLE in snapshot)
-                    VARIABLE?.Invoke();
+                {
+                    if (VARIABLE != null)
+                    {
+                        VARIABLE.ShootPiece();
+                    }
+                }
             }
             yield return new WaitForSeconds(_fireRateLauncher / 1000f);
         }
@@ -1469,7 +1484,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
 
         SetRenderersActive(true);
 
-        List<Coroutine> tasks = new List<Coroutine>();
+        List<IEnumerator> tasks = new List<IEnumerator>();
 
         // 1. Slots jump from left
         int count = _launcherSlotThisLevel.Count;
@@ -1489,7 +1504,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
             Vector3 startPos = show ? targetPos + new Vector3(offset, 0, 0) : targetPos;
             Vector3 endPos = show ? targetPos : targetPos + new Vector3(offset, 0, 0);
 
-            tasks.Add(StartCoroutine(JumpSlot(slot.transform, startPos, endPos, config.JumpHeight, config.JumpDuration, delay)));
+            tasks.Add(JumpSlot(slot.transform, startPos, endPos, config.JumpHeight, config.JumpDuration, delay));
         }
 
         // 2. Holes jump from right
@@ -1513,10 +1528,10 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
             Vector3 startPos = show ? targetPos + new Vector3(offset, 0, 0) : targetPos;
             Vector3 endPos = show ? targetPos : targetPos + new Vector3(offset, 0, 0);
 
-            tasks.Add(StartCoroutine(JumpSlot(hole, startPos, endPos, config.JumpHeight, config.JumpDuration, delay)));
+            tasks.Add(JumpSlot(hole, startPos, endPos, config.JumpHeight, config.JumpDuration, delay));
         }
 
-        yield return StartCoroutine(WaitAll(tasks));
+        yield return WaitAll(tasks);
 
         if (!show)
         {
@@ -1553,11 +1568,25 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         }
     }
 
-    private IEnumerator WaitAll(List<Coroutine> coroutines)
+    private IEnumerator RunTracked(IEnumerator coroutine, Action onComplete)
     {
+        yield return coroutine;
+        onComplete?.Invoke();
+    }
+
+    private IEnumerator WaitAll(List<IEnumerator> coroutines)
+    {
+        if (coroutines == null || coroutines.Count == 0) yield break;
+
+        int remaining = coroutines.Count;
         foreach (var c in coroutines)
         {
-            if (c != null) yield return c;
+            StartCoroutine(RunTracked(c, () => remaining--));
+        }
+
+        while (remaining > 0)
+        {
+            yield return null;
         }
     }
 }

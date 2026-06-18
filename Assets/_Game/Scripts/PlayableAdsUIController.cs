@@ -13,6 +13,8 @@ public class PlayableAdsUIController : MonoBehaviour
     private bool _hasStarted = false;
     private bool _isShowingEndcard = false;
 
+    public bool IsShowingEndcard => _isShowingEndcard;
+
     private void Awake()
     {
         Instance = this;

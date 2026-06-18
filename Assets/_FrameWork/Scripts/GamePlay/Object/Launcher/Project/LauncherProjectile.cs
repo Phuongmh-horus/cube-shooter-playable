@@ -99,7 +99,12 @@ public class LauncherProjectile : MonoBehaviour
         _onHitCallback?.Invoke();
         _target.OnDespawn();
         var vfx = PoolHolder.Instance.Get(vfxCubeBreak);
-        SoundManager.Instance?.PlayOneShot(AudioClipName.Cube_Destroy);
+
+        if (PlayableAdsUIController.Instance == null || !PlayableAdsUIController.Instance.IsShowingEndcard)
+        {
+            SoundManager.Instance?.PlayOneShot(AudioClipName.Cube_Destroy);
+        }
+
         if (vfx is VFX_Cube_Break vfxdemo)
             vfxdemo.OnInit(_tf.position, _color);
 

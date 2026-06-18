@@ -120,6 +120,7 @@ Material:
     - _FresnelMin: 0
     - _IndirectIntensity: 1
     - _IndirectIntensityOutline: 0
+    - _LunaGamma: 0
     - _MatCapMaskChannel: 0
     - _MatCapType: 0
     - _NormalsSource: 0

@@ -39,6 +39,10 @@ Shader"Horus/Unlit/LauncherUnlit"
         _DissolveAmount ("Dissolve Amount", Range(0, 1)) = 0.0
         _DissolveEdgeWidth ("Dissolve Edge Width", Range(0, 0.5)) = 0.05
         [HDR] _DissolveEdgeColor ("Dissolve Edge Color", Color) = (1, 0.3, 0, 1)
+
+        [Header(Luna Correction)]
+        [Toggle(LUNA_GAMMA_CORRECTION)] _LunaGamma ("Luna Gamma Correction", Float) = 0.0
+        _LunaContrast ("Luna Gamma Contrast", Range(0, 3)) = 1
     }
 
     SubShader
@@ -58,6 +62,7 @@ Shader"Horus/Unlit/LauncherUnlit"
             #pragma fragment frag
             #pragma target 3.0
             #pragma multi_compile_instancing
+            #pragma multi_compile_local _ LUNA_GAMMA_CORRECTION
 
             #include "UnityCG.cginc"
 
@@ -85,6 +90,7 @@ Shader"Horus/Unlit/LauncherUnlit"
             float4 _DissolveEdgeColor;
             float _Saturation;
             float _Brightness;
+            float _LunaContrast;
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float, _DissolveAmount)
@@ -140,10 +146,14 @@ Shader"Horus/Unlit/LauncherUnlit"
                 float dissolveEdgeWidth = _DissolveEdgeWidth;
                 float4 dissolveEdgeColor = _DissolveEdgeColor;
 
-                float4 dissolveNoise = tex2D(_DissolveMap, i.uvDissolve);
-                float noiseVal = dissolveNoise.r;
-                float clipVal = noiseVal - dissolveAmount;
-                clip(clipVal);
+                float clipVal = 1.0;
+                if (dissolveAmount > 0.001)
+                {
+                    float4 dissolveNoise = tex2D(_DissolveMap, i.uvDissolve);
+                    float noiseVal = dissolveNoise.r;
+                    clipVal = noiseVal - dissolveAmount;
+                    clip(clipVal);
+                }
 
                 // Color and Albedo
                 fixed4 colorToon = _BaseColor;
@@ -217,6 +227,13 @@ Shader"Horus/Unlit/LauncherUnlit"
                 edge *= step(0.001, dissolveAmount); // Only glow when dissolve is active
                 float3 edgeGlow = dissolveEdgeColor.rgb * edge * dissolveEdgeColor.a;
                 litColor += edgeGlow;
+
+                #if defined(LUNA_GAMMA_CORRECTION)
+                #if !defined(UNITY_COLORSPACE_GAMMA)
+                litColor = LinearToGammaSpace(litColor);
+                litColor = ((litColor - 0.5) * 1.0) + 0.5;
+                #endif
+                #endif
 
                 return fixed4(litColor, albedo.a);
             }

@@ -125,7 +125,7 @@ public class LauncherNormalMono : LauncherBaseMono
     {
         _canShoot = canShoot;
         if (removeActionShoot)
-            GameEventBus.ACLauncherShoot.Remove(ShootPiece);
+            GameEventBus.ACLauncherShoot.Remove(this);
     }
 
     public void ShootPiece()
@@ -148,7 +148,7 @@ public class LauncherNormalMono : LauncherBaseMono
         if (ColorAndBullet.Amount <= 0)
         {
             // Xóa khỏi action bắn
-            GameEventBus.ACLauncherShoot.Remove(ShootPiece);
+            GameEventBus.ACLauncherShoot.Remove(this);
             _doneShoot = true;
             _canShoot = false;
 
@@ -206,7 +206,8 @@ public class LauncherNormalMono : LauncherBaseMono
     public void AddACShootPiece()
     {
         _canShoot = true;
-        GameEventBus.ACLauncherShoot.Add(ShootPiece);
+        if (!GameEventBus.ACLauncherShoot.Contains(this))
+            GameEventBus.ACLauncherShoot.Add(this);
     }
 
 

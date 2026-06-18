@@ -33,6 +33,10 @@ Shader "Horus/Unlit/CubeUnlit"
         [Header(Color Adjustment)]
         _Saturation ("Saturation", Range(0, 3)) = 1.0
         _Brightness ("Brightness", Range(0, 3)) = 1.0
+
+        [Header(Luna Correction)]
+        [Toggle(LUNA_GAMMA_CORRECTION)] _LunaGamma ("Luna Gamma Correction", Float) = 1.0
+        _LunaContrast ("Luna Gamma Contrast", Range(0, 3)) = 1.2
     }
 
     SubShader
@@ -52,6 +56,7 @@ Shader "Horus/Unlit/CubeUnlit"
             #pragma fragment frag
             #pragma target 3.0
             #pragma multi_compile_instancing
+            #pragma multi_compile_local _ LUNA_GAMMA_CORRECTION
 
             #include "UnityCG.cginc"
 
@@ -72,6 +77,7 @@ Shader "Horus/Unlit/CubeUnlit"
             float4 _SpecularColor;
             float _Saturation;
             float _Brightness;
+            float _LunaContrast;
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _BaseColor)
@@ -188,6 +194,13 @@ Shader "Horus/Unlit/CubeUnlit"
                 float brightness = _Brightness;
                 float luminance = dot(litColor, float3(0.2126, 0.7152, 0.0722));
                 litColor = lerp(float3(luminance, luminance, luminance), litColor, saturation) * brightness;
+
+                #if defined(LUNA_GAMMA_CORRECTION)
+                #if !defined(UNITY_COLORSPACE_GAMMA)
+                litColor = LinearToGammaSpace(litColor);
+                litColor = ((litColor - 0.5) * 1.2) + 0.5;
+                #endif
+                #endif
 
                 return fixed4(litColor, albedo.a);
             }
