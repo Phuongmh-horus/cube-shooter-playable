@@ -1,7 +1,7 @@
 {
     "version": "7.0.0",
     "projectId": "52f536a8df4219e4b975969529509222",
-    "applicationID": 39501,
+    "applicationID": 40713,
     "creativeName": "LV_7",
     "pgServer": "EU",
     "window": {
@@ -2245,10 +2245,6 @@
             },
             {
                 "name": "UnityEngine.PolygonCollider2D",
-                "excluded": true
-            },
-            {
-                "name": "UnityEngine.SphereCollider",
                 "excluded": true
             },
             {
@@ -33271,7 +33267,7 @@
                     },
                     {
                         "name": "RaycastNonAlloc$2",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "RaycastNonAlloc$1",
@@ -33279,7 +33275,7 @@
                     },
                     {
                         "name": "RaycastNonAlloc",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Linecast",
@@ -33579,7 +33575,7 @@
                     },
                     {
                         "name": "$clone",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -36261,7 +36257,7 @@
                     },
                     {
                         "name": "CanSelect#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ColorAndBullet#get",
@@ -37655,6 +37651,32 @@
                     },
                     {
                         "name": "OnDespawn",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.SphereCollider",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "radius#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "radius#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "center#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "center#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "ctor",
                         "excluded": false
                     }
                 ]

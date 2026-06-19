@@ -9,6 +9,7 @@ public class VerticalLauncherMono : MonoBehaviour
 
     [SerializeField] private Transform _verticalPieceLauncherCenter;
     [SerializeField] private List<LauncherBaseMono> _launcherBaseMonos = new();
+    [SerializeField] private List<GameObject> _spawnedFloors = new();
     public List<LauncherBaseMono> LauncherBaseMonos { get => _launcherBaseMonos; set => _launcherBaseMonos = value; }
     public int ColumnIndex { get; set; } = -1;
 
@@ -17,6 +18,7 @@ public class VerticalLauncherMono : MonoBehaviour
     private LauncherLockMono _launcherLockPrefab;
     private LauncherKeyMono _launcherKeyPrefab;
     private LauncherScissorsMono _launcherScissorsPrefab;
+    private static GameObject _floorPrefab;
 
     private float _spacingLauncher = 0;
     #endregion
@@ -58,6 +60,28 @@ public class VerticalLauncherMono : MonoBehaviour
         _launcherLockPrefab ??= ConfigHolder.Instance.PrefabsDataConfigSO.LauncherLockPrefab;
         _launcherKeyPrefab ??= ConfigHolder.Instance.PrefabsDataConfigSO.LauncherKeyPrefab;
         _launcherScissorsPrefab ??= ConfigHolder.Instance.PrefabsDataConfigSO.LauncherScissorsPrefab;
+        _floorPrefab ??= ConfigHolder.Instance.PrefabsDataConfigSO.FloorPrefab;
+
+        int targetFloorCount = verticalLauncherData.LauncherDataDatas.Count;
+        while (_spawnedFloors.Count < targetFloorCount)
+        {
+            if (_floorPrefab != null)
+            {
+                var floor = Instantiate(_floorPrefab, transform);
+                _spawnedFloors.Add(floor);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        while (_spawnedFloors.Count > targetFloorCount)
+        {
+            var floor = _spawnedFloors[_spawnedFloors.Count - 1];
+            if (floor != null) Destroy(floor);
+            _spawnedFloors.RemoveAt(_spawnedFloors.Count - 1);
+        }
 
         foreach (LauncherData VARIABLE in verticalLauncherData.LauncherDataDatas)
         {
@@ -103,6 +127,14 @@ public class VerticalLauncherMono : MonoBehaviour
         foreach (LauncherBaseMono VARIABLE in _launcherBaseMonos)
             VARIABLE.OnDespawn();
         _launcherBaseMonos.Clear();
+
+        // Không xoá _spawnedFloors ở đây nữa, giữ lại để tái sử dụng
+        foreach (var floor in _spawnedFloors)
+        {
+            if (floor != null)
+                floor.gameObject.SetActive(false); // Ẩn đi chờ tái sử dụng
+        }
+
         ColumnIndex = -1;
         PoolHolder.Instance.Release(this);
     }
@@ -127,6 +159,23 @@ public class VerticalLauncherMono : MonoBehaviour
             Vector3 pos = _verticalPieceLauncherCenter.position;
             pos.y -= i * spacing;
             positions.Add(pos);
+        }
+
+        Transform centerTransform = _verticalPieceLauncherCenter;
+        Vector3 centerPos = centerTransform.position;
+        // Setup floors nếu onInit
+        if (onInit)
+        {
+            for (int i = 0; i < _spawnedFloors.Count; i++)
+            {
+                if (_spawnedFloors[i] != null)
+                {
+                    _spawnedFloors[i].gameObject.SetActive(true);
+                    Vector3 floorPos = centerPos;
+                    floorPos.y -= i * spacing;
+                    _spawnedFloors[i].transform.position = floorPos;
+                }
+            }
         }
 
         List<Coroutine> jumpTasks = new List<Coroutine>();
@@ -251,6 +300,20 @@ public class VerticalLauncherMono : MonoBehaviour
             if (launcher != null)
             {
                 launcher.SetRenderersActive(active);
+            }
+        }
+        foreach (var floor in _spawnedFloors)
+        {
+            if (floor != null)
+            {
+                var floorRenderers = floor.GetComponentsInChildren<Renderer>(true);
+                foreach (var r in floorRenderers)
+                {
+                    if (r != null)
+                    {
+                        r.enabled = active;
+                    }
+                }
             }
         }
     }

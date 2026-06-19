@@ -25,7 +25,7 @@ public class ObjPieceMono : ObjectBaseMono
         if (_meshRenderer != null) _meshRenderer.enabled = true;
         if (_propertyBlock == null)
             _propertyBlock = new MaterialPropertyBlock();
-        RandomColor();
+        // RandomColor(); // Disabled to maintain GPU Instancing and reduce draw calls
     }
 
 

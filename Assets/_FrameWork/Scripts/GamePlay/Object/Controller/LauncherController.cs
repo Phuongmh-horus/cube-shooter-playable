@@ -251,7 +251,7 @@ public class LauncherController : MonoBehaviour, BaseLevelGenerator
                 _wallsThisLevel.Add(wall);
                 if (_wallsThisLevel.Count == 2)
                 {
-                    wall.RevertPosition();
+                    wall.ChangeState();
                 }
             }
             else

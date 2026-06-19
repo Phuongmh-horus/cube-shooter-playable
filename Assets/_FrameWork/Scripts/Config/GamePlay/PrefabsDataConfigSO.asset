@@ -26,3 +26,4 @@ MonoBehaviour:
   ObjectFrozenPrefab: {fileID: -8800666639025144883, guid: 60c2e588a031de94c962f0d9c0ef8432, type: 3}
   ObjectGiftBoxPrefab: {fileID: -6221360473997254531, guid: e99df41ca05576443a524acd299ac16d, type: 3}
   ObjectLargeCubePrefab: {fileID: 8273517495817491353, guid: 438439780280c5a468d68d803925bdc0, type: 3}
+  FloorPrefab: {fileID: 5483560194658116378, guid: 123f3ddb57a60514bbf4acc6ee068092, type: 3}

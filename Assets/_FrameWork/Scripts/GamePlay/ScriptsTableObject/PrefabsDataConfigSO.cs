@@ -29,4 +29,5 @@ public class PrefabsDataConfigSO : ScriptableObject
     public ObjFrozenMono ObjectFrozenPrefab;
     public ObjGiftBoxMono ObjectGiftBoxPrefab;
     public ObjLargeCubeMono ObjectLargeCubePrefab;
+    public GameObject FloorPrefab;
 }

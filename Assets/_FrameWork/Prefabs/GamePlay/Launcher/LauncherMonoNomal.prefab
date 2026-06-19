@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3371299240154659941
 RectTransform:
   m_ObjectHideFlags: 0
@@ -212,6 +212,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2265310173667160907}
   - component: {fileID: 2115133724316950284}
+  - component: {fileID: 1905356320884636688}
   m_Layer: 10
   m_Name: LauncherMonoNomal
   m_TagString: Untagged
@@ -279,6 +280,27 @@ MonoBehaviour:
   _pointSpawnBullet: {fileID: 8692991427554603219}
   _peaModel: {fileID: 5031364147615306116}
   _shooterModel: {fileID: 900018505657513144}
+--- !u!135 &1905356320884636688
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181445101153640363}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 1
+  m_Center: {x: 0, y: 0.2, z: -0.95}
 --- !u!1 &2555094770826918056
 GameObject:
   m_ObjectHideFlags: 0
@@ -575,7 +597,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 135241908798529926}
-  - component: {fileID: 8953841058587253833}
   m_Layer: 10
   m_Name: ShooterNormal
   m_TagString: Untagged
@@ -601,27 +622,6 @@ Transform:
   - {fileID: 3371299240154659941}
   m_Father: {fileID: 2265310173667160907}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8953841058587253833
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6915728822344072016}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.5, y: 3, z: 6}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &53176634822576617
 PrefabInstance:
   m_ObjectHideFlags: 0
