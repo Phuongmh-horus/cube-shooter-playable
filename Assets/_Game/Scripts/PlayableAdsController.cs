@@ -16,11 +16,8 @@ public class PlayableAdsController : MonoBehaviour
     [Tooltip("Tick vào đây nếu muốn script tự động load level để test")]
     public bool OverrideLevel = true;
 
-    [Tooltip("Nếu có RoundDataAsset, sẽ load từ đó. Nếu không, sẽ load từ LevelDataManager bằng TestLevelID")]
+    [Tooltip("Nếu có RoundDataAsset, sẽ load từ đó")]
     public RoundDataAsset TestLevelDataAsset;
-
-    [Tooltip("ID của level muốn test")]
-    public int TestLevelID = 8;
 
     private int _cannonClickedCount = 0;
     private bool _hasRedirected = false;

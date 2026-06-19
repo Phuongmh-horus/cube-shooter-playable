@@ -2,7 +2,7 @@
     "version": "7.0.0",
     "projectId": "52f536a8df4219e4b975969529509222",
     "applicationID": 39501,
-    "creativeName": "",
+    "creativeName": "LV_7",
     "pgServer": "EU",
     "window": {
         "‐⁏": true
@@ -96,7 +96,6 @@
                 "Assets/TextMesh Pro/Sprites/EmojiOne.png",
                 "Assets/_FrameWork/Resources/Sounds/MainMenuBGM.ogg",
                 "Assets/_Game/Animator/Shooter/ShooterAnimator.controller",
-                "Assets/_Game/Animator/Shooter/Shooter_shoot.fbx",
                 "Assets/_FrameWork/Resources/Sounds/MainMenuBGM.ogg",
                 "**/Editor/",
                 "**/FacebookSDK/",
@@ -1970,10 +1969,6 @@
             },
             {
                 "name": "UnityEngine.TooltipAttribute",
-                "excluded": true
-            },
-            {
-                "name": "UnityEngine.U2D.SpriteAtlas",
                 "excluded": true
             },
             {
@@ -7357,14 +7352,6 @@
                 "excluded": false
             },
             {
-                "name": "BaseLevelGenerator",
-                "excluded": false
-            },
-            {
-                "name": "LevelType",
-                "excluded": true
-            },
-            {
                 "name": "SoundMixerGroup",
                 "excluded": false
             },
@@ -8369,6 +8356,10 @@
                 "excluded": false
             },
             {
+                "name": "AudioClipName",
+                "excluded": false
+            },
+            {
                 "name": "DG.Tweening.DOTweenCYInstruction.WaitForCompletion",
                 "excluded": true
             },
@@ -8457,11 +8448,7 @@
                 "excluded": true
             },
             {
-                "name": "AudioClipName",
-                "excluded": false
-            },
-            {
-                "name": "CameraState",
+                "name": "BaseLevelGenerator",
                 "excluded": false
             },
             {
@@ -8505,6 +8492,10 @@
                 "excluded": true
             },
             {
+                "name": "LevelType",
+                "excluded": true
+            },
+            {
                 "name": "LinePosition",
                 "excluded": false
             },
@@ -8538,6 +8529,10 @@
             },
             {
                 "name": "LauncherScissorsMono",
+                "excluded": false
+            },
+            {
+                "name": "CameraState",
                 "excluded": false
             }
         ],
@@ -23761,54 +23756,6 @@
                 ]
             },
             {
-                "className": "GamePlayManager",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "Awake",
-                        "excluded": true
-                    },
-                    {
-                        "name": "inherits",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDestroy",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "UIFullScreenBlocker",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "inherits",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Reset",
-                        "excluded": true
-                    },
-                    {
-                        "name": "Lock",
-                        "excluded": true
-                    },
-                    {
-                        "name": "Unlock",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnEnable",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
                 "className": "System.Reflection.AssemblyName",
                 "staticMethods": [],
                 "instanceMethods": [
@@ -32157,36 +32104,6 @@
                 ]
             },
             {
-                "className": "AnimScaleButton",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "Start",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnDestroy",
-                        "excluded": true
-                    },
-                    {
-                        "name": "GotoStore",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StartScalingAnimation",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopScalingAnimation",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
                 "className": "SoundData",
                 "staticMethods": [],
                 "instanceMethods": [
@@ -33346,11 +33263,11 @@
                     },
                     {
                         "name": "RaycastAll$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "RaycastAll$2",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "RaycastNonAlloc$2",
@@ -33854,7 +33771,7 @@
                     },
                     {
                         "name": "GetItem",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SetItem",
@@ -33880,7 +33797,7 @@
                     },
                     {
                         "name": "Get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Set",
@@ -33988,7 +33905,7 @@
                     },
                     {
                         "name": "$clone",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -35505,10 +35422,6 @@
                 "staticMethods": [],
                 "instanceMethods": [
                     {
-                        "name": "inherits",
-                        "excluded": false
-                    },
-                    {
                         "name": "init",
                         "excluded": false
                     },
@@ -35518,6 +35431,10 @@
                     },
                     {
                         "name": "Start",
+                        "excluded": false
+                    },
+                    {
+                        "name": "inherits",
                         "excluded": false
                     },
                     {
@@ -35561,6 +35478,142 @@
                 ]
             },
             {
+                "className": "SoundManager",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "inherits",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopBackGroundMusic",
+                        "excluded": true
+                    },
+                    {
+                        "name": "PlayBackGroundMusic",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RandomBGM",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnSoundChange",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnSoundFxChange",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayOneShot$1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "PlayOneShot",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopOneShot",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    },
+                    {
+                        "name": "StopInGameMusic",
+                        "excluded": true
+                    },
+                    {
+                        "name": "PlayInGameMusic",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "GameEventBus",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "SoundDataSO",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetSoundData",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetSoundDataByName",
+                        "excluded": true
+                    },
+                    {
+                        "name": "RebuildCache",
+                        "excluded": false
+                    },
+                    {
+                        "name": "BuildCache",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.U2D.SpriteAtlas",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "spriteCount#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "CanBindTo",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetSprite",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetSprites",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetSprites$1",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
                 "className": "GameManager",
                 "staticMethods": [],
                 "instanceMethods": [
@@ -35570,6 +35623,24 @@
                     },
                     {
                         "name": "Start",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "GamePlayManager",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "inherits",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnDestroy",
                         "excluded": true
                     }
                 ]
@@ -35749,7 +35820,7 @@
                 ]
             },
             {
-                "className": "SoundManager",
+                "className": "UIFullScreenBlocker",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
@@ -35761,60 +35832,20 @@
                         "excluded": false
                     },
                     {
-                        "name": "OnValidate",
+                        "name": "Reset",
                         "excluded": true
                     },
                     {
-                        "name": "Awake",
+                        "name": "OnEnable",
                         "excluded": false
                     },
                     {
-                        "name": "Start",
+                        "name": "Lock",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Unlock",
                         "excluded": false
-                    },
-                    {
-                        "name": "Update",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopBackGroundMusic",
-                        "excluded": true
-                    },
-                    {
-                        "name": "PlayBackGroundMusic",
-                        "excluded": true
-                    },
-                    {
-                        "name": "RandomBGM",
-                        "excluded": true
-                    },
-                    {
-                        "name": "OnSoundChange",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnSoundFxChange",
-                        "excluded": false
-                    },
-                    {
-                        "name": "PlayOneShot$1",
-                        "excluded": true
-                    },
-                    {
-                        "name": "PlayOneShot",
-                        "excluded": false
-                    },
-                    {
-                        "name": "StopOneShot",
-                        "excluded": true
-                    },
-                    {
-                        "name": "StopInGameMusic",
-                        "excluded": true
-                    },
-                    {
-                        "name": "PlayInGameMusic",
-                        "excluded": true
                     }
                 ]
             },
@@ -35825,6 +35856,36 @@
                     {
                         "name": "init",
                         "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "AnimScaleButton",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Start",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDestroy",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GotoStore",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartScalingAnimation",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopScalingAnimation",
+                        "excluded": true
                     }
                 ]
             },
@@ -36096,16 +36157,6 @@
             },
             {
                 "className": "ObjectBaseData",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "GameEventBus",
                 "staticMethods": [],
                 "instanceMethods": [
                     {
@@ -36557,54 +36608,6 @@
                 ]
             },
             {
-                "className": "Model3DController.InstancedBatchGroup",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "AddPiece",
-                        "excluded": false
-                    },
-                    {
-                        "name": "RemovePiece",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
-                "className": "Model3DController.LocalTransform",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "getDefaultValue",
-                        "excluded": false
-                    },
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "ctor",
-                        "excluded": false
-                    },
-                    {
-                        "name": "getHashCode",
-                        "excluded": true
-                    },
-                    {
-                        "name": "equals",
-                        "excluded": true
-                    },
-                    {
-                        "name": "$clone",
-                        "excluded": false
-                    }
-                ]
-            },
-            {
                 "className": "ModelData",
                 "staticMethods": [],
                 "instanceMethods": [
@@ -36765,6 +36768,10 @@
                 "staticMethods": [],
                 "instanceMethods": [
                     {
+                        "name": "IsShowingEndcard#get",
+                        "excluded": false
+                    },
+                    {
                         "name": "init",
                         "excluded": false
                     },
@@ -36782,10 +36789,6 @@
                     },
                     {
                         "name": "RedirectToStore",
-                        "excluded": true
-                    },
-                    {
-                        "name": "IsShowingEndcard#get",
                         "excluded": false
                     }
                 ]
@@ -36976,11 +36979,11 @@
                     },
                     {
                         "name": "StartBlinking",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "StartBlinking$1",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "StopBlinking",
@@ -36988,40 +36991,10 @@
                     },
                     {
                         "name": "BlinkMaterialAsync",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "SetRenderersActive",
-                        "excluded": true
-                    }
-                ]
-            },
-            {
-                "className": "SoundDataSO",
-                "staticMethods": [],
-                "instanceMethods": [
-                    {
-                        "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetSoundData",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetSoundDataByName",
-                        "excluded": true
-                    },
-                    {
-                        "name": "RebuildCache",
-                        "excluded": true
-                    },
-                    {
-                        "name": "BuildCache",
-                        "excluded": false
-                    },
-                    {
-                        "name": "OnValidate",
                         "excluded": true
                     }
                 ]
@@ -37282,11 +37255,11 @@
                     },
                     {
                         "name": "OnRevealHidden",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "UpdateLineHiddenColor",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "OnBecomeTop",
@@ -37304,10 +37277,6 @@
                     },
                     {
                         "name": "init",
-                        "excluded": false
-                    },
-                    {
-                        "name": "GetLocalTransformRelativeToParent",
                         "excluded": false
                     },
                     {
@@ -37364,7 +37333,7 @@
                     },
                     {
                         "name": "IsVisiblePiecesByColor",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "OnInitPoolAsync",
@@ -37381,10 +37350,6 @@
                     {
                         "name": "OnDestroy",
                         "excluded": true
-                    },
-                    {
-                        "name": "LateUpdate",
-                        "excluded": false
                     }
                 ]
             },
@@ -37440,7 +37405,7 @@
                 "instanceMethods": [
                     {
                         "name": "MeshTransform#get",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "init",
@@ -37484,7 +37449,7 @@
                     },
                     {
                         "name": "LauncherSlotThisLevel#get",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "RegisterTransitioningLauncher",
@@ -37644,7 +37609,7 @@
                     },
                     {
                         "name": "StartBlinkingAllSlot",
-                        "excluded": false
+                        "excluded": true
                     },
                     {
                         "name": "StopBlinkingAllSlot",
@@ -37665,10 +37630,6 @@
                     {
                         "name": "WaitAll",
                         "excluded": false
-                    },
-                    {
-                        "name": "RunTracked",
-                        "excluded": true
                     }
                 ]
             },
@@ -37868,7 +37829,7 @@
                     {
                         "maxWidth": 512,
                         "maxHeight": 512,
-                        "format": "png32",
+                        "format": "jpeg",
                         "compression": "quantSize",
                         "quality": 65,
                         "script": "",
@@ -37904,6 +37865,16 @@
                         "script": "",
                         "ext": "",
                         "name": "Assets/_FrameWork/Resources/Sprites/InGame/GamePlaySprite/BG 1.png"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "png32",
+                        "compression": "none",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_FindNMerge/Font/MUSEOSANSROUNDED-1000 SDF.asset"
                     }
                 ]
             },

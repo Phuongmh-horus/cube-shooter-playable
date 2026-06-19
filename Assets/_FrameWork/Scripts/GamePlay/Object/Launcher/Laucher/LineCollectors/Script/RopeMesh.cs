@@ -62,7 +62,7 @@ namespace GogoGaga.OptimizedRopesAndCables
             SubscribeToRopeEvents();
             if (meshRenderer && material)
             {
-                meshRenderer.material = material;
+                meshRenderer.sharedMaterial = material;
             }
             // We are using delay call to generate mesh to avoid errors in the editor
         }
@@ -354,6 +354,9 @@ namespace GogoGaga.OptimizedRopesAndCables
             lastRadialDivision = radialDivision;
             lastOverallDivision = OverallDivision;
             forceUpdateMesh = false;
+
+            // Recalculate texture offset when mesh is generated
+            ReOffsetTextureTwoHalf();
         }
 
         void Update()
@@ -367,13 +370,6 @@ namespace GogoGaga.OptimizedRopesAndCables
                     GenerateMesh();
                 }
             }
-
-            if (frameCounter > UpdateRate)
-            {
-                ReOffsetTextureTwoHalf();
-                frameCounter = 0;
-            }
-            frameCounter++;
         }
 
         private void DelayedGenerateMesh()

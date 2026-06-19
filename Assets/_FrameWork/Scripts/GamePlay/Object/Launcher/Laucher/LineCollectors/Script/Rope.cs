@@ -68,6 +68,7 @@ namespace GogoGaga.OptimizedRopesAndCables
         private float prevstiffness;
         private float prevDampness;
         private float prevRopeLength;
+        private bool isSettled = false;
 
 
         public bool IsPrefab => string.IsNullOrEmpty(gameObject.scene.name);
@@ -121,24 +122,42 @@ namespace GogoGaga.OptimizedRopesAndCables
 
             if (AreEndPointsValid())
             {
-                SetSplinePoint();
+                bool pointsMoved = IsPointsMoved();
+                bool settingsChanged = IsRopeSettingsChanged();
 
-                if (!Application.isPlaying && (IsPointsMoved() || IsRopeSettingsChanged()))
+                if (pointsMoved || settingsChanged)
                 {
-                    SimulatePhysics();
-                    NotifyPointsChanged();
+                    isSettled = false;
                 }
 
-                prevStartPointPosition = startPoint.position;
-                prevEndPointPosition = endPoint.position;
-                prevMidPointPosition = midPointPosition;
-                prevMidPointWeight = midPointWeight;
+                bool physicsActive = currentVelocity != Vector3.zero || currentValue != targetValue;
 
-                prevLineQuality = linePoints;
-                prevRopeWidth = ropeWidth;
-                prevstiffness = stiffness;
-                prevDampness = damping;
-                prevRopeLength = ropeLength;
+                if (!isSettled || physicsActive || !Application.isPlaying)
+                {
+                    SetSplinePoint();
+
+                    if (!Application.isPlaying && (pointsMoved || settingsChanged))
+                    {
+                        SimulatePhysics();
+                        NotifyPointsChanged();
+                    }
+
+                    prevStartPointPosition = startPoint.position;
+                    prevEndPointPosition = endPoint.position;
+                    prevMidPointPosition = midPointPosition;
+                    prevMidPointWeight = midPointWeight;
+
+                    prevLineQuality = linePoints;
+                    prevRopeWidth = ropeWidth;
+                    prevstiffness = stiffness;
+                    prevDampness = damping;
+                    prevRopeLength = ropeLength;
+
+                    if (!physicsActive && !pointsMoved && Application.isPlaying)
+                    {
+                        isSettled = true;
+                    }
+                }
             }
         }
 
@@ -225,7 +244,7 @@ namespace GogoGaga.OptimizedRopesAndCables
 
             if (AreEndPointsValid())
             {
-                if (!isFirstFrame)
+                if (!isFirstFrame && !isSettled)
                 {
                     SimulatePhysics();
                 }
@@ -268,6 +287,7 @@ namespace GogoGaga.OptimizedRopesAndCables
         {
             startPoint = newStartPoint;
             prevStartPointPosition = startPoint == null ? Vector3.zero : startPoint.position;
+            isSettled = false;
 
             if (instantAssign || newStartPoint == null)
             {
@@ -280,6 +300,7 @@ namespace GogoGaga.OptimizedRopesAndCables
         {
             midPoint = newMidPoint;
             prevMidPointPosition = midPoint == null ? 0.5f : midPointPosition;
+            isSettled = false;
 
             if (instantAssign || newMidPoint == null)
             {
@@ -292,6 +313,7 @@ namespace GogoGaga.OptimizedRopesAndCables
         {
             endPoint = newEndPoint;
             prevEndPointPosition = endPoint == null ? Vector3.zero : endPoint.position;
+            isSettled = false;
 
             if (instantAssign || newEndPoint == null)
             {
@@ -312,6 +334,7 @@ namespace GogoGaga.OptimizedRopesAndCables
             currentValue = GetMidPoint();
             targetValue = currentValue;
             currentVelocity = Vector3.zero;
+            isSettled = false;
             SetSplinePoint();
         }
 

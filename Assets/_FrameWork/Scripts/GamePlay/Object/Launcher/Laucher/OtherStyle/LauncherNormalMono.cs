@@ -87,6 +87,7 @@ public class LauncherNormalMono : LauncherBaseMono
         // Chỉ init material, UI - chưa update line color (chưa có line)
         InitializeHiddenState(_data.Hidden);
         UpdateTMPBullet();
+        enabled = false; // Tắt LateUpdate xoay súng cho đến khi lên slot
         gameObject.SetActive(true);
     }
 
@@ -95,6 +96,10 @@ public class LauncherNormalMono : LauncherBaseMono
         _launchersConnect = null;
         _doneShoot = false;
         _canShoot = false;
+        if (_data != null && _data.ConnectedReferencesIDs != null)
+        {
+            _data.ConnectedReferencesIDs.Clear();
+        }
 
         // Despawn tất cả line connectors
         foreach (var lineConnectorPosition in _lineConnectorPositions)
@@ -105,6 +110,7 @@ public class LauncherNormalMono : LauncherBaseMono
         _lineConnectorPositions.Clear();
 
         base.OnDespawn();
+        enabled = false; // Đảm bảo tắt hẳn LateUpdate khi despawn
     }
 
     public void SetupVisualNormal(bool IsGoDoneSlot)
@@ -233,7 +239,11 @@ public class LauncherNormalMono : LauncherBaseMono
         return base.MoveToPosition(slotLauncherMono, targetPos, duration, onComplete);
     }
 
-    public void SetupSlotLauncher(SlotLauncherMono slotLauncherMono) => _slotLauncherMonoParent = slotLauncherMono;
+    public void SetupSlotLauncher(SlotLauncherMono slotLauncherMono)
+    {
+        _slotLauncherMonoParent = slotLauncherMono;
+        enabled = true; // Bật LateUpdate để xoay súng bám mục tiêu
+    }
 
 
     public Coroutine PlayJumpIntoHoleAndThenToSlot(

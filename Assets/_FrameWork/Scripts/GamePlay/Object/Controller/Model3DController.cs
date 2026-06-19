@@ -55,105 +55,6 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
 
     public static Action CallBackOnRevice;
 
-    [Header("Instancing Renderer")]
-    private MaterialPropertyBlock _instancingPropertyBlock;
-    private Mesh _cachedPieceMesh;
-    private readonly Matrix4x4[] _instanceMatrices = new Matrix4x4[1023];
-
-    private struct LocalTransform
-    {
-        public Vector3 position;
-        public Quaternion rotation;
-        public Vector3 scale;
-    }
-
-    private class InstancedBatchGroup
-    {
-        public Material material;
-        public int activeCount = 0;
-
-        public LocalTransform[] localTransforms = new LocalTransform[4000];
-        public ObjPieceMono[] pieces = new ObjPieceMono[4000];
-
-        public List<Vector4[]> renderColors = new List<Vector4[]>();
-        public List<float[]> renderSpecSizes = new List<float[]>();
-        public List<float[]> renderSpecSmooths = new List<float[]>();
-
-        public void AddPiece(ObjPieceMono p, LocalTransform localTransform, Vector4 color, float sSize, float sSmooth)
-        {
-            if (activeCount >= localTransforms.Length)
-            {
-                int newCap = Mathf.Max(1024, localTransforms.Length * 2);
-                Array.Resize(ref localTransforms, newCap);
-                Array.Resize(ref pieces, newCap);
-            }
-
-            localTransforms[activeCount] = localTransform;
-            pieces[activeCount] = p;
-
-            int batchIndex = activeCount / 1023;
-            int itemIndex = activeCount % 1023;
-
-            while (renderColors.Count <= batchIndex)
-            {
-                renderColors.Add(new Vector4[1023]);
-                renderSpecSizes.Add(new float[1023]);
-                renderSpecSmooths.Add(new float[1023]);
-            }
-
-            renderColors[batchIndex][itemIndex] = color;
-            renderSpecSizes[batchIndex][itemIndex] = sSize;
-            renderSpecSmooths[batchIndex][itemIndex] = sSmooth;
-
-            activeCount++;
-        }
-
-        public void RemovePiece(ObjPieceMono p)
-        {
-            int idx = Array.IndexOf(pieces, p, 0, activeCount);
-            if (idx >= 0)
-            {
-                activeCount--;
-
-                localTransforms[idx] = localTransforms[activeCount];
-                pieces[idx] = pieces[activeCount];
-                pieces[activeCount] = null;
-
-                int dstBatch = idx / 1023;
-                int dstItem = idx % 1023;
-                int srcBatch = activeCount / 1023;
-                int srcItem = activeCount % 1023;
-
-                renderColors[dstBatch][dstItem] = renderColors[srcBatch][srcItem];
-                renderSpecSizes[dstBatch][dstItem] = renderSpecSizes[srcBatch][srcItem];
-                renderSpecSmooths[dstBatch][dstItem] = renderSpecSmooths[srcBatch][srcItem];
-            }
-        }
-    }
-
-    private Dictionary<CubeShooterColor, InstancedBatchGroup> _renderBatches = new Dictionary<CubeShooterColor, InstancedBatchGroup>();
-
-    private LocalTransform GetLocalTransformRelativeToParent(ObjPieceMono p)
-    {
-        LocalTransform result;
-        result.position = p.transform.localPosition;
-        result.rotation = p.transform.localRotation;
-        result.scale = p.transform.localScale;
-
-        if (p.MeshTransform != p.transform)
-        {
-            Vector3 childPos = p.MeshTransform.localPosition;
-            Quaternion childRot = p.MeshTransform.localRotation;
-            Vector3 childScale = p.MeshTransform.localScale;
-
-            result.position += result.rotation * Vector3.Scale(result.scale, childPos);
-            result.rotation *= childRot;
-            result.scale = Vector3.Scale(result.scale, childScale);
-        }
-
-        return result;
-    }
-
     #endregion
 
     private void Awake()
@@ -195,6 +96,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
             _noTargetTimer = 0f;
             _isWaitingPrelose = false;
             _preloseDelayTimer = 0f;
+            StopUpdateLoop(); // Stop update loop during active gameplay
 
             // --- Reset speed to default if it was set to SpeedRotationFindColor ---
             if (_hasSetFindColorSpeed)
@@ -216,6 +118,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
         {
             _isCountingNoTarget = true;
             _noTargetTimer = 0f;
+            StartUpdateLoop(); // Start update loop only when warning timer is needed
         }
 
         return null;
@@ -285,7 +188,6 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
     public void OnRevice()
     {
         ResetShootState(true);
-        StartUpdateLoop();
     }
 
     public void ResetShootState(bool isStart = false)
@@ -295,6 +197,15 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
         _isCountingNoTarget = isStart;
         _hasTimeoutFired = false;
         _isWaitingPrelose = false;
+
+        if (isStart)
+        {
+            StartUpdateLoop();
+        }
+        else
+        {
+            StopUpdateLoop();
+        }
 
         if (_hasSetFindColorSpeed)
         {
@@ -337,13 +248,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
             _jobIndexToPiece[jobIndex] = null;
         }
 
-        if (objectBase is ObjPieceMono p)
-        {
-            if (_renderBatches.TryGetValue(p.GetColor(), out var group))
-            {
-                group.RemovePiece(p);
-            }
-        }
+
 
         _objectBaseThisLevel.Remove(objectBase);
     }
@@ -428,12 +333,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
         _delayWarningToPrelose = ConfigHolder.Instance.EndGameConfigSo.DelayWarningToPrelose;
         _noTargetTimeoutToWarning = ConfigHolder.Instance.EndGameConfigSo.NoTargetTimeoutToWarning;
 
-        _instancingPropertyBlock = new MaterialPropertyBlock();
-        if (_objectPiecePrefab != null)
-        {
-            var mf = _objectPiecePrefab.GetComponentInChildren<MeshFilter>();
-            if (mf != null) _cachedPieceMesh = mf.sharedMesh;
-        }
+
 
         PoolHolder.Instance.PreWarm(_objectPiecePrefab, 100, _parentObject);
         yield break;
@@ -517,33 +417,10 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
             };
         }
 
-        _renderBatches.Clear();
-        foreach (var piece in _objectBaseThisLevel)
-        {
-            if (piece is ObjPieceMono p)
-            {
-                var color = p.GetColor();
-                if (!_renderBatches.TryGetValue(color, out var group))
-                {
-                    group = new InstancedBatchGroup();
-                    group.material = ConfigHolder.Instance.ColorPallete_ForPiece.colorDictionary[color];
-                    _renderBatches[color] = group;
-                }
 
-                group.AddPiece(
-                    p,
-                    GetLocalTransformRelativeToParent(p),
-                    p.CurrentBaseColor.linear,
-                    p.CurrentSpecularSize,
-                    p.CurrentSpecularSmoothness
-                );
-            }
-        }
-        // ------------------------------------
 
         _rotationModel.StartRotation(transform.position);
-        ResetShootState();
-        StartUpdateLoop();
+        ResetShootState(false);
         _totalObjestCount = _objectBaseThisLevel.Count;
         yield break;
     }
@@ -559,7 +436,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
         _objectBaseThisLevelCache.Clear();
         _objectBaseThisLevel.Clear();
         _pieceToJobIndex.Clear();
-        _renderBatches.Clear();
+
 
         _cachedJobData = null;
 
@@ -577,45 +454,7 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
         _rotationModel.ResetRotation();
     }
 
-    private void LateUpdate()
-    {
-        if (_cachedPieceMesh == null) return;
 
-        Matrix4x4 currentParentMatrix = _parentObject.localToWorldMatrix;
-
-        foreach (var kvp in _renderBatches)
-        {
-            var group = kvp.Value;
-            int totalPieces = group.activeCount;
-            if (totalPieces == 0) continue;
-
-            for (int i = 0; i < totalPieces; i += 1023)
-            {
-                int batchSize = Mathf.Min(1023, totalPieces - i);
-
-                for (int j = 0; j < batchSize; j++)
-                {
-                    LocalTransform local = group.localTransforms[i + j];
-                    _instanceMatrices[j] = currentParentMatrix * Matrix4x4.TRS(local.position, local.rotation, local.scale);
-                }
-
-                _instancingPropertyBlock.SetVectorArray("_BaseColor", group.renderColors[i / 1023]);
-                _instancingPropertyBlock.SetFloatArray("_SpecularToonSize", group.renderSpecSizes[i / 1023]);
-                _instancingPropertyBlock.SetFloatArray("_SpecularToonSmoothness", group.renderSpecSmooths[i / 1023]);
-
-                // Graphics.DrawMeshInstanced(
-                //     _cachedPieceMesh,
-                //     0,
-                //     group.material,
-                //     _instanceMatrices,
-                //     batchSize,
-                //     _instancingPropertyBlock,
-                //     UnityEngine.Rendering.ShadowCastingMode.Off,
-                //     false
-                // );
-            }
-        }
-    }
 
     #endregion
 }

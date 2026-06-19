@@ -131,13 +131,14 @@ public class SlotLauncherMono : MonoBehaviour
         if (_sharedMaterial == null) yield break;
 
         bool toggle = false;
+        float interval = speed > 0 ? 1f / speed : 0.5f;
+        var waitTime = new WaitForSeconds(interval);
         while (_sharedMaterial != null)
         {
             _sharedMaterial.SetColor("_BaseColor", toggle ? color1 : color2);
             toggle = !toggle;
 
-            float interval = speed > 0 ? 1f / speed : 0.5f;
-            yield return new WaitForSeconds(interval);
+            yield return waitTime;
         }
     }
 

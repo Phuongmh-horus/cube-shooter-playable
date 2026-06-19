@@ -672,30 +672,25 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         if (_isMatchingLaunchers) yield break;
         _isMatchingLaunchers = true;
 
-        try
+        bool hasMatch = true;
+
+        while (hasMatch)
         {
-            bool hasMatch = true;
+            hasMatch = false;
 
-            while (hasMatch && !false)
+            foreach (var pair in _dicColorAndSlotLauncherActive)
             {
-                hasMatch = false;
-
-                foreach (var pair in _dicColorAndSlotLauncherActive)
+                if (pair.Value != null && pair.Value.Count >= _countMechnicMath3Launcher)
                 {
-                    if (pair.Value != null && pair.Value.Count >= _countMechnicMath3Launcher)
-                    {
-                        hasMatch = true;
-                        yield return MatchLauncherNormalLogic(pair.Value);
-                        break;
-                    }
+                    hasMatch = true;
+                    // Dùng StartCoroutine để tương thích tốt nhất với Luna WebGL
+                    yield return StartCoroutine(MatchLauncherNormalLogic(pair.Value));
+                    break;
                 }
             }
         }
 
-        finally
-        {
-            _isMatchingMatch3CleanUp();
-        }
+        _isMatchingMatch3CleanUp();
     }
 
     private void _isMatchingMatch3CleanUp()
@@ -752,10 +747,9 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         ClearLauncherSlot(threeSmallest[0]);
         ClearLauncherSlot(threeSmallest[2]);
 
-        bool startDone = false;
-        bool endDone = false;
+        List<IEnumerator> mergeTasks = new List<IEnumerator>();
 
-        StartCoroutine(startLauncher.MoveToPosition(
+        mergeTasks.Add(startLauncher.MoveToPosition(
             null,
             middleLauncher.TF.position,
             onComplete: () =>
@@ -764,16 +758,14 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                 if (middleLauncher == null || middleLauncher.ColorAndBullet == null || startLauncher == null || startLauncher.ColorAndBullet == null)
                 {
                     _activeMergeCount--;
-                    startDone = true;
                     return;
                 }
                 middleLauncher.AddBulletAmount(startLauncher.ColorAndBullet.Amount);
                 startLauncher.OnDespawn();
                 _activeMergeCount--;
-                startDone = true;
             }));
 
-        StartCoroutine(endLauncher.MoveToPosition(
+        mergeTasks.Add(endLauncher.MoveToPosition(
             null,
             middleLauncher.TF.position,
             onComplete: () =>
@@ -782,19 +774,14 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                 if (middleLauncher == null || middleLauncher.ColorAndBullet == null || endLauncher == null || endLauncher.ColorAndBullet == null)
                 {
                     _activeMergeCount--;
-                    endDone = true;
                     return;
                 }
                 middleLauncher.AddBulletAmount(endLauncher.ColorAndBullet.Amount);
                 endLauncher.OnDespawn();
                 _activeMergeCount--;
-                endDone = true;
             }));
 
-        while (!startDone || !endDone)
-        {
-            yield return null;
-        }
+        yield return WaitAll(mergeTasks);
         SoundManager.Instance.PlayOneShot(AudioClipName.Bonus_Slot_Arrive);
 
         if (middleLauncher != null && threeSmallest[1].CurrentLauncher == middleLauncher)
@@ -1173,6 +1160,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
     {
         if (_fireRateLauncher <= 0)
             _fireRateLauncher = ConfigHolder.Instance.SlotLauncherConfigSo.FireRateLauncherDeffault;
+        var waitTime = new WaitForSeconds(_fireRateLauncher / 1000f);
         while (!false)
         {
             // Snapshot để tránh lỗi Collection was modified khi ShootPiece() gọi Remove() trong lúc duyệt
@@ -1187,7 +1175,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                     }
                 }
             }
-            yield return new WaitForSeconds(_fireRateLauncher / 1000f);
+            yield return waitTime;
         }
     }
 
@@ -1568,24 +1556,21 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         }
     }
 
-    private IEnumerator RunTracked(IEnumerator coroutine, Action onComplete)
-    {
-        yield return coroutine;
-        onComplete?.Invoke();
-    }
-
     private IEnumerator WaitAll(List<IEnumerator> coroutines)
     {
         if (coroutines == null || coroutines.Count == 0) yield break;
 
-        int remaining = coroutines.Count;
-        foreach (var c in coroutines)
-        {
-            StartCoroutine(RunTracked(c, () => remaining--));
-        }
+        List<IEnumerator> activeCoroutines = new List<IEnumerator>(coroutines);
 
-        while (remaining > 0)
+        while (activeCoroutines.Count > 0)
         {
+            for (int i = activeCoroutines.Count - 1; i >= 0; i--)
+            {
+                if (!activeCoroutines[i].MoveNext())
+                {
+                    activeCoroutines.RemoveAt(i);
+                }
+            }
             yield return null;
         }
     }

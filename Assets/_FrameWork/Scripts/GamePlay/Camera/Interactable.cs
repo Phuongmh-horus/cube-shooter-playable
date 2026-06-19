@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class Interactable : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     private Vector2 _startPos;
+    private Vector3 _startMousePosition; // Cached true screen pixel coordinate
     private Vector2 _lastDragPosition;
     private float _holdTime;
     private bool _isHolding;
@@ -38,6 +39,18 @@ public class Interactable : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         if (_isLocked) return;
 
         _startPos = eventData.position;
+        
+        // Cache the actual Unity screen pixel position for physics raycasting.
+        // On Luna WebGL, eventData.position can be offset by Canvas scaling or letterboxing!
+#if !UNITY_EDITOR && UNITY_WEBGL
+        if (Input.touchCount > 0)
+            _startMousePosition = Input.GetTouch(0).position;
+        else
+            _startMousePosition = Input.mousePosition;
+#else
+        _startMousePosition = Input.mousePosition;
+#endif
+
         _holdTime = 0f;
         _isHolding = true;
         _hasSwiped = false;
@@ -53,15 +66,16 @@ public class Interactable : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     {
         if (_isLocked) return;
 
-        if (_isHolding && !_hasSwiped)
+        if (_isHolding)
         {
-            float totalTime = _holdTime;
-
-            if (totalTime < HoldThreshold &&
-                Vector3.Distance(_startPos, eventData.position) < SwipeThreshold)
+            // Use _lastDragPosition to determine if it was a drag or a tap.
+            float dragDistance = Vector2.Distance(_startPos, _lastDragPosition);
+            
+            if (dragDistance < 50f)
             {
-                OnMouseTap(eventData.position);
-                GameEventBus.OnMouseTap?.Invoke(eventData.position);
+                // Raycast from the true screen coordinate, NOT the UI Canvas coordinate!
+                OnMouseTap(_startMousePosition);
+                GameEventBus.OnMouseTap?.Invoke(_startMousePosition);
             }
         }
 
@@ -77,11 +91,13 @@ public class Interactable : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         if (!_canDrag) return;
 
         Vector2 delta = eventData.delta;
+        
+        // Update last drag position safely
+        _lastDragPosition = eventData.position;
+
         if (delta.sqrMagnitude < 0.01f) return;
 
         _hasSwiped = true;
-        _lastDragPosition = eventData.position;
-
         GameEventBus.OnDragAction?.Invoke(delta);
     }
 
@@ -112,7 +128,12 @@ public class Interactable : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             return;
         }
 
-        if (Physics.Raycast(CameraManager.Instance.MainCamera.ScreenPointToRay(mousePos), out RaycastHit hitInfo))
+        RaycastHit[] hits = Physics.RaycastAll(CameraManager.Instance.MainCamera.ScreenPointToRay(mousePos));
+        
+        // Sort hits by distance to ensure we process the closest objects first
+        System.Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+
+        foreach (var hitInfo in hits)
         {
             var launcher = hitInfo.collider.GetComponentInParent<LauncherBaseMono>();
 
@@ -123,6 +144,7 @@ public class Interactable : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
                     SoundManager.Instance?.PlayOneShot(AudioClipName.Pea_Selected);
                     GameEventBus.OnLauncherClicked?.Invoke(launcher);
                     LevelSystem.LevelHasBeenStarted = true;
+                    break;
                 }
             }
         }

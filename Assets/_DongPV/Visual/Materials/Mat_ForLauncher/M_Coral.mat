@@ -3,6 +3,7 @@
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
+  m_EnableGPUInstancing: 1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -120,6 +121,7 @@ Material:
     - _FresnelMin: 0
     - _IndirectIntensity: 1
     - _IndirectIntensityOutline: 0
+    - _LunaContrast: 1
     - _LunaGamma: 0
     - _MatCapMaskChannel: 0
     - _MatCapType: 0
@@ -176,7 +178,7 @@ Material:
     - _BaseColor: {r: 0.91, g: 0.27695656, b: 0.27695656, a: 1}
     - _DissolveEdgeColor: {r: 1, g: 0.3, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FakeLightDir: {r: -0.5, g: 0.6423, b: -0.5, a: 1.8}
+    - _FakeLightDir: {r: -0.5, g: 0, b: -0.5, a: 1.8}
     - _HColor: {r: 0.95, g: 0.855, b: 0.855, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}

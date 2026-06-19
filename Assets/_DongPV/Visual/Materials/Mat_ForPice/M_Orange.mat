@@ -3,6 +3,7 @@
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
+  m_EnableGPUInstancing: 1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -11,8 +12,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: b450d8945d0d68f4ebc6ca21258677cf, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - LUNA_GAMMA_CORRECTION
+  m_ValidKeywords: []
   m_InvalidKeywords:
   - AMBIENT
   - ANIME_SOFT
@@ -115,7 +115,7 @@ Material:
     - _IndirectIntensity: 1
     - _IndirectIntensityOutline: 0
     - _LunaContrast: 1.3
-    - _LunaGamma: 1
+    - _LunaGamma: 0
     - _MatCapMaskChannel: 0
     - _MatCapType: 0
     - _NormalsSource: 0

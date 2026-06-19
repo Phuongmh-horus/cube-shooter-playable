@@ -292,9 +292,10 @@ public class LevelSystem : MonoSingleton<LevelSystem>
     /// </summary>
     private IEnumerator UpdateTimeTrackingRoutine()
     {
+        var waitTime = new WaitForSeconds(1f);
         while (IsTrackingTime)
         {
-            yield return new WaitForSeconds(1f);
+            yield return waitTime;
             if (IsTrackingTime)
             {
                 InGameTime++;
