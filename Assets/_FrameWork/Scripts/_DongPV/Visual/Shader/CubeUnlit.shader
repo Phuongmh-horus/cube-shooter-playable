@@ -78,6 +78,7 @@ Shader "Horus/Unlit/CubeUnlit"
             float _Saturation;
             float _Brightness;
             float _LunaContrast;
+            float _LunaGamma;
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _BaseColor)
@@ -195,12 +196,13 @@ Shader "Horus/Unlit/CubeUnlit"
                 float luminance = dot(litColor, float3(0.2126, 0.7152, 0.0722));
                 litColor = lerp(float3(luminance, luminance, luminance), litColor, saturation) * brightness;
 
-                #if defined(LUNA_GAMMA_CORRECTION)
-                #if !defined(UNITY_COLORSPACE_GAMMA)
-                litColor = LinearToGammaSpace(litColor);
-                litColor = ((litColor - 0.5) * 1.2) + 0.5;
-                #endif
-                #endif
+                                if (_LunaGamma > 0.5)
+                {
+                    #if !defined(UNITY_COLORSPACE_GAMMA)
+                    litColor = LinearToGammaSpace(litColor);
+                    litColor = ((litColor - 0.5) * 1.2) + 0.5;
+                    #endif
+                }
 
                 return fixed4(litColor, albedo.a);
             }

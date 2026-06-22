@@ -113,6 +113,40 @@ public class PoolHolder : MonoSingleton<PoolHolder>
         }
     }
 
+    public System.Collections.IEnumerator PreWarmAsync(MonoBehaviour t, int count, Transform parent = null, string customKey = "", int itemsPerFrame = 5)
+    {
+        var key = string.IsNullOrEmpty(customKey) ? GetKey(t) : customKey;
+        Queue<MonoBehaviour> targetQueue = null;
+
+        lock (_pools)
+        {
+            if (_monoKeys.Add(key))
+            {
+                _pools.Add(key, new Queue<MonoBehaviour>(count));
+                _capacity.Add(key, 0);
+            }
+
+            if (!_pools.TryGetValue(key, out targetQueue)) yield break;
+        }
+
+        for (int i = 0; i < count; i++)
+        {
+            var item = Instantiate(t, parent);
+            item.name = key;
+            item.gameObject.SetActive(false);
+            
+            lock (_pools)
+            {
+                targetQueue.Enqueue(item);
+            }
+
+            if ((i + 1) % itemsPerFrame == 0)
+            {
+                yield return null;
+            }
+        }
+    }
+
     public void SetMaxSize(MonoBehaviour t, int size, string customKey = "")
     {
         var key = string.IsNullOrEmpty(customKey) ? GetKey(t) : customKey;

@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 2757291637060010862}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000003774895, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.601, z: -0.32}
+  m_LocalPosition: {x: 0, y: 1, z: -0.32}
   m_LocalScale: {x: 0.59999985, y: 0.59999985, z: 0.59999985}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -131,11 +131,11 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: 0, y: 0.601, z: -0.32}
-  - {x: 0.016499996, y: 0.601, z: -0.7819998}
-  - {x: 0.032999992, y: 0.6010001, z: -1.2439997}
-  - {x: 0.04949999, y: 0.6010001, z: -1.7059996}
-  - {x: 0.065999985, y: 0.60100013, z: -2.1679995}
+  - {x: 0, y: 1, z: -0.32}
+  - {x: 0.016499996, y: 1, z: -0.7819998}
+  - {x: 0.032999992, y: 1, z: -1.2439997}
+  - {x: 0.04949999, y: 1, z: -1.7059996}
+  - {x: 0.065999985, y: 1.0000001, z: -2.1679995}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -243,14 +243,8 @@ MonoBehaviour:
   radialDivision: 20
   material: {fileID: 2100000, guid: 7565f5cfcd8c45849ae13ddd7c54c252, type: 2}
   tilingPerMeter: 1
-  RopeLogic: {fileID: 2077511969211024338}
-  StartPoint: {fileID: 2119719485955742847}
-  EndPoint: {fileID: 5192301323438770815}
   FirstHalfColor: {r: 1, g: 1, b: 1, a: 1}
   SecondHalfColor: {r: 0.1552056, g: 1, b: 0, a: 1}
-  ThresholdDistance: 1.4
-  ThresholdOffsetY: -0.5
-  UpdateRate: 3
 --- !u!114 &849368240290472916
 MonoBehaviour:
   m_ObjectHideFlags: 0

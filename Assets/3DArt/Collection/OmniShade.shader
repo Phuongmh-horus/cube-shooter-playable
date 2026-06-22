@@ -248,7 +248,7 @@ Shader "OmniShade/Standard_Luna"
                 #if defined(LUNA_GAMMA_CORRECTION)
                 #if !defined(UNITY_COLORSPACE_GAMMA)
                 col.rgb = LinearToGammaSpace(col.rgb);
-                col.rgb = ((col.rgb - 0.5) * 1.0) + 0.5;
+                col.rgb = ((col.rgb - 0.5) * 0.5) + 0.5;
                 #endif
                 #endif
 

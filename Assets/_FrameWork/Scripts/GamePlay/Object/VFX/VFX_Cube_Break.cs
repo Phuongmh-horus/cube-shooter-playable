@@ -1,52 +1,60 @@
 using System.Collections;
 using UnityEngine;
 
-
+/// <summary>
+/// VFX cube vỡ — Luna/WebGL compatible.
+/// Tối ưu GC và Draw Calls: Dùng sharedMaterial trực tiếp, check IsAlive trong Update thay vì Coroutine.
+/// </summary>
 public class VFX_Cube_Break : MonoBehaviour
 {
-    [Header("VFX Particle Systems")]
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private ParticleSystemRenderer[] _vfxs;
 
-    public void OnInit(Vector3 os, CubeShooterColor _color)
+    private void Awake()
     {
-        transform.position = os;
+        enabled = false;
+    }
+
+    public void OnInit(Vector3 pos, CubeShooterColor color)
+    {
+        transform.position = pos;
+        SetColorsFromBase(color, ConfigHolder.Instance.ColorPallete_ForPiece);
         _particleSystem.Play();
-        SetColorsFromBase(_color, ConfigHolder.Instance.ColorPallete_ForPiece);
-        DespawnAfterSeconds(.9f);
+        StartCoroutine(WaitAndDespawn());
     }
 
     /// <summary>
-    /// Sets the colors of the 5 VFX based on the base color.
+    /// Dùng chung sharedMaterial có sẵn trong bảng màu.
+    /// Tránh đổi thuộc tính material hay dùng MaterialPropertyBlock (MPB có thể break SRP Batching ở một số case).
+    /// Việc dùng sharedMaterial nguyên bản giúp gom toàn bộ VFX cùng màu vào 1 Draw Call.
     /// </summary>
-    /// <param name="baseColorCode">The CubeShooterColor base color enum</param>
-    /// <param name="colorPallete">The color palette to resolve baseColorCode to a real Color object</param>
-    public void SetColorsFromBase(CubeShooterColor baseColorCode, ColorPallete colorPallete)
+    private void SetColorsFromBase(CubeShooterColor baseColorCode, ColorPallete colorPallete)
     {
-        Material material = colorPallete.colorDictionary[baseColorCode];
-        foreach (var VARIABLE in _vfxs)
-            VARIABLE.sharedMaterial = material;
+        if (colorPallete == null || colorPallete.colorDictionary == null) return;
+        if (!colorPallete.colorDictionary.TryGetValue(baseColorCode, out Material mat) || mat == null) return;
+
+        foreach (var vfxRenderer in _vfxs)
+        {
+            if (vfxRenderer == null) continue;
+            vfxRenderer.sharedMaterial = mat;
+        }
     }
 
-    /// <summary>
-    /// Waits for the specified seconds then automatically despawns this VFX.
-    /// </summary>
-    public void DespawnAfterSeconds(float seconds)
+    private IEnumerator WaitAndDespawn()
     {
-        StartCoroutine(DespawnAfterSecondsAsync(seconds));
-    }
-
-    /// <summary>
-    /// UniTask to wait for a duration in seconds then despawn this VFX.
-    /// </summary>
-    public IEnumerator DespawnAfterSecondsAsync(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
+        while (_particleSystem != null && _particleSystem.IsAlive(true))
+        {
+            yield return new WaitForSeconds(0.25f);
+        }
         OnDespawn();
     }
 
     public void OnDespawn()
     {
+        enabled = false;
+        if (_particleSystem != null)
+            _particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
         PoolHolder.Instance.Release(this);
     }
 }

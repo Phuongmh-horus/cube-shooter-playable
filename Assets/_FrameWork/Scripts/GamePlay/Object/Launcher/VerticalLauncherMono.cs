@@ -21,6 +21,10 @@ public class VerticalLauncherMono : MonoBehaviour
     private static GameObject _floorPrefab;
 
     private float _spacingLauncher = 0;
+
+    // Pre-allocated scratch lists to avoid GC pressure on hot-paths
+    private readonly List<Vector3> _positionsCache = new List<Vector3>(16);
+    private readonly List<Coroutine> _jumpTasksCache = new List<Coroutine>(16);
     #endregion
 
 
@@ -153,16 +157,16 @@ public class VerticalLauncherMono : MonoBehaviour
     {
         int count = _launcherBaseMonos.Count;
 
-        List<Vector3> positions = new List<Vector3>(count);
+        // Reuse pre-allocated cache list — avoids GC each call
+        _positionsCache.Clear();
         for (int i = 0; i < count; i++)
         {
             Vector3 pos = _verticalPieceLauncherCenter.position;
             pos.y -= i * spacing;
-            positions.Add(pos);
+            _positionsCache.Add(pos);
         }
 
-        Transform centerTransform = _verticalPieceLauncherCenter;
-        Vector3 centerPos = centerTransform.position;
+        Vector3 centerPos = _verticalPieceLauncherCenter.position;
         // Setup floors nếu onInit
         if (onInit)
         {
@@ -178,7 +182,8 @@ public class VerticalLauncherMono : MonoBehaviour
             }
         }
 
-        List<Coroutine> jumpTasks = new List<Coroutine>();
+        // Reuse pre-allocated cache list — avoids GC each call
+        _jumpTasksCache.Clear();
 
         for (int i = 0; i < count; i++)
         {
@@ -186,17 +191,17 @@ public class VerticalLauncherMono : MonoBehaviour
 
             if (onInit || LevelSystem.IsTutorialLevel)
             {
-                _launcherBaseMonos[i].transform.position = positions[i];
+                _launcherBaseMonos[i].transform.position = _positionsCache[i];
             }
             else
             {
-                jumpTasks.Add(StartCoroutine(RabbitJumpToPosition(_launcherBaseMonos[i], positions[i])));
+                _jumpTasksCache.Add(StartCoroutine(RabbitJumpToPosition(_launcherBaseMonos[i], _positionsCache[i])));
             }
         }
 
-        if (!onInit && jumpTasks.Count > 0)
+        if (!onInit && _jumpTasksCache.Count > 0)
         {
-            StartCoroutine(WaitAll(jumpTasks)) /* .Forget() removed */ ;
+            StartCoroutine(WaitAll(_jumpTasksCache));
         }
     }
 

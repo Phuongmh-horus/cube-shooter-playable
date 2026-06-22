@@ -109,26 +109,34 @@ public class LauncherController : MonoBehaviour, BaseLevelGenerator
     /// Giống doc: SetupCollectorControllersConnect()
     /// A nối B, B nối C → group = [A, B, C]. Mỗi launcher trong group đều có cùng list.
     /// </summary>
-    private void SetupLauncherConnectGroups()
+            private void SetupLauncherConnectGroups()
     {
-        // 1. Build dictionary ID → LauncherNormalMono
-        var launcherMap = new Dictionary<int, LauncherNormalMono>();
+        var launcherMap = new System.Collections.Generic.Dictionary<int, LauncherNormalMono>();
+        var orderedLaunchers = new System.Collections.Generic.List<LauncherNormalMono>();
+
         foreach (var vertical in _verticalPieceLauncherThisLevel)
-            foreach (var launcher in vertical.LauncherBaseMonos)
-                if (launcher is LauncherNormalMono normalMono && launcher.GetID() >= 0)
-                    launcherMap[launcher.GetID()] = normalMono;
-
-        // 2. BFS tìm groups
-        var visited = new HashSet<int>();
-        foreach (var kvp in launcherMap)
         {
-            if (visited.Contains(kvp.Key)) continue;
+            foreach (var launcher in vertical.LauncherBaseMonos)
+            {
+                if (launcher is LauncherNormalMono normalMono && launcher.GetID() >= 0)
+                {
+                    launcherMap[launcher.GetID()] = normalMono;
+                    orderedLaunchers.Add(normalMono);
+                }
+            }
+        }
 
-            // BFS từ launcher này
-            var group = new List<LauncherNormalMono>();
-            var queue = new Queue<int>();
-            queue.Enqueue(kvp.Key);
-            visited.Add(kvp.Key);
+        var visited = new System.Collections.Generic.HashSet<int>();
+
+        foreach (var startMono in orderedLaunchers)
+        {
+            int startId = startMono.GetID();
+            if (visited.Contains(startId)) continue;
+
+            var group = new System.Collections.Generic.List<LauncherNormalMono>();
+            var queue = new System.Collections.Generic.Queue<int>();
+            queue.Enqueue(startId);
+            visited.Add(startId);
 
             while (queue.Count > 0)
             {
@@ -147,79 +155,67 @@ public class LauncherController : MonoBehaviour, BaseLevelGenerator
                 }
             }
 
-            // 3. Gán connect group cho mỗi launcher trong nhóm
-            // Launcher không nối ai → không gán gì (null)
-            if (group.Count <= 1) continue;
-            foreach (var launcher in group)
-                launcher.SetLaunchersConnect(group);
+            if (group.Count > 1)
+            {
+                group.Sort((a, b) =>
+                {
+                    int colCmp = a.ColumnIndex.CompareTo(b.ColumnIndex);
+                    if (colCmp != 0) return colCmp;
+                    return b.transform.position.y.CompareTo(a.transform.position.y);
+                });
+
+                foreach (var launcher in group)
+                    launcher.SetLaunchersConnect(new System.Collections.Generic.List<LauncherNormalMono>(group));
+            }
         }
     }
 
-    /// <summary>
-    /// Nối dây visual giữa các LauncherNormalMono trong cùng group kết nối.
-    /// Chỉ Normal mới có dây. Nối cặp liền kề: [0]↔[1], [1]↔[2], ...
-    /// Dây 0-1 gán vào launcher[0], dây 1-2 gán vào launcher[1], launcher cuối = null.
-    /// </summary>
     private void SetupLineConnectors()
     {
-        // Build map ID → LauncherNormalMono (chỉ Normal)
-        var launcherMap = new Dictionary<int, LauncherNormalMono>();
+        System.Collections.Generic.HashSet<LauncherNormalMono> drawnLaunchers = new System.Collections.Generic.HashSet<LauncherNormalMono>();
+
         foreach (var vertical in _verticalPieceLauncherThisLevel)
-            foreach (var launcher in vertical.LauncherBaseMonos)
-                if (launcher is LauncherNormalMono normalMono && launcher.GetID() >= 0)
-                    launcherMap[launcher.GetID()] = normalMono;
-
-        // BFS tìm groups
-        var visited = new HashSet<int>();
-        foreach (var kvp in launcherMap)
         {
-            if (visited.Contains(kvp.Key)) continue;
-
-            var group = new List<LauncherNormalMono>();
-            var queue = new Queue<int>();
-            queue.Enqueue(kvp.Key);
-            visited.Add(kvp.Key);
-
-            while (queue.Count > 0)
+            foreach (var launcher in vertical.LauncherBaseMonos)
             {
-                int curId = queue.Dequeue();
-                if (!launcherMap.TryGetValue(curId, out var launcher)) continue;
-
-                group.Add(launcher);
-                var connectedIDs = launcher.GetConnectedReferencesIDs();
-                if (connectedIDs == null) continue;
-
-                foreach (int nextId in connectedIDs)
+                if (launcher is LauncherNormalMono startMono &&
+                    !drawnLaunchers.Contains(startMono) &&
+                    startMono.LaunchersConnect != null &&
+                    startMono.LaunchersConnect.Count > 1)
                 {
-                    if (visited.Contains(nextId)) continue;
-                    visited.Add(nextId);
-                    queue.Enqueue(nextId);
+                    var group = startMono.LaunchersConnect;
+
+                    for (int i = 0; i < group.Count - 1; i++)
+                    {
+                        var a = group[i];
+                        var b = group[i + 1];
+
+                        drawnLaunchers.Add(a);
+                        drawnLaunchers.Add(b);
+
+                        // Instantiate LineConnector
+                        var newSpawnPool = PoolHolder.Instance.Get(_lineConnectorPrefab, _parentLineConnector);
+                        if (newSpawnPool is LineConnectorMono lineConnector)
+                        {
+                            Color colorA = ConfigHolder.Instance.ColorPallete_ForLauncher.GetColorBase(a.GetColorCodeIndex0());
+                            Color colorB = ConfigHolder.Instance.ColorPallete_ForLauncher.GetColorBase(b.GetColorCodeIndex0());
+
+                            colorA = Color.Lerp(colorA, Color.white, 0.2f);
+                            colorA.a = 1f;
+                            colorB = Color.Lerp(colorB, Color.white, 0.2f);
+                            colorB.a = 1f;
+
+                            lineConnector.OnInit(a.transform, b.transform, colorA, colorB);
+
+                            // Cập nhật launcher để gán connector
+                            a.AddLineConnector(lineConnector, LinePosition.Start);
+                            b.AddLineConnector(lineConnector, LinePosition.End);
+                        }
+                        else
+                            Debug.LogError($"Failed to get LineConnectorMono from pool");
+                    }
                 }
             }
-
-            if (group.Count <= 1) continue;
-
-            // Nối cặp liền kề: mỗi line được thêm vào cả launcher Start và End
-            // Launcher giữa group sẽ có 2 line (1 là End, 1 là Start)
-            for (int i = 0; i < group.Count - 1; i++)
-            {
-                var a = group[i];
-                var b = group[i + 1];
-                var newSpawnPool = PoolHolder.Instance.Get(_lineConnectorPrefab, _parentLineConnector);
-                if (newSpawnPool is LineConnectorMono lineConnector)
-                {
-                    lineConnector.OnInit(a.transform, b.transform, ConfigHolder.Instance.ColorPallete_ForLauncher.GetColorBase(a.GetColorCodeIndex0()), ConfigHolder.Instance.ColorPallete_ForLauncher.GetColorBase(b.GetColorCodeIndex0()));
-
-                    // Thêm line vào launcher a (a là Start của dây này)
-                    a.AddLineConnector(lineConnector, LinePosition.Start);
-
-                    // Thêm line vào launcher b (b là End của dây này)
-                    b.AddLineConnector(lineConnector, LinePosition.End);
-                }
-                else
-                    Debug.LogError($"Failed to get LineConnectorMono from pool");
-            }
-            // Launcher cuối group không có dây (đã null sẵn)
         }
     }
 
@@ -234,7 +230,10 @@ public class LauncherController : MonoBehaviour, BaseLevelGenerator
         _wallPrefab ??= ConfigHolder.Instance.PrefabsDataConfigSO.WallAroundPrefab;
         _lineConnectorPrefab ??= ConfigHolder.Instance.PrefabsDataConfigSO.LineConnectorPrefab;
         _spacingVerticalLauncher = ConfigHolder.Instance.LauncherConfigSo.SpacingVerticalLauncher;
-        yield break;
+
+        yield return StartCoroutine(PoolHolder.Instance.PreWarmAsync(_verticalLauncherPrefab, 10, _parentLauncherProjectile, "", 5));
+        yield return StartCoroutine(PoolHolder.Instance.PreWarmAsync(_lineConnectorPrefab, 15, _parentLineConnector, "", 5));
+        yield return StartCoroutine(PoolHolder.Instance.PreWarmAsync(ConfigHolder.Instance.PrefabsDataConfigSO.LauncherProjectilePrefab, 50, _parentLauncherProjectile, "", 10));
     }
 
     public IEnumerator OnLoadLevel(RoundDataBytes newRoundData)

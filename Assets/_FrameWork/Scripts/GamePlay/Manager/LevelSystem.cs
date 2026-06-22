@@ -304,4 +304,10 @@ public class LevelSystem : MonoSingleton<LevelSystem>
     }
 
     #endregion
+
+    private void Update()
+    {
+        LauncherProjectile.UpdateAllProjectiles();
+    }
+
 }

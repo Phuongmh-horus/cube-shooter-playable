@@ -39,18 +39,12 @@ namespace GogoGaga.OptimizedRopesAndCables
         private float lastRopeWidth;
         private int lastRadialDivision;
         private int lastOverallDivision;
+        // forceUpdateMesh is now only used for the very first generate after OnEnable
         private bool forceUpdateMesh = true;
 
         [Header("ROPE TEXTURE EQUALIZER")]
-        public Rope RopeLogic;
-        public Transform StartPoint;
-        public Transform EndPoint;
         public Color FirstHalfColor;
         public Color SecondHalfColor;
-        public float ThresholdDistance = 1.0f;
-        public float ThresholdOffsetY = -0.5f;
-        public int UpdateRate = 5;
-        private int frameCounter = 0;
         private MaterialPropertyBlock block;
 
         public void OnValidate()
@@ -71,6 +65,15 @@ namespace GogoGaga.OptimizedRopesAndCables
             InitializeComponents();
             SubscribeToRopeEvents();
             forceUpdateMesh = true;
+
+            if (meshRenderer != null && meshRenderer.sharedMaterial != null)
+            {
+                Shader customShader = Shader.Find("Custom/TwoColorRope");
+                if (customShader != null)
+                {
+                    meshRenderer.sharedMaterial.shader = customShader;
+                }
+            }
         }
 
         private void OnEnable()
@@ -288,6 +291,7 @@ namespace GogoGaga.OptimizedRopesAndCables
             ropeMesh.vertices = verticesArray;
             ropeMesh.triangles = trianglesArray;
             ropeMesh.uv = uvsArray;
+
             ropeMesh.RecalculateNormals();
         }
 
@@ -419,50 +423,15 @@ namespace GogoGaga.OptimizedRopesAndCables
                     block = new MaterialPropertyBlock();
                     meshRenderer.GetPropertyBlock(block);
                 }
-                block.SetColor("_TwoHalfColorsColor1", FirstHalfColor);
-                block.SetColor("_TwoHalfColorsColor2", SecondHalfColor);
-
-                // Apply the color to all renderers in the pipe part
+                block.SetColor("_Color1", FirstHalfColor);
+                block.SetColor("_Color2", SecondHalfColor);
                 meshRenderer.SetPropertyBlock(block);
             }
         }
 
         public void ReOffsetTextureTwoHalf()
         {
-            if (RopeLogic == null || RopeLogic.StartPoint == null || RopeLogic.EndPoint == null) return;
-            if (block == null)
-            {
-                block = new MaterialPropertyBlock();
-                meshRenderer.GetPropertyBlock(block);
-
-                // Re-apply two-half colors only when the block is newly created
-                // to avoid redundant updates every frame.
-                block.SetColor("_TwoHalfColorsColor1", FirstHalfColor);
-                block.SetColor("_TwoHalfColorsColor2", SecondHalfColor);
-            }
-
-            // Calculate the actual arc length of the rope
-            float actualLength = 0f;
-            Vector3 prevP = RopeLogic.GetPointAt(0);
-            for (int i = 1; i <= OverallDivision; i++)
-            {
-                Vector3 p = RopeLogic.GetPointAt(i / (float)OverallDivision);
-                actualLength += Vector3.Distance(prevP, p);
-                prevP = p;
-            }
-
-            // In CreateRopeMesh, the V coordinate of the UV goes up to (actualLength * tilingPerMeter)
-            float maxV = actualLength * tilingPerMeter;
-
-            // Scale the mask texture so that its UV range always exactly covers the whole rope length.
-            // This ensures both colors are always visible regardless of how short or stretched the rope is.
-            float scaleY = maxV > 0.001f ? 1f / maxV : 1f;
-
-            // We set offset to 0 so the UV range is precisely [0, 1]. 
-            // If we use ThresholdOffsetY (e.g. -0.5), the UV would be [-0.5, 0.5], 
-            // which clamps to the first half of the texture (only Red).
-            block.SetVector("_TwoHalfColorsMaskTex_ST", new Vector4(1f, scaleY, 0f, 0f));
-            meshRenderer.SetPropertyBlock(block);
+            // Now using Sprites/Default with Vertex Colors, no need to update MaterialPropertyBlock or offset textures
         }
 
         public void SetColorGreen()

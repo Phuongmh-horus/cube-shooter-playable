@@ -7,12 +7,46 @@ public class LauncherProjectile : MonoBehaviour
 
     public VFX_Cube_Break vfxCubeBreak;
     private static float Speed = 10f;
+    private static int _lastSoundFrame = -1;
     private Transform _tf;
 
     private ObjectBaseMono _target;
     private CubeShooterColor _color;
     private bool _isMoving;
     private Action _onHitCallback;
+
+
+    public static System.Collections.Generic.List<LauncherProjectile> ActiveProjectiles = new System.Collections.Generic.List<LauncherProjectile>(500);
+    private static int _vfxSpawnCountThisFrame = 0;
+    private static int _lastVfxFrame = -1;
+
+    public static void UpdateAllProjectiles()
+    {
+        for (int i = ActiveProjectiles.Count - 1; i >= 0; i--)
+        {
+            var proj = ActiveProjectiles[i];
+            if (proj == null || !proj._isMoving || !proj.gameObject.activeInHierarchy)
+            {
+                ActiveProjectiles.RemoveAt(i);
+                continue;
+            }
+
+            if (proj._target == null)
+            {
+                proj.OnDespawn();
+                continue;
+            }
+
+            Vector3 targetPos = proj._target.TF.position;
+            proj._tf.position = Vector3.MoveTowards(proj._tf.position, targetPos, Speed * Time.deltaTime);
+
+            if (Vector3.SqrMagnitude(proj._tf.position - targetPos) < 0.01f)
+            {
+                proj._isMoving = false;
+                proj.HitTarget();
+            }
+        }
+    }
 
     #endregion
 
@@ -48,7 +82,8 @@ public class LauncherProjectile : MonoBehaviour
         _onHitCallback = onHitCallback;
         _isMoving = true;
         gameObject.SetActive(true);
-        StartCoroutine(MoveToTarget());
+        if (!ActiveProjectiles.Contains(this)) ActiveProjectiles.Add(this);
+
     }
 
     /// <summary>
@@ -67,30 +102,6 @@ public class LauncherProjectile : MonoBehaviour
 
     #endregion
 
-    #region <========================= PRIVATE METHOD =========================>
-
-    private System.Collections.IEnumerator MoveToTarget()
-    {
-        while (_isMoving && _target != null)
-        {
-            Vector3 targetPos = _target.TF.position;
-
-            _tf.position = Vector3.MoveTowards(_tf.position, targetPos, Speed * Time.deltaTime);
-
-            // Check tới nơi
-            if (Vector3.SqrMagnitude(_tf.position - targetPos) < 0.01f)
-            {
-                HitTarget();
-                yield break;
-            }
-
-            yield return null;
-        }
-
-        // Nếu target biến mất trước khi đạn tới hoặc bị vô hiệu hóa
-        //OnDespawn();
-    }
-
     /// <summary>
     /// Xử lý khi va chạm mục tiêu: Phá hủy mục tiêu và despawn đạn
     /// </summary>
@@ -98,19 +109,31 @@ public class LauncherProjectile : MonoBehaviour
     {
         _onHitCallback?.Invoke();
         _target.OnDespawn();
-        var vfx = PoolHolder.Instance.Get(vfxCubeBreak);
+
+        if (Time.frameCount != _lastVfxFrame)
+        {
+            _lastVfxFrame = Time.frameCount;
+            _vfxSpawnCountThisFrame = 0;
+        }
+
+        if (_vfxSpawnCountThisFrame < 8) // Hard cap 8 VFX per frame
+        {
+            var vfx = PoolHolder.Instance.Get(vfxCubeBreak);
+            if (vfx is VFX_Cube_Break vfxdemo)
+                vfxdemo.OnInit(_tf.position, _color);
+            _vfxSpawnCountThisFrame++;
+        }
 
         if (PlayableAdsUIController.Instance == null || !PlayableAdsUIController.Instance.IsShowingEndcard)
         {
-            SoundManager.Instance?.PlayOneShot(AudioClipName.Cube_Destroy);
+            if (Time.frameCount != _lastSoundFrame)
+            {
+                _lastSoundFrame = Time.frameCount;
+                SoundManager.Instance?.PlayOneShot(AudioClipName.Cube_Destroy);
+            }
         }
-
-        if (vfx is VFX_Cube_Break vfxdemo)
-            vfxdemo.OnInit(_tf.position, _color);
 
         OnDespawn();
     }
-
-    #endregion
 
 }

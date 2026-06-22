@@ -1,7 +1,7 @@
 {
     "version": "7.0.0",
     "projectId": "52f536a8df4219e4b975969529509222",
-    "applicationID": 40713,
+    "applicationID": 39501,
     "creativeName": "LV_7",
     "pgServer": "EU",
     "window": {
@@ -138,7 +138,10 @@
                 "Assets/Resources/DOTweenSettings.asset",
                 "Assets/TextMesh Pro/Resources/TMP Settings.asset",
                 "Assets/VFX/Prefab/VFX_Cube_Break.prefab",
-                "Assets/VFX/Prefab/VFX_Shooter_Bullet.prefab"
+                "Assets/VFX/Prefab/VFX_Hidden_Shooter.prefab",
+                "Assets/VFX/Prefab/VFX_Hidden_Shooter_DevSetup.prefab",
+                "Assets/VFX/Prefab/VFX_Shooter_Bullet.prefab",
+                "Assets/VFX/Prefab/VFX_Shooter_Disapear.prefab"
             ]
         },
         "scenes": [
@@ -513,10 +516,6 @@
             },
             {
                 "name": "System.InvalidCastException",
-                "excluded": true
-            },
-            {
-                "name": "System.InvalidOperationException",
                 "excluded": true
             },
             {
@@ -8408,14 +8407,6 @@
                 "excluded": true
             },
             {
-                "name": "GogoGaga.OptimizedRopesAndCables.Rope",
-                "excluded": true
-            },
-            {
-                "name": "GogoGaga.OptimizedRopesAndCables.RopeMesh",
-                "excluded": true
-            },
-            {
                 "name": "GPUOcclusionSystem",
                 "excluded": true
             },
@@ -11061,7 +11052,7 @@
                 "instanceMethods": [
                     {
                         "name": "Count#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$Generic$ICollection$1$IsReadOnly#get",
@@ -11077,11 +11068,11 @@
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetEnumerator",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$Generic$IEnumerable$1$GetEnumerator",
@@ -11093,7 +11084,7 @@
                     },
                     {
                         "name": "copyTo",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$ICollection$copyTo",
@@ -11127,7 +11118,7 @@
                     },
                     {
                         "name": "Current#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$IEnumerator$Current#get",
@@ -11135,11 +11126,11 @@
                     },
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
@@ -11147,11 +11138,11 @@
                     },
                     {
                         "name": "Dispose",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "moveNext",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$IEnumerator$reset",
@@ -12183,7 +12174,7 @@
                     },
                     {
                         "name": "GetEnumerator",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$Generic$IEnumerable$1$GetEnumerator",
@@ -12339,7 +12330,7 @@
                     },
                     {
                         "name": "Current#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$IEnumerator$Current#get",
@@ -12347,11 +12338,11 @@
                     },
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
@@ -12359,11 +12350,11 @@
                     },
                     {
                         "name": "Dispose",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "moveNext",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$IEnumerator$reset",
@@ -13577,7 +13568,7 @@
                     },
                     {
                         "name": "CombineHashCodes",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "CombineHashCodes$1",
@@ -13745,7 +13736,7 @@
                     },
                     {
                         "name": "getDefaultValue",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$ITupleInternal$Size#get",
@@ -13753,11 +13744,11 @@
                     },
                     {
                         "name": "$ctor1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "equals",
@@ -13785,7 +13776,7 @@
                     },
                     {
                         "name": "getHashCode",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "System$Collections$IStructuralEquatable$GetHashCode",
@@ -13809,7 +13800,7 @@
                     },
                     {
                         "name": "$clone",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -25511,7 +25502,7 @@
                     },
                     {
                         "name": "SetParameter$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SetParameter$2",
@@ -25595,7 +25586,7 @@
                     },
                     {
                         "name": "SetColor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetVector$1",
@@ -25785,7 +25776,7 @@
                     },
                     {
                         "name": "colors#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "colors32#get",
@@ -25829,7 +25820,7 @@
                     },
                     {
                         "name": "vertexCount#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "subMeshCount#get",
@@ -25973,7 +25964,7 @@
                     },
                     {
                         "name": "SetColors",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetIndices$2",
@@ -35193,7 +35184,7 @@
                     },
                     {
                         "name": "isPlaying#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "isPaused#get",
@@ -35333,7 +35324,7 @@
                     },
                     {
                         "name": "IsAlive",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Play",
@@ -35361,7 +35352,7 @@
                     },
                     {
                         "name": "Stop$2",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Emit",
@@ -35766,6 +35757,10 @@
                     {
                         "name": "UpdateTimeTrackingRoutine",
                         "excluded": true
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
                     }
                 ]
             },
@@ -35812,6 +35807,10 @@
                     {
                         "name": "OnDestroy",
                         "excluded": true
+                    },
+                    {
+                        "name": "PreWarmAsync",
+                        "excluded": false
                     }
                 ]
             },
@@ -36466,11 +36465,11 @@
                         "excluded": false
                     },
                     {
-                        "name": "MoveToTarget",
+                        "name": "HitTarget",
                         "excluded": false
                     },
                     {
-                        "name": "HitTarget",
+                        "name": "UpdateAllProjectiles",
                         "excluded": false
                     }
                 ]
@@ -36481,19 +36480,19 @@
                 "instanceMethods": [
                     {
                         "name": "Rope#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "RopeMesh#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnInit$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnInit",
@@ -36513,7 +36512,7 @@
                     },
                     {
                         "name": "OnDespawn",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SetRenderersActive",
@@ -36975,11 +36974,11 @@
                     },
                     {
                         "name": "StartBlinking",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "StartBlinking$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "StopBlinking",
@@ -36987,7 +36986,7 @@
                     },
                     {
                         "name": "BlinkMaterialAsync",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SetRenderersActive",
@@ -37076,7 +37075,7 @@
                 "staticMethods": [],
                 "instanceMethods": [
                     {
-                        "name": "RevertPosition",
+                        "name": "ChangeState",
                         "excluded": false
                     }
                 ]
@@ -37155,7 +37154,7 @@
                     },
                     {
                         "name": "DoneShoot#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetSlotLauncherMono#get",
@@ -37171,11 +37170,11 @@
                     },
                     {
                         "name": "SetLaunchersConnect",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "AddLineConnector",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnInit",
@@ -37251,14 +37250,22 @@
                     },
                     {
                         "name": "OnRevealHidden",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "UpdateLineHiddenColor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnBecomeTop",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnInit$1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "PlayVFX_Shooter_Disapear",
                         "excluded": false
                     }
                 ]
@@ -37329,7 +37336,7 @@
                     },
                     {
                         "name": "IsVisiblePiecesByColor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnInitPoolAsync",
@@ -37445,7 +37452,7 @@
                     },
                     {
                         "name": "LauncherSlotThisLevel#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "RegisterTransitioningLauncher",
@@ -37605,7 +37612,7 @@
                     },
                     {
                         "name": "StartBlinkingAllSlot",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "StopBlinkingAllSlot",
@@ -37642,15 +37649,15 @@
                         "excluded": false
                     },
                     {
-                        "name": "DespawnAfterSeconds",
-                        "excluded": false
-                    },
-                    {
-                        "name": "DespawnAfterSecondsAsync",
-                        "excluded": false
-                    },
-                    {
                         "name": "OnDespawn",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "WaitAndDespawn",
                         "excluded": false
                     }
                 ]
@@ -37678,6 +37685,242 @@
                     {
                         "name": "ctor",
                         "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "VfxBase",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDespawn",
+                        "excluded": false
+                    },
+                    {
+                        "name": "WaitAndDespawn",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "GogoGaga.OptimizedRopesAndCables.Rope",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartPoint#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "MidPoint#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "EndPoint#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CurrentValue#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsPrefab#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnInit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    },
+                    {
+                        "name": "InitializeLineRenderer",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AreEndPointsValid",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetSplinePoint",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CalculateYFactorAdjustment",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetMidPoint",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetRationalBezierPoint",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetPointAt",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FixedUpdate",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SimulatePhysics",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDrawGizmos",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetStartPoint",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetMidPoint",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetEndPoint",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RecalculateRope",
+                        "excluded": false
+                    },
+                    {
+                        "name": "NotifyPointsChanged",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsPointsMoved",
+                        "excluded": false
+                    },
+                    {
+                        "name": "IsRopeSettingsChanged",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "GogoGaga.OptimizedRopesAndCables.RopeMesh",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnValidate",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "InitializeComponents",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CheckEndPoints",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SubscribeToRopeEvents",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UnsubscribeFromRopeEvents",
+                        "excluded": false
+                    },
+                    {
+                        "name": "CreateRopeMesh",
+                        "excluded": false
+                    },
+                    {
+                        "name": "NeedUpdateMesh",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GenerateMesh",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "DelayedGenerateMesh",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnDestroy",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetColor",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetColor$1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ReOffsetTextureTwoHalf",
+                        "excluded": false
+                    },
+                    {
+                        "name": "SetColorGreen",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetColorRed",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "System.InvalidOperationException",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "$ctor1",
+                        "excluded": true
+                    },
+                    {
+                        "name": "$ctor2",
+                        "excluded": true
                     }
                 ]
             }
@@ -37897,6 +38140,16 @@
                         "script": "",
                         "ext": "",
                         "name": "Assets/_FindNMerge/Font/MUSEOSANSROUNDED-1000 SDF.asset"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "png32",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Resources/unity_builtin_extra/Default-ParticleSystem"
                     }
                 ]
             },
@@ -37924,8 +38177,8 @@
                     {
                         "channels": 1,
                         "startTime": "00:00.000",
-                        "endTime": "00:26.000",
-                        "lengthInSeconds": 26.0,
+                        "endTime": "00:02.000",
+                        "lengthInSeconds": 2.0,
                         "bitrate": 128,
                         "script": "",
                         "ext": "",
@@ -38010,6 +38263,16 @@
                         "script": "",
                         "ext": "",
                         "name": "Assets/_FrameWork/Resources/Sounds/CoinFlyEnd.ogg"
+                    },
+                    {
+                        "channels": 1,
+                        "startTime": "00:00.000",
+                        "endTime": "00:02.000",
+                        "lengthInSeconds": 2.0,
+                        "bitrate": 128,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_FrameWork/Resources/Sounds/GameLose.ogg"
                     }
                 ]
             },
@@ -38031,7 +38294,22 @@
                     "simplificationPercentage": 30,
                     "linkCloseVertices": true
                 },
-                "overrides": []
+                "overrides": [
+                    {
+                        "halfPrecision": true,
+                        "useSimplification": true,
+                        "simplificationPercentage": 50,
+                        "linkCloseVertices": true,
+                        "name": "Assets/3DArt/Test/cube_moi.fbx"
+                    },
+                    {
+                        "halfPrecision": true,
+                        "useSimplification": true,
+                        "simplificationPercentage": 80,
+                        "linkCloseVertices": true,
+                        "name": "Assets/3DArt/Assets/mesh/Cube_lego.fbx"
+                    }
+                ]
             },
             "animations": {
                 "default": {

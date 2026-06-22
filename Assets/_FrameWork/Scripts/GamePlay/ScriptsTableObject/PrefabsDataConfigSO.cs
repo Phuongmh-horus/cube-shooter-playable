@@ -24,10 +24,15 @@ public class PrefabsDataConfigSO : ScriptableObject
     public SlotLauncherMono SlotLauncherMonoPrefab;
     public SlotLauncherMono SlotBoosterMonoPrefab;
     [Space]
-    [Header("Object của vậttheereer 3D")]
+    [Header("Object của vật thể 3D")]
     public ObjPieceMono ObjectPiecePrefab;
     public ObjFrozenMono ObjectFrozenPrefab;
     public ObjGiftBoxMono ObjectGiftBoxPrefab;
     public ObjLargeCubeMono ObjectLargeCubePrefab;
     public GameObject FloorPrefab;
+    [Space]
+    [Header("VFX")]
+    public VFX_Cube_Break Vfx_CubeBreak;
+    public VfxBase Vfx_RemoveHiddenShooter;
+    public VfxBase VFX_Shooter_Disapear;
 }

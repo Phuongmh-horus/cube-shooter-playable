@@ -40,8 +40,10 @@ public class LineConnectorMono : MonoBehaviour
     public void OnInit(Transform start, Transform end, Color startColor, Color endColor)
     {
         _isDespawned = false; // Reset flag khi init
-        _cachedStartColor = startColor;  // Cache màu Start ban đầu
-        _cachedEndColor = endColor;      // Cache màu End ban đầu
+        _cachedStartColor = startColor;  // Cache mau Start ban dau
+        _cachedEndColor = endColor;      // Cache mau End ban dau
+        if (_rope != null) _rope.enabled = true;
+        if (_ropeMesh != null) _ropeMesh.enabled = true;
         Rope.OnInit();
         Rope.SetStartPoint(start, instantAssign: true);
         Rope.SetEndPoint(end, instantAssign: true);
@@ -55,6 +57,8 @@ public class LineConnectorMono : MonoBehaviour
     public void OnInit(Transform start, Transform end)
     {
         _isDespawned = false; // Reset flag khi init
+        if (_rope != null) _rope.enabled = true;
+        if (_ropeMesh != null) _ropeMesh.enabled = true;
         Rope.OnInit();
         Rope.SetStartPoint(start, instantAssign: true);
         Rope.SetEndPoint(end, instantAssign: true);

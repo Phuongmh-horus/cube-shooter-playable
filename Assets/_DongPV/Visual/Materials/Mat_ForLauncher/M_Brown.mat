@@ -3,7 +3,6 @@
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
-  m_EnableGPUInstancing: 1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -142,7 +141,7 @@ Material:
     - _RampOffset: 0
     - _RampScale: 1.42
     - _RampSmoothing: 0.8
-    - _RampThreshold: 0.806
+    - _RampThreshold: 0.6
     - _RampType: 0
     - _ReceiveShadowsOff: 0
     - _ReflectionMapType: 0
@@ -150,7 +149,7 @@ Material:
     - _RenderingMode: 0
     - _RimMax: 1
     - _RimMin: 0.5
-    - _Saturation: 1.4
+    - _Saturation: 1.2
     - _ShadowColorLightAtten: 1
     - _SingleIndirectColor: 0
     - _SpecularMapType: 0

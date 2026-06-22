@@ -25,8 +25,20 @@ public class LauncherNormalMono : LauncherBaseMono
     private SlotLauncherMono _slotLauncherMonoParent; // gọi reset slot khi hết đạn
     private List<LauncherNormalMono> _launchersConnect;
 
+    private static VfxBase VfxRemoveHiddenShooter;
+    private static VfxBase VFX_Shooter_Disapear;
+    [SerializeField] private Transform _pointVfxReviceHidden;
+    [SerializeField] private Transform _pointVFX_Shooter_Disapear;
+
+    public void OnInit()
+    {
+        VfxRemoveHiddenShooter = ConfigHolder.Instance.PrefabsDataConfigSO.Vfx_RemoveHiddenShooter;
+        VFX_Shooter_Disapear = ConfigHolder.Instance.PrefabsDataConfigSO.VFX_Shooter_Disapear;
+    }
+
     private void LateUpdate()
     {
+        if (_objectBaseMono == null || !_shooterModel.activeSelf) return;
         RotateToObjectBaseMono();
     }
 
@@ -71,6 +83,7 @@ public class LauncherNormalMono : LauncherBaseMono
 
     public override void OnInit(LauncherData data)
     {
+        OnInit();
         SetupVisualNormal(false);
         SetupAnim();
         _slotLauncherMonoParent = null;
@@ -93,6 +106,7 @@ public class LauncherNormalMono : LauncherBaseMono
 
     public override void OnDespawn()
     {
+        PlayVFX_Shooter_Disapear();
         _launchersConnect = null;
         _doneShoot = false;
         _canShoot = false;
@@ -112,7 +126,15 @@ public class LauncherNormalMono : LauncherBaseMono
         base.OnDespawn();
         enabled = false; // Đảm bảo tắt hẳn LateUpdate khi despawn
     }
-
+    public void PlayVFX_Shooter_Disapear()
+    {
+        if (VFX_Shooter_Disapear != null)
+        {
+            VfxBase spawnNewVfx = PoolHolder.Instance.Get(VFX_Shooter_Disapear) as VfxBase;
+            if (spawnNewVfx != null && _pointVFX_Shooter_Disapear != null)
+                spawnNewVfx.OnInit(_pointVFX_Shooter_Disapear.position);
+        }
+    }
     public void SetupVisualNormal(bool IsGoDoneSlot)
     {
         _peaModel.SetActive(!IsGoDoneSlot);
@@ -279,7 +301,7 @@ public class LauncherNormalMono : LauncherBaseMono
         PlayAnimPeaJump();
         Vector3 startPos = _tf.position;
 
-        // 1a. Bay vAo h (holePosition)
+        // 1a. Bay vao h (holePosition)
         float durationXY = timeJump;
         float elapsedXY = 0f;
         while (elapsedXY < durationXY)
@@ -295,7 +317,7 @@ public class LauncherNormalMono : LauncherBaseMono
             yield return null;
         }
 
-        //1b. Scale xung khi vAo h, gi_ nguyn v< trA- hole
+        //1b. Scale xuong khi vao h, giu nguyen vị trí hole
         float durationScale = timeZPull > 0 ? timeZPull : 0.1f;
         var startScale = _tf.localScale;
         var targetScale = startScale * 0.2f;
@@ -308,7 +330,7 @@ public class LauncherNormalMono : LauncherBaseMono
             yield return null;
         }
 
-        // 2. Chui xuyng di slot, thay i v< trA- XY thnh slot
+        // 2. Chui xuyng di slot, thay i vị trí XY thnh slot
         Vector3 slotWorldPos = slot.GetSlotPosition();
 
         // n di slot, scale nh?, z cch xa v m<nh h<nh hn slot  to c?m gic chui di lAn
@@ -387,6 +409,13 @@ public class LauncherNormalMono : LauncherBaseMono
     /// </summary>
     private void OnRevealHidden()
     {
+        if (VfxRemoveHiddenShooter != null)
+        {
+            VfxBase spawnNewVfx = PoolHolder.Instance.Get(VfxRemoveHiddenShooter) as VfxBase;
+            if (spawnNewVfx != null && _pointVfxReviceHidden != null)
+                spawnNewVfx.OnInit(_pointVfxReviceHidden.position);
+        }
+
         SoundManager.Instance?.PlayOneShot(AudioClipName.Hidden_Shooter_Reveal);
         _isHidden = false;
         _data.Hidden = false;
@@ -453,6 +482,5 @@ public class LauncherNormalMono : LauncherBaseMono
     }
 
     #endregion
-
 
 }

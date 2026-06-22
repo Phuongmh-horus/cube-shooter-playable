@@ -40,6 +40,9 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
     private List<LauncherBaseMono> _activeTransitioningLaunchers = new List<LauncherBaseMono>(); // Quản lý súng đang bay từ cột lên slot
     private bool _isMatchingLaunchers = false;
 
+    // Cache snapshot list để tránh GC alloc mỗi tick bắn (thay vì new List<> mỗi lần)
+    private readonly List<LauncherNormalMono> _shootSnapshot = new List<LauncherNormalMono>();
+
     private void RegisterTransitioningLauncher(LauncherBaseMono launcher)
     {
         if (launcher != null && !_activeTransitioningLaunchers.Contains(launcher))
@@ -299,7 +302,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                         // Parent launcher vào slot và bật visual bắn
                         normal.SetupSlotLauncher(slot);
                         normal.transform.SetParent(slot.transform, true);
-                        normal.transform.localPosition = new Vector3(0f, 0f, -0.5f);
+                        normal.transform.localPosition = LauncherBaseMono.LocalPositionInSlot;
                         normal.transform.localRotation = Quaternion.identity;
                         normal.SetupVisualNormal(true);
 
@@ -674,19 +677,24 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
 
         bool hasMatch = true;
 
-        while (hasMatch)
+                while (hasMatch)
         {
             hasMatch = false;
+            System.Collections.Generic.List<SlotLauncherMono> matchGroup = null;
 
             foreach (var pair in _dicColorAndSlotLauncherActive)
             {
                 if (pair.Value != null && pair.Value.Count >= _countMechnicMath3Launcher)
                 {
-                    hasMatch = true;
-                    // Dùng StartCoroutine để tương thích tốt nhất với Luna WebGL
-                    yield return StartCoroutine(MatchLauncherNormalLogic(pair.Value));
+                    matchGroup = pair.Value;
                     break;
                 }
+            }
+
+            if (matchGroup != null)
+            {
+                hasMatch = true;
+                yield return MatchLauncherNormalLogic(matchGroup);
             }
         }
 
@@ -788,14 +796,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         {
             middleLauncher.AddACShootPiece();
 
-            // Trả lại súng ở giữa vào list để nó có thể được match tiếp
-            if (_dicColorAndSlotLauncherActive.TryGetValue(middleLauncher.GetColorCodeIndex0(), out var activeList))
-            {
-                if (!activeList.Contains(threeSmallest[1]))
-                {
-                    activeList.Add(threeSmallest[1]);
-                }
-            }
+            // (Removed dangerous activeList.Add which adds the old slot back. ShiftQueueForward re-assigns and adds the new slot correctly.)
         }
         GameEventBus.Match3Suscess?.Invoke();
 
@@ -1041,22 +1042,24 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                                 // Parent launcher vào slot và bật visual shooter
                                 normal.SetupSlotLauncher(slot);
                                 normal.transform.SetParent(slot.transform, true);
-                                normal.transform.localPosition = new Vector3(0f, 0f, -0.5f);
+                                normal.transform.localPosition = LauncherBaseMono.LocalPositionInSlot;
                                 normal.transform.localRotation = Quaternion.identity;
                                 normal.SetupVisualNormal(true);
 
                                 l.ChangeLayerRenderer(LayerNameGamePlay.LauncherInSlot);
                                 AssignLauncher(slot, normal);
                                 normal.AddACShootPiece();
+
+                                if (_isLevelActive)
+                                {
+                                    StartCoroutine(MatchLauncherNormal());
+                                }
                             }) /* .Forget() removed */ ;
                     }
 
                     // Delay giữa các súng bay lên (200ms)
                     yield return new WaitForSeconds(200 / 1000f);
                 }
-
-                // Check match sau mỗi group
-                yield return MatchLauncherNormal();
             }
 
             // Kiểm tra xem thực sự tất cả launcher trên các cột đã lên slot hết chưa
@@ -1164,15 +1167,15 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         while (!false)
         {
             // Snapshot để tránh lỗi Collection was modified khi ShootPiece() gọi Remove() trong lúc duyệt
+            // Dùng _shootSnapshot cache (field) thay vì new List<> mỗi tick → zero GC alloc
             if (!_blockLauncherShoot)
             {
-                var snapshot = new List<LauncherNormalMono>(GameEventBus.ACLauncherShoot);
-                foreach (var VARIABLE in snapshot)
+                _shootSnapshot.Clear();
+                _shootSnapshot.AddRange(GameEventBus.ACLauncherShoot);
+                foreach (var VARIABLE in _shootSnapshot)
                 {
                     if (VARIABLE != null)
-                    {
                         VARIABLE.ShootPiece();
-                    }
                 }
             }
             yield return waitTime;
@@ -1404,7 +1407,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
 
                         // Snap vị trí ngay lập tức, bỏ qua animation
                         normal.transform.SetParent(slot != null ? slot.transform : null);
-                        normal.transform.localPosition = new Vector3(0f, 0f, -0.5f);
+                        normal.transform.localPosition = LauncherBaseMono.LocalPositionInSlot;
                         normal.transform.localRotation = Quaternion.identity;
                         normal.SetupVisualNormal(true);
 

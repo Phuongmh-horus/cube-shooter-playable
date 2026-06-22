@@ -24,6 +24,10 @@ public abstract class LauncherBaseMono : MonoBehaviour
     private Quaternion _initialLocalRotation;
     private bool _hasInitLocalRotation = false;
 
+    // LocalPosition chuẩn khi launcher nằm trong slot — dùng chung cho cả
+    // flow jump-from-column và flow dồn-chỗ, tránh lệch Z
+    public static readonly Vector3 LocalPositionInSlot = new Vector3(0f, 0f, -0.5f);
+
     protected MaterialPropertyBlock DissolveBlock
     {
         get
@@ -44,13 +48,10 @@ public abstract class LauncherBaseMono : MonoBehaviour
     {
         _currentDissolveAmount = 0f;
         if (_dissolveCts != null) StopCoroutine(_dissolveCts);
-
         _dissolveCts = null;
 
         if (_cachedRenderers == null || _cachedRenderers.Length == 0)
-        {
             _cachedRenderers = GetComponentsInChildren<Renderer>(true);
-        }
 
         ApplyDissolvePropertyBlock(0f);
     }
@@ -64,9 +65,7 @@ public abstract class LauncherBaseMono : MonoBehaviour
     public virtual IEnumerator SetRenderersActiveAsync(bool active)
     {
         if (_cachedRenderers == null || _cachedRenderers.Length == 0)
-        {
             _cachedRenderers = GetComponentsInChildren<Renderer>(true);
-        }
 
         float targetAmount = active ? 0f : 1f;
         float startAmount = _currentDissolveAmount;
@@ -75,22 +74,16 @@ public abstract class LauncherBaseMono : MonoBehaviour
         if (active)
         {
             foreach (var r in _cachedRenderers)
-                if (r != null)
-                    r.enabled = true;
-
+                if (r != null) r.enabled = true;
             foreach (Renderer r in _cachedRenderersDontChangeMaterial)
-                if (r != null && !IsTextRenderer(r))
-                    r.enabled = true;
+                if (r != null && !IsTextRenderer(r)) r.enabled = true;
         }
         else
         {
             foreach (var r in _cachedRenderers)
-                if (r != null && IsTextRenderer(r))
-                    r.enabled = false;
-
+                if (r != null && IsTextRenderer(r)) r.enabled = false;
             foreach (Renderer r in _cachedRenderersDontChangeMaterial)
-                if (r != null && !IsTextRenderer(r))
-                    r.enabled = false;
+                if (r != null && !IsTextRenderer(r)) r.enabled = false;
         }
 
         float elapsed = 0f;
@@ -99,10 +92,8 @@ public abstract class LauncherBaseMono : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
             t = t * t * (3f - 2f * t);
-
             _currentDissolveAmount = Mathf.Lerp(startAmount, targetAmount, t);
             ApplyDissolvePropertyBlock(_currentDissolveAmount);
-
             yield return null;
         }
 
@@ -117,20 +108,11 @@ public abstract class LauncherBaseMono : MonoBehaviour
                 {
                     if (IsTextRenderer(r))
                     {
-                        if (r.gameObject.activeInHierarchy)
-                        {
-                            r.enabled = true;
-                        }
+                        if (r.gameObject.activeInHierarchy) r.enabled = true;
                     }
-                    else
-                    {
-                        r.enabled = true;
-                    }
+                    else r.enabled = true;
                 }
-                else
-                {
-                    r.enabled = false;
-                }
+                else r.enabled = false;
             }
         }
 
@@ -143,12 +125,7 @@ public abstract class LauncherBaseMono : MonoBehaviour
         var block = DissolveBlock;
         block.SetFloat(DissolveAmountProperty, amount);
         foreach (var r in _cachedRenderers)
-        {
-            if (r != null)
-            {
-                r.SetPropertyBlock(block);
-            }
-        }
+            if (r != null) r.SetPropertyBlock(block);
     }
 
     [Header("Launcher Data")]
@@ -167,7 +144,6 @@ public abstract class LauncherBaseMono : MonoBehaviour
     protected bool _canSelect;
     #endregion
 
-
     #region <========================= GET & SET =========================>
 
     public Transform TF => _tf;
@@ -180,7 +156,7 @@ public abstract class LauncherBaseMono : MonoBehaviour
     public CubeShooterColor GetColorCodeIndex0() => _data.ColorAndBulletAmound[0].ColorCode;
     public int GetFrozened() => _data.Frozened;
     public bool GetHidden() => _data.Hidden;
-    public List<int> GetConnectedReferencesIDs() => _data?.ConnectedReferencesIDs ?? new List<int>();
+    public List<int> GetConnectedReferencesIDs() => _data?.ConnectedReferencesIDs;
 
     public void SetParentColumn(VerticalLauncherMono parent)
     {
@@ -196,9 +172,6 @@ public abstract class LauncherBaseMono : MonoBehaviour
         _columnIndex = -1;
     }
 
-    /// <summary>
-    /// Bỏ súng khỏi cột mà không sắp xếp (dùng cho auto-fill)
-    /// </summary>
     public void RemoveLauncherDirectWithoutArrange()
     {
         if (_verticalLauncherMonoParent == null) return;
@@ -210,6 +183,7 @@ public abstract class LauncherBaseMono : MonoBehaviour
     #endregion
 
     #region <========================= INIT DESPAWN =========================>
+
     public virtual void OnInit(LauncherData data)
     {
         _data = data;
@@ -222,101 +196,48 @@ public abstract class LauncherBaseMono : MonoBehaviour
     public virtual void OnDespawn()
     {
         if (_shooterRotateObject != null && _hasInitLocalRotation)
-        {
             _shooterRotateObject.transform.localRotation = _initialLocalRotation;
-        }
+
         _verticalLauncherMonoParent = null;
         _columnIndex = -1;
         _canSelect = true;
         _data = null;
+
         if (_moveCts != null) StopCoroutine(_moveCts);
-
         _moveCts = null;
-        if (_dissolveCts != null) StopCoroutine(_dissolveCts);
 
+        if (_dissolveCts != null) StopCoroutine(_dissolveCts);
         _dissolveCts = null;
+
         _objectBaseMono = null;
         PoolHolder.Instance.Release(this);
     }
 
     #endregion
 
-
-
     #region <========================= ANIMATION FUNCTION =========================>
 
+    protected void PlayAnimPeaIdle() => PlayPeaAnim(AnimHash.PEA_IDLE);
+    public void PlayAnimPeaBunny() => PlayPeaAnim(AnimHash.PEA_BUNNY);
+    protected void PlayAnimPeaJump() => PlayPeaAnim(AnimHash.PEA_JUMP);
 
-    #region <========================= PEA ANIMATION FUNCTION =========================>
-
-    protected void PlayAnimPeaIdle()
-    {
-        PlayPeaAnim(AnimHash.PEA_IDLE);
-    }
-
-    public void PlayAnimPeaBunny()
-    {
-        PlayPeaAnim(AnimHash.PEA_BUNNY);
-    }
-
-    protected void PlayAnimPeaJump()
-    {
-        PlayPeaAnim(AnimHash.PEA_JUMP);
-    }
-
-    #endregion
-
-
-
-    #region <========================= SHOOTER ANIMATION FUNCTION =========================>
-
-    protected void PlayAnimShooterIdle()
-    {
-        PlayShooterAnim(AnimHash.SHOOTER_IDLE);
-    }
-
+    protected void PlayAnimShooterIdle() => PlayShooterAnim(AnimHash.SHOOTER_IDLE);
     protected void PlayAnimShooterAppear()
     {
         SoundManager.Instance?.PlayOneShot(AudioClipName.Shooter_Arrive);
         PlayShooterAnim(AnimHash.SHOOTER_APPEAR);
     }
+    protected void PlayAnimShooterShoot() => PlayShooterAnim(AnimHash.SHOOTER_SHOOT);
 
-    protected void PlayAnimShooterShoot()
-    {
-        PlayShooterAnim(AnimHash.SHOOTER_SHOOT);
-    }
+    protected void SetupAnim() => PlayAnimPeaIdle();
 
-    #endregion
-
-
-    #region <========================= ANIMATION BASE FUNCTION =========================>
-
-    protected void SetupAnim()
-    {
-        PlayAnimPeaIdle();
-    }
-
-    protected void PlayShooterAnim(string animName)
-    {
-        var hash = Animator.StringToHash(animName);
-        PlayShooterAnim(hash);
-    }
-
+    protected void PlayShooterAnim(string animName) => PlayShooterAnim(Animator.StringToHash(animName));
     protected void PlayShooterAnim(int animHash)
     {
-        if (_shooterAnimator == null)
-        {
-            Debug.LogError("Animator is not assigned on " + gameObject.name);
-            return;
-        }
-
-        _shooterAnimator.Play(animHash);
-    }
-    protected void PlayPeaAnim(string animName)
-    {
-        var hash = Animator.StringToHash(animName);
-        PlayPeaAnim(hash);
+        // Animator currently disabled
     }
 
+    protected void PlayPeaAnim(string animName) => PlayPeaAnim(Animator.StringToHash(animName));
     protected void PlayPeaAnim(int animHash)
     {
         if (_peaAnimator == null)
@@ -324,53 +245,40 @@ public abstract class LauncherBaseMono : MonoBehaviour
             Debug.LogError("Animator is not assigned on " + gameObject.name);
             return;
         }
-
         _peaAnimator.Play(animHash);
     }
-
-    #endregion
 
     protected void RotateToObjectBaseMono()
     {
         if (_objectBaseMono == null) return;
+        if (_shooterRotateObject == null) return;
 
-        if (_shooterRotateObject != null)
+        if (!_hasInitLocalRotation)
         {
-            if (!_hasInitLocalRotation)
-            {
-                _initialLocalRotation = _shooterRotateObject.transform.localRotation;
-                _hasInitLocalRotation = true;
-            }
+            _initialLocalRotation = _shooterRotateObject.transform.localRotation;
+            _hasInitLocalRotation = true;
+        }
 
-            Vector3 direction = _objectBaseMono.TF.position - _shooterRotateObject.transform.position;
-            if (direction != Vector3.zero)
-            {
-                Vector3 currentLocalEuler = _shooterRotateObject.transform.localEulerAngles;
-                _shooterRotateObject.transform.rotation = Quaternion.LookRotation(direction);
-                float targetLocalX = _shooterRotateObject.transform.localEulerAngles.x;
-                _shooterRotateObject.transform.localEulerAngles = new Vector3(-targetLocalX, currentLocalEuler.y, currentLocalEuler.z);
-            }
+        Vector3 direction = _objectBaseMono.TF.position - _shooterRotateObject.transform.position;
+        if (direction != Vector3.zero)
+        {
+            Vector3 currentLocalEuler = _shooterRotateObject.transform.localEulerAngles;
+            _shooterRotateObject.transform.rotation = Quaternion.LookRotation(direction);
+            float targetLocalX = _shooterRotateObject.transform.localEulerAngles.x;
+            _shooterRotateObject.transform.localEulerAngles = new Vector3(-targetLocalX, currentLocalEuler.y, currentLocalEuler.z);
         }
     }
+
     #endregion
 
-    /// <summary>
-    /// Kiểm tra xem có nằm ở index 0 không 
-    /// </summary>
-    /// <returns></returns>
     public bool IsAtTopColumn()
     {
         if (_verticalLauncherMonoParent == null) return false;
         return _verticalLauncherMonoParent.IsAtTop(this);
     }
-    public virtual void ChangeLayerRenderer(LayerNameGamePlay layer)
-    {
 
-    }
+    public virtual void ChangeLayerRenderer(LayerNameGamePlay layer) { }
 
-    /// <summary>
-    /// Di chuyển súng tới vị trí mới bằng UniTask (smooth animation)
-    /// </summary>
     public Coroutine PlayMoveToPosition(SlotLauncherMono slotLauncherMono, Vector3 targetPos, float duration = 0.3f, Action onComplete = null)
     {
         if (_moveCts != null) StopCoroutine(_moveCts);
@@ -378,32 +286,14 @@ public abstract class LauncherBaseMono : MonoBehaviour
         return _moveCts;
     }
 
+    /// <summary>
+    /// Dùng cho flow DỒN CHỖ trên slot (không phải jump từ cột lên).
+    /// Animate đến targetPos, sau đó snap parent + localPosition về chuẩn (0,0,-0.5)
+    /// để tránh lệch Z so với launcher đi qua flow jump.
+    /// </summary>
     public virtual IEnumerator MoveToPosition(SlotLauncherMono slotLauncherMono, Vector3 targetPos, float duration = 0.3f, Action onComplete = null)
     {
-        // Cancel animation cũ nếu đang chạy
-#if DEMO_BANG_CHUYEN
-        // Trong chế độ băng chuyền, nếu đã gán slot parent, ta di chuyển theo localPosition về Vector3.zero
-        if (slotLauncherMono != null && _tf.parent == slotLauncherMono.transform)
-        {
-            Vector3 startLocalPos = _tf.localPosition;
-            float elapsedLocal = 0;
-
-            while (elapsedLocal < duration)
-            {
-                elapsedLocal += Time.deltaTime;
-                float t = elapsedLocal / duration;
-                t = t * t * (3f - 2f * t);
-                
-                _tf.localPosition = Vector3.Lerp(startLocalPos, Vector3.zero, t);
-                yield return null;
-            }
-
-            _tf.localPosition = Vector3.zero;
-            onComplete?.Invoke();
-            _moveCts = null;
-            yield break;
-        }
-#endif
+        _tf ??= transform;
 
         Vector3 startPos = _tf.position;
         float elapsed = 0;
@@ -412,23 +302,28 @@ public abstract class LauncherBaseMono : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
-
-            // Sử dụng SmoothStep để animation mượt mà hơn (ease in/out)
-            t = t * t * (3f - 2f * t);
-
+            t = t * t * (3f - 2f * t); // SmoothStep
             _tf.position = Vector3.Lerp(startPos, targetPos, t);
             yield return null;
         }
 
         _tf.position = targetPos;
+
+        // FIX: sau khi animate xong, gán đúng parent và snap localPosition về chuẩn
+        // Tránh lệch Z do world→local conversion khi SetParent với worldPositionStays=true
+        if (slotLauncherMono != null)
+        {
+            _tf.SetParent(slotLauncherMono.transform, false); // false → dùng localPosition trực tiếp
+            _tf.localPosition = LocalPositionInSlot;          // snap về (0, 0, -0.5) đúng chuẩn
+            _tf.localRotation = Quaternion.identity;
+        }
+
         onComplete?.Invoke();
         _moveCts = null;
     }
+
     #region MECHANIC
 
-    /// <summary>
-    /// Được gọi khi launcher từ index 1 nhảy lên index 0 (đầu cột)
-    /// </summary>
     public virtual void OnBecomeTop() { }
 
     #region Frozen

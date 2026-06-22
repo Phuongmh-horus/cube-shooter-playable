@@ -27,3 +27,6 @@ MonoBehaviour:
   ObjectGiftBoxPrefab: {fileID: -6221360473997254531, guid: e99df41ca05576443a524acd299ac16d, type: 3}
   ObjectLargeCubePrefab: {fileID: 8273517495817491353, guid: 438439780280c5a468d68d803925bdc0, type: 3}
   FloorPrefab: {fileID: 5483560194658116378, guid: 123f3ddb57a60514bbf4acc6ee068092, type: 3}
+  Vfx_CubeBreak: {fileID: 5079621256261192198, guid: 4fda27bcd5662214eb35eba36578c788, type: 3}
+  Vfx_RemoveHiddenShooter: {fileID: 320476914202963454, guid: 4dd86c0b9aab89647a1287ab40467dd6, type: 3}
+  VFX_Shooter_Disapear: {fileID: 1596003900871334852, guid: 81996116cd026a241832298c2f055b42, type: 3}

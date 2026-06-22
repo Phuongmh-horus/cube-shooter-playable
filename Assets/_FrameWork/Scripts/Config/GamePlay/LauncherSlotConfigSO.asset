@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: LauncherSlotConfigSO
   m_EditorClassIdentifier: 
   Spacing: 2
-  FireRateLauncherDeffault: 45
-  FireRateLauncherEndGame: 10
+  FireRateLauncherDeffault: 60
+  FireRateLauncherEndGame: 60
   CountMechnicMathLauncher: 3
   CountSlotlauncherDeffault: 5
   SpeedProjectileDeffault: 25
-  SpeedProjectileEndGame: 50
+  SpeedProjectileEndGame: 25
   SpacingHoles: 2

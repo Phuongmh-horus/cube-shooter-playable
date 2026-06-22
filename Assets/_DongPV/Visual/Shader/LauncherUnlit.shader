@@ -91,6 +91,7 @@ Shader"Horus/Unlit/LauncherUnlit"
             float _Saturation;
             float _Brightness;
             float _LunaContrast;
+            float _LunaGamma;
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float, _DissolveAmount)
@@ -228,12 +229,13 @@ Shader"Horus/Unlit/LauncherUnlit"
                 float3 edgeGlow = dissolveEdgeColor.rgb * edge * dissolveEdgeColor.a;
                 litColor += edgeGlow;
 
-                #if defined(LUNA_GAMMA_CORRECTION)
-                #if !defined(UNITY_COLORSPACE_GAMMA)
-                litColor = LinearToGammaSpace(litColor);
-                litColor = ((litColor - 0.5) * 1.0) + 0.5;
-                #endif
-                #endif
+                                if (_LunaGamma > 0.5)
+                {
+                    #if !defined(UNITY_COLORSPACE_GAMMA)
+                    litColor = LinearToGammaSpace(litColor);
+                    litColor = ((litColor - 0.5) * 1.0) + 0.5;
+                    #endif
+                }
 
                 return fixed4(litColor, albedo.a);
             }

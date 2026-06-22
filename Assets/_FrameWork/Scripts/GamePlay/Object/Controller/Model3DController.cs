@@ -335,8 +335,9 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
 
 
 
-        PoolHolder.Instance.PreWarm(_objectPiecePrefab, 100, _parentObject);
-        yield break;
+        yield return StartCoroutine(PoolHolder.Instance.PreWarmAsync(_objectPiecePrefab, 100, _parentObject, "", 10));
+        yield return StartCoroutine(PoolHolder.Instance.PreWarmAsync(ConfigHolder.Instance.PrefabsDataConfigSO.Vfx_CubeBreak, 15, _parentObject, "", 5));
+        //yield break; (Removed because it's no longer the only statement)
     }
 
     public IEnumerator OnLoadLevel(RoundDataBytes newRoundData)

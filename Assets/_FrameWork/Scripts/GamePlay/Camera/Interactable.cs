@@ -48,7 +48,6 @@ public class Interactable : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        Debug.Log($"OnPointerDown at {eventData.position} with _isLocked {_isLocked}");
         if (_isLocked) return;
 
         _startPos = eventData.position;
@@ -65,7 +64,6 @@ public class Interactable : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        Debug.Log($"OnPointerUp at {eventData.position} with _isLocked {_isLocked}");
         if (_isLocked) return;
 
         if (_isHolding && !_hasSwiped)
@@ -89,7 +87,6 @@ public class Interactable : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.Log($"OnDrag at {eventData.position} with _isLocked {_isLocked}");
         if (!_canDrag) return;
 
         Vector2 delta = eventData.delta;
@@ -131,7 +128,6 @@ public class Interactable : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         if (Physics.Raycast(CameraManager.Instance.MainCamera.ScreenPointToRay(mousePos), out RaycastHit hitInfo))
         {
             var launcher = hitInfo.collider.GetComponent<LauncherBaseMono>();
-            Debug.Log($"Hit {hitInfo.collider.name} as {(launcher == null ? "null" : "not null")} on {mousePos} as worldPoint {CameraManager.Instance.MainCamera.ScreenPointToRay(mousePos)} with raypoint {hitInfo.point}");
 
             if (launcher != null)
             {

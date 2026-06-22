@@ -46,8 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _particleSystem: {fileID: 1416273674637753964}
-  _timeDespawn: 1.2
-  _tf: {fileID: 343066997001639509}
+  _transform: {fileID: 1578841481417694301}
 --- !u!1001 &8973753790182863400
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -99,6 +98,14 @@ PrefabInstance:
     - target: {fileID: 7593076052757818997, guid: a99f60e19ccaf7543b1ca4b697a54baa, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011535270575803460, guid: a99f60e19ccaf7543b1ca4b697a54baa, type: 3}
+      propertyPath: stopAction
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011535270575803460, guid: a99f60e19ccaf7543b1ca4b697a54baa, type: 3}
+      propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
