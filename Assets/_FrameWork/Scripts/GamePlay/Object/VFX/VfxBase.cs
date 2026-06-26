@@ -5,6 +5,8 @@ public class VfxBase : MonoBehaviour
 {
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private Transform _transform;
+    private Coroutine _delayDespawnCoroutine;
+
 
     private void Awake()
     {
@@ -15,8 +17,19 @@ public class VfxBase : MonoBehaviour
     public void OnInit(Vector3 pos)
     {
         _transform.position = pos;
-        _particleSystem.Play();
-        StartCoroutine(WaitAndDespawn());
+        if (_particleSystem != null)
+        {
+            var allPs = GetComponentsInChildren<ParticleSystem>(true);
+            foreach (var ps in allPs)
+            {
+                ps.Clear();
+                ps.Play();
+            }
+        }
+        enabled = true;
+        gameObject.SetActive(true);
+        if (_delayDespawnCoroutine != null) StopCoroutine(_delayDespawnCoroutine);
+        _delayDespawnCoroutine = StartCoroutine(WaitAndDespawn());
     }
 
     private IEnumerator WaitAndDespawn()

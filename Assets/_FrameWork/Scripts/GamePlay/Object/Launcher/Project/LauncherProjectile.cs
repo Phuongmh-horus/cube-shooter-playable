@@ -15,10 +15,10 @@ public class LauncherProjectile : MonoBehaviour
     private bool _isMoving;
     private Action _onHitCallback;
 
-
     public static System.Collections.Generic.List<LauncherProjectile> ActiveProjectiles = new System.Collections.Generic.List<LauncherProjectile>(500);
     private static int _vfxSpawnCountThisFrame = 0;
     private static int _lastVfxFrame = -1;
+    private ParticleSystem[] _particleSystems;
 
     public static void UpdateAllProjectiles()
     {
@@ -27,7 +27,9 @@ public class LauncherProjectile : MonoBehaviour
             var proj = ActiveProjectiles[i];
             if (proj == null || !proj._isMoving || !proj.gameObject.activeInHierarchy)
             {
-                ActiveProjectiles.RemoveAt(i);
+                int lastIdx = ActiveProjectiles.Count - 1;
+                ActiveProjectiles[i] = ActiveProjectiles[lastIdx];
+                ActiveProjectiles.RemoveAt(lastIdx);
                 continue;
             }
 
@@ -46,6 +48,9 @@ public class LauncherProjectile : MonoBehaviour
                 proj.HitTarget();
             }
         }
+
+        // Cập nhật tất cả hiệu ứng đuôi đạn và mảnh vỡ một lần (tối ưu thay vì dùng LateUpdate/Update cho từng script)
+        BulletTrailRotation.UpdateAllTrails();
     }
 
     #endregion
@@ -81,7 +86,29 @@ public class LauncherProjectile : MonoBehaviour
         _color = target.GetColor();
         _onHitCallback = onHitCallback;
         _isMoving = true;
+
+        if (target != null && target.TF != null)
+        {
+            Vector3 dir = target.TF.position - startPos;
+            if (dir.sqrMagnitude > 0.0001f)
+            {
+                _tf.up = dir.normalized;
+            }
+        }
+
         gameObject.SetActive(true);
+
+        // Clear ParticleSystems to prevent streaks from previous/prewarm positions
+        if (_particleSystems == null)
+        {
+            _particleSystems = GetComponentsInChildren<ParticleSystem>(true);
+        }
+        foreach (var ps in _particleSystems)
+        {
+            ps.Clear();
+            ps.Play();
+        }
+
         if (!ActiveProjectiles.Contains(this)) ActiveProjectiles.Add(this);
 
     }
@@ -93,7 +120,6 @@ public class LauncherProjectile : MonoBehaviour
     {
         if (_target == null)
             return;
-        _tf.localPosition = Vector3.zero;
         _isMoving = false;
         _target = null;
         _onHitCallback = null;
@@ -109,20 +135,10 @@ public class LauncherProjectile : MonoBehaviour
     {
         _onHitCallback?.Invoke();
         _target.OnDespawn();
-
-        if (Time.frameCount != _lastVfxFrame)
-        {
-            _lastVfxFrame = Time.frameCount;
-            _vfxSpawnCountThisFrame = 0;
-        }
-
-        if (_vfxSpawnCountThisFrame < 8) // Hard cap 8 VFX per frame
-        {
-            var vfx = PoolHolder.Instance.Get(vfxCubeBreak);
-            if (vfx is VFX_Cube_Break vfxdemo)
-                vfxdemo.OnInit(_tf.position, _color);
-            _vfxSpawnCountThisFrame++;
-        }
+        
+        var vfx = PoolHolder.Instance.Get(vfxCubeBreak, null, _tf.position);
+        if (vfx is VFX_Cube_Break vfxdemo)
+            vfxdemo.OnInit(_tf.position, _color);
 
         if (PlayableAdsUIController.Instance == null || !PlayableAdsUIController.Instance.IsShowingEndcard)
         {

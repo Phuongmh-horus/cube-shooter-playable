@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2265310173667160907}
   - component: {fileID: 909422197132741251}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: LauncherProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 9031243206119181375}
   - component: {fileID: 7690917339360570153}
   - component: {fileID: 4586641845981323402}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

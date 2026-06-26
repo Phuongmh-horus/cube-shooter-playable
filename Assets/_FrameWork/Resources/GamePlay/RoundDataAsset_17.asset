@@ -17,7 +17,5 @@ MonoBehaviour:
   LevelType: 1
   IconPath: 
   Scale: 0.9
-  ModelRotation: {x: -10, y: 0, z: 1}
-  LevelDataBytesAsset: {fileID: 0}
+  ModelRotation: {x: -5, y: 0, z: 1}
   LevelDataJsonAsset: {fileID: 4900000, guid: 47ca37132b28dc342a8a212ba1990f40, type: 3}
-  Notes: Imported from LevelID 17 via LevelDataManager.

@@ -3,7 +3,6 @@
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
-  m_EnableGPUInstancing: 1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -103,7 +102,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Brightness: 1
+    - _Brightness: 1.3
     - _BumpScale: 0.95
     - _Cull: 2
     - _Cutoff: 0.5
@@ -114,7 +113,7 @@ Material:
     - _FresnelMin: 0
     - _IndirectIntensity: 1
     - _IndirectIntensityOutline: 0
-    - _LunaContrast: 1.3
+    - _LunaContrast: 1.2
     - _LunaGamma: 0
     - _MatCapMaskChannel: 0
     - _MatCapType: 0
@@ -143,7 +142,7 @@ Material:
     - _RenderingMode: 0
     - _RimMax: 1
     - _RimMin: 0.5
-    - _Saturation: 1
+    - _Saturation: 1.1
     - _ShadowColorLightAtten: 1
     - _SingleIndirectColor: 0
     - _SpecularMapType: 0

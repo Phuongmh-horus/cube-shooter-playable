@@ -5,10 +5,6 @@ public class CameraManager : MonoSingleton<CameraManager>
 {
     public Transform ParentCameraMove;
     public Camera MainCamera;
-    [Header("HightLine")]
-    public Camera HightLineCamera;
-    public GameObject HightLineCameraGameObject;
-    [SerializeField] private Interactable_HightLine interactable_HightLine;
 
     [Header("Camera Config")]
     [SerializeField]
@@ -33,9 +29,6 @@ public class CameraManager : MonoSingleton<CameraManager>
             // rawImage.width = Screen.width;
             // rawImage.height = Screen.height;
             rawImage.Create();
-
-            if (HightLineCamera != null)
-                HightLineCamera.targetTexture = rawImage;
         }
     }
 
@@ -63,12 +56,12 @@ public class CameraManager : MonoSingleton<CameraManager>
 
             _camMoveCts = null;
 
-            MainCamera.transform.position = configData.CamPosition;
-            MainCamera.transform.rotation = Quaternion.Euler(configData.CamRotation);
+            MainCamera.transform.localPosition = configData.CamPosition;
+            MainCamera.transform.localRotation = Quaternion.Euler(configData.CamRotation);
         }
         else
         {
-            StartCoroutine(TransitionCameraTo(configData.CamPosition, configData.CamRotation, _cameraConfig.Speed));
+            _camMoveCts = StartCoroutine(TransitionCameraTo(configData.CamPosition, configData.CamRotation, _cameraConfig.Speed));
         }
     }
 
@@ -77,10 +70,8 @@ public class CameraManager : MonoSingleton<CameraManager>
 
         if (MainCamera == null) yield break;
 
-        if (_camMoveCts != null) StopCoroutine(_camMoveCts);
-
-        Vector3 startPos = MainCamera.transform.position;
-        Quaternion startRot = MainCamera.transform.rotation;
+        Vector3 startPos = MainCamera.transform.localPosition;
+        Quaternion startRot = MainCamera.transform.localRotation;
         Quaternion endRot = Quaternion.Euler(targetRot);
 
         float duration = 1f / Mathf.Max(speed, 0.01f);
@@ -93,21 +84,19 @@ public class CameraManager : MonoSingleton<CameraManager>
             float t = Mathf.Clamp01(elapsed / duration);
             t = t * t * (3f - 2f * t); // SmoothStep
 
-            MainCamera.transform.position = Vector3.Lerp(startPos, targetPos, t);
-            MainCamera.transform.rotation = Quaternion.Slerp(startRot, endRot, t);
+            MainCamera.transform.localPosition = Vector3.Lerp(startPos, targetPos, t);
+            MainCamera.transform.localRotation = Quaternion.Slerp(startRot, endRot, t);
 
             yield return null;
         }
 
-        MainCamera.transform.position = targetPos;
-        MainCamera.transform.rotation = endRot;
+        MainCamera.transform.localPosition = targetPos;
+        MainCamera.transform.localRotation = endRot;
     }
 
     public void EnableHightLineCamera(bool enable, LayerNameGamePlay layerNameGamePlay)
     {
-        if (enable)
-            HightLineCamera.cullingMask = 1 << (int)layerNameGamePlay;
-        HightLineCameraGameObject.SetActive(enable);
+
     }
 
     /// <summary>

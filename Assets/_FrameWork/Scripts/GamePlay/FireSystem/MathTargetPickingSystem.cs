@@ -7,14 +7,25 @@ public class MathTargetPickingSystem
 {
     private int[] _candidateIndices = new int[2000];
     private float[] _candidateDistances = new float[2000];
+    private byte[] _occlusionCache = new byte[2000]; // 0: Unknown, 1: Visible, 2: Occluded
+    private int[] _validBlockersCache = new int[2000];
     private bool _isInitialized = false;
+
+    // Caching per frame
+    private int _lastFrame = -1;
+    private Vector4[] _localPlanes = new Vector4[6];
+    private Vector3 _localCamPos;
+    private Vector3 _localCamFwd;
+    private Vector3 _localCamRight;
+    private Vector3 _localCamUp;
+    private bool _isOrthographic;
 
     public void Initialize()
     {
         if (_isInitialized) return;
-        // Pre-allocate candidate arrays (matching original NativeArray sizes)
         _candidateIndices = new int[2000];
         _candidateDistances = new float[2000];
+        _occlusionCache = new byte[2000];
         _isInitialized = true;
     }
 
@@ -23,44 +34,43 @@ public class MathTargetPickingSystem
         _isInitialized = false;
     }
 
-    public int GetTarget(
-        Camera cam,
-        CubeShooterColor targetColor,
-        PieceTargetData[] cachedData,
-        ObjectBaseMono[] pieces,
-        Transform parent)
+    public int GetTarget(Camera cam, CubeShooterColor targetColor, PieceTargetData[] cachedData, ObjectBaseMono[] pieces, Transform parent)
     {
-        if (!_isInitialized || cachedData == null || cachedData.Length == 0 || parent == null) return -1;
         int count = pieces.Length;
         if (count == 0) return -1;
 
-        // ---- Build frustum planes in Parent Local Space ----
-        Matrix4x4 mat = cam.projectionMatrix * cam.worldToCameraMatrix;
-        Plane[] worldPlanes = new Plane[6];
-        worldPlanes[0] = new Plane(new Vector3(mat.m30 + mat.m00, mat.m31 + mat.m01, mat.m32 + mat.m02).normalized, 0); worldPlanes[0].distance = (mat.m33 + mat.m03) / new Vector3(mat.m30 + mat.m00, mat.m31 + mat.m01, mat.m32 + mat.m02).magnitude;
-        worldPlanes[1] = new Plane(new Vector3(mat.m30 - mat.m00, mat.m31 - mat.m01, mat.m32 - mat.m02).normalized, 0); worldPlanes[1].distance = (mat.m33 - mat.m03) / new Vector3(mat.m30 - mat.m00, mat.m31 - mat.m01, mat.m32 - mat.m02).magnitude;
-        worldPlanes[2] = new Plane(new Vector3(mat.m30 + mat.m10, mat.m31 + mat.m11, mat.m32 + mat.m12).normalized, 0); worldPlanes[2].distance = (mat.m33 + mat.m13) / new Vector3(mat.m30 + mat.m10, mat.m31 + mat.m11, mat.m32 + mat.m12).magnitude;
-        worldPlanes[3] = new Plane(new Vector3(mat.m30 - mat.m10, mat.m31 - mat.m11, mat.m32 - mat.m12).normalized, 0); worldPlanes[3].distance = (mat.m33 - mat.m13) / new Vector3(mat.m30 - mat.m10, mat.m31 - mat.m11, mat.m32 - mat.m12).magnitude;
-        worldPlanes[4] = new Plane(new Vector3(mat.m30 + mat.m20, mat.m31 + mat.m21, mat.m32 + mat.m22).normalized, 0); worldPlanes[4].distance = (mat.m33 + mat.m23) / new Vector3(mat.m30 + mat.m20, mat.m31 + mat.m21, mat.m32 + mat.m22).magnitude;
-        worldPlanes[5] = new Plane(new Vector3(mat.m30 - mat.m20, mat.m31 - mat.m21, mat.m32 - mat.m22).normalized, 0); worldPlanes[5].distance = (mat.m33 - mat.m23) / new Vector3(mat.m30 - mat.m20, mat.m31 - mat.m21, mat.m32 - mat.m22).magnitude;
+        if (_occlusionCache.Length < count)
+            System.Array.Resize(ref _occlusionCache, count + 500);
 
-        Vector4[] localPlanes = new Vector4[6];
-        for (int i = 0; i < 6; i++)
+        // ---- Build frustum planes & cam params in Parent Local Space ONCE per frame ----
+        if (Time.frameCount != _lastFrame)
         {
-            Plane p = worldPlanes[i];
-            Vector3 pointOnPlane = p.normal * -p.distance;
-            Vector3 localPoint = parent.InverseTransformPoint(pointOnPlane);
-            Vector3 localNormal = parent.InverseTransformDirection(p.normal).normalized;
-            float localDist = -Vector3.Dot(localNormal, localPoint);
-            localPlanes[i] = new Vector4(localNormal.x, localNormal.y, localNormal.z, localDist);
-        }
+            _lastFrame = Time.frameCount;
+            System.Array.Clear(_occlusionCache, 0, count); // Reset occlusion cache for the new frame
 
-        // ---- Convert camera params to Parent Local Space ----
-        Vector3 localCamPos = parent.InverseTransformPoint(cam.transform.position);
-        Vector3 localCamFwd = parent.InverseTransformDirection(cam.transform.forward).normalized;
-        Vector3 localCamRight = parent.InverseTransformDirection(cam.transform.right).normalized;
-        Vector3 localCamUp = parent.InverseTransformDirection(cam.transform.up).normalized;
-        bool isOrthographic = cam.orthographic;
+            Matrix4x4 mat = cam.projectionMatrix * cam.worldToCameraMatrix;
+            
+            // Avoid new Vector4[] array allocation to achieve 0 GC per frame
+            Vector4 p0 = new Vector4(mat.m30 + mat.m00, mat.m31 + mat.m01, mat.m32 + mat.m02, mat.m33 + mat.m03);
+            Vector4 p1 = new Vector4(mat.m30 - mat.m00, mat.m31 - mat.m01, mat.m32 - mat.m02, mat.m33 - mat.m03);
+            Vector4 p2 = new Vector4(mat.m30 + mat.m10, mat.m31 + mat.m11, mat.m32 + mat.m12, mat.m33 + mat.m13);
+            Vector4 p3 = new Vector4(mat.m30 - mat.m10, mat.m31 - mat.m11, mat.m32 - mat.m12, mat.m33 - mat.m13);
+            Vector4 p4 = new Vector4(mat.m30 + mat.m20, mat.m31 + mat.m21, mat.m32 + mat.m22, mat.m33 + mat.m23);
+            Vector4 p5 = new Vector4(mat.m30 - mat.m20, mat.m31 - mat.m21, mat.m32 - mat.m22, mat.m33 - mat.m23);
+
+            ProcessPlane(0, ref p0, parent);
+            ProcessPlane(1, ref p1, parent);
+            ProcessPlane(2, ref p2, parent);
+            ProcessPlane(3, ref p3, parent);
+            ProcessPlane(4, ref p4, parent);
+            ProcessPlane(5, ref p5, parent);
+
+            _localCamPos = parent.InverseTransformPoint(cam.transform.position);
+            _localCamFwd = parent.InverseTransformDirection(cam.transform.forward).normalized;
+            _localCamRight = parent.InverseTransformDirection(cam.transform.right).normalized;
+            _localCamUp = parent.InverseTransformDirection(cam.transform.up).normalized;
+            _isOrthographic = cam.orthographic;
+        }
 
         // ---- Step 1: Gather candidates (color + active + frustum filter) ----
         int candidateCount = 0;
@@ -69,11 +79,10 @@ public class MathTargetPickingSystem
             var piece = cachedData[i];
             if (!piece.IsActive || piece.IsBulletIncoming || piece.Color != targetColor) continue;
 
-            // Sphere frustum test
             float radius = Mathf.Max(piece.Extents.x, Mathf.Max(piece.Extents.y, piece.Extents.z)) * 1.74f;
-            if (!IsInsideFrustum(localPlanes, piece.Position, radius)) continue;
+            if (!IsInsideFrustum(_localPlanes, piece.Position, radius)) continue;
 
-            float dist = Vector3.Distance(new Vector3(piece.Position.x, piece.Position.y, piece.Position.z), localCamPos);
+            float dist = Vector3.Distance(new Vector3(piece.Position.x, piece.Position.y, piece.Position.z), _localCamPos);
             if (candidateCount < _candidateIndices.Length)
             {
                 _candidateIndices[candidateCount] = i;
@@ -82,17 +91,10 @@ public class MathTargetPickingSystem
             }
         }
 
-        // ---- Step 2: Simple insertion-sort by distance (tiny list, fast) ----
-        for (int i = 0; i < candidateCount - 1; i++)
+        // ---- Step 2: Native Sort by distance (O(N log N) -> Zero GC) ----
+        if (candidateCount > 1)
         {
-            for (int j = i + 1; j < candidateCount; j++)
-            {
-                if (_candidateDistances[j] < _candidateDistances[i])
-                {
-                    float tmpD = _candidateDistances[i]; _candidateDistances[i] = _candidateDistances[j]; _candidateDistances[j] = tmpD;
-                    int tmpI = _candidateIndices[i]; _candidateIndices[i] = _candidateIndices[j]; _candidateIndices[j] = tmpI;
-                }
-            }
+            QuickSortCandidates(_candidateDistances, _candidateIndices, 0, candidateCount - 1);
         }
 
         // ---- Step 3: Check up to 40 nearest candidates for visibility ----
@@ -102,16 +104,68 @@ public class MathTargetPickingSystem
         for (int c = 0; c < maxCheck; c++)
         {
             int idx = _candidateIndices[c];
+
+            // Use frame cache to avoid duplicate raycasting for the same piece
+            if (_occlusionCache[idx] == 2) continue; // Already tested and is occluded
+            if (_occlusionCache[idx] == 1) // Already tested and is visible
+            {
+                bestIndex = idx;
+                break;
+            }
+
             var targetPiece = cachedData[idx];
             float targetDist = _candidateDistances[c];
 
             float r = Mathf.Min(targetPiece.Extents.x, Mathf.Min(targetPiece.Extents.y, targetPiece.Extents.z)) * 0.5f;
-            Vector3 rightOff = localCamRight * r;
-            Vector3 upOff = localCamUp * r;
+            Vector3 rightOff = _localCamRight * r;
+            Vector3 upOff = _localCamUp * r;
             Vector3 tPos = new Vector3(targetPiece.Position.x, targetPiece.Position.y, targetPiece.Position.z);
 
             bool anyVisible = false;
 
+            // Tối ưu hóa: Lọc blocker bằng broadphase hình trụ (cylinder) quanh tia trung tâm
+            Vector3 centerRayOrigin, centerRayDir;
+            float centerRayDist;
+            if (_isOrthographic)
+            {
+                float dAlongFwd = Vector3.Dot(tPos - _localCamPos, _localCamFwd);
+                centerRayOrigin = tPos - _localCamFwd * dAlongFwd;
+                centerRayDir = _localCamFwd;
+                centerRayDist = dAlongFwd;
+            }
+            else
+            {
+                Vector3 toTarget = tPos - _localCamPos;
+                centerRayDist = toTarget.magnitude;
+                centerRayDir = toTarget / centerRayDist;
+                centerRayOrigin = _localCamPos;
+            }
+
+            int validBlockersCount = 0;
+            for (int j = 0; j < count; j++)
+            {
+                if (j == idx) continue;
+                var blocker = cachedData[j];
+                if (!blocker.IsActive) continue;
+
+                Vector3 bPos = new Vector3(blocker.Position.x, blocker.Position.y, blocker.Position.z);
+                Vector3 originToB = bPos - centerRayOrigin;
+                float tBlocker = Vector3.Dot(originToB, centerRayDir);
+                float maxRadius = Mathf.Max(blocker.Extents.x, Mathf.Max(blocker.Extents.y, blocker.Extents.z)) * 1.74f;
+
+                if (tBlocker < -maxRadius || tBlocker > centerRayDist + maxRadius) continue;
+
+                float distToRaySqr = (originToB - centerRayDir * tBlocker).sqrMagnitude;
+                float maxDist = maxRadius + r * 1.45f; // r is half extent, diagonal max deviation is r*sqrt(2) approx 1.414
+                if (distToRaySqr > maxDist * maxDist) continue;
+
+                if (validBlockersCount < _validBlockersCache.Length)
+                {
+                    _validBlockersCache[validBlockersCount++] = j;
+                }
+            }
+
+            // Kiểm tra 5 điểm (tâm + 4 góc) để chính xác tuyệt đối như ban đầu
             for (int pIndex = 0; pIndex < 5; pIndex++)
             {
                 Vector3 pt = tPos;
@@ -123,44 +177,33 @@ public class MathTargetPickingSystem
                 Vector3 rayOrigin, rayDir;
                 float rayDist;
 
-                if (isOrthographic)
+                if (_isOrthographic)
                 {
-                    float dAlongFwd = Vector3.Dot(pt - localCamPos, localCamFwd);
-                    rayOrigin = pt - localCamFwd * dAlongFwd;
-                    rayDir = localCamFwd;
+                    float dAlongFwd = Vector3.Dot(pt - _localCamPos, _localCamFwd);
+                    rayOrigin = pt - _localCamFwd * dAlongFwd;
+                    rayDir = _localCamFwd;
                     rayDist = dAlongFwd;
                 }
                 else
                 {
-                    Vector3 toTarget = pt - localCamPos;
+                    Vector3 toTarget = pt - _localCamPos;
                     rayDist = toTarget.magnitude;
                     rayDir = toTarget / rayDist;
-                    rayOrigin = localCamPos;
+                    rayOrigin = _localCamPos;
                 }
 
                 bool occluded = false;
 
-                for (int j = 0; j < count; j++)
+                for (int v = 0; v < validBlockersCount; v++)
                 {
-                    if (j == idx) continue;
+                    int j = _validBlockersCache[v];
                     var blocker = cachedData[j];
-                    if (!blocker.IsActive) continue;
-
-                    // Fast sphere rejection
                     Vector3 bPos = new Vector3(blocker.Position.x, blocker.Position.y, blocker.Position.z);
-                    Vector3 originToB = bPos - rayOrigin;
-                    float tBlocker = Vector3.Dot(originToB, rayDir);
-                    float maxRadius = Mathf.Max(blocker.Extents.x, Mathf.Max(blocker.Extents.y, blocker.Extents.z)) * 1.74f;
-
-                    if (tBlocker < -maxRadius || tBlocker > rayDist + maxRadius) continue;
-
-                    float distToRaySqr = (originToB - rayDir * tBlocker).sqrMagnitude;
-                    if (distToRaySqr > maxRadius * maxRadius) continue;
 
                     float t;
                     if (IntersectRayOBB(rayOrigin, rayDir, bPos,
                                         blocker.Rotation,
-                                        new Vector3(blocker.Extents.x, blocker.Extents.y, blocker.Extents.z),
+                                        new Vector3(blocker.Extents.x, blocker.Extents.y, blocker.Extents.z) * 0.9f,
                                         out t))
                     {
                         if (t > 0f && t < rayDist - 0.01f)
@@ -176,8 +219,13 @@ public class MathTargetPickingSystem
 
             if (anyVisible)
             {
+                _occlusionCache[idx] = 1;
                 bestIndex = idx;
                 break;
+            }
+            else
+            {
+                _occlusionCache[idx] = 2;
             }
         }
 
@@ -200,6 +248,17 @@ public class MathTargetPickingSystem
             if (d + radius < 0f) return false;
         }
         return true;
+    }
+
+    private void ProcessPlane(int index, ref Vector4 wP, Transform parent)
+    {
+        float mag = new Vector3(wP.x, wP.y, wP.z).magnitude;
+        wP /= mag;
+        Vector3 worldNormal = new Vector3(wP.x, wP.y, wP.z);
+        Vector3 pointOnWorldPlane = worldNormal * -wP.w;
+        Vector3 localPoint = parent.InverseTransformPoint(pointOnWorldPlane);
+        Vector3 localNormal = parent.InverseTransformDirection(worldNormal).normalized;
+        _localPlanes[index] = new Vector4(localNormal.x, localNormal.y, localNormal.z, -Vector3.Dot(localNormal, localPoint));
     }
 
     private static bool IntersectRayOBB(
@@ -231,11 +290,39 @@ public class MathTargetPickingSystem
         float maxTmin = Mathf.Max(tminX, Mathf.Max(tminY, tminZ));
         float minTmax = Mathf.Min(tmaxX, Mathf.Min(tmaxY, tmaxZ));
 
-        if (maxTmin <= minTmax && minTmax >= 0f)
+        if (maxTmin <= minTmax)
         {
-            t = maxTmin >= 0f ? maxTmin : minTmax;
+            t = maxTmin;
             return true;
         }
         return false;
+    }
+
+    private void QuickSortCandidates(float[] dists, int[] indices, int left, int right)
+    {
+        if (left < right)
+        {
+            int pivot = Partition(dists, indices, left, right);
+            QuickSortCandidates(dists, indices, left, pivot - 1);
+            QuickSortCandidates(dists, indices, pivot + 1, right);
+        }
+    }
+
+    private int Partition(float[] dists, int[] indices, int left, int right)
+    {
+        float pivotDist = dists[right];
+        int i = left - 1;
+        for (int j = left; j < right; j++)
+        {
+            if (dists[j] < pivotDist)
+            {
+                i++;
+                float tempDist = dists[i]; dists[i] = dists[j]; dists[j] = tempDist;
+                int tempIdx = indices[i]; indices[i] = indices[j]; indices[j] = tempIdx;
+            }
+        }
+        float tD = dists[i + 1]; dists[i + 1] = dists[right]; dists[right] = tD;
+        int tI = indices[i + 1]; indices[i + 1] = indices[right]; indices[right] = tI;
+        return i + 1;
     }
 }

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class PlayableAdsController : MonoBehaviour
 {
+    public static PlayableAdsController Instance { get; private set; }
+
     public enum PlayableMode
     {
         Default,
@@ -11,6 +13,7 @@ public class PlayableAdsController : MonoBehaviour
     }
 
     [Header("Playable Settings")]
+    public bool EnableLineConnector = false;
     public PlayableMode Mode = PlayableMode.Default;
 
     [Tooltip("Tick vào đây nếu muốn script tự động load level để test")]
@@ -25,6 +28,7 @@ public class PlayableAdsController : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         GameEventBus.OnLauncherClicked += OnLauncherClicked;
         GameEventBus.OnLoadLevelDone += ConfigurePlayableSlotBehavior;
     }
@@ -67,8 +71,6 @@ public class PlayableAdsController : MonoBehaviour
 
     }
 
-
-
     private void ConfigurePlayableSlotBehavior()
     {
         var slotQueueController = LevelSystem.Instance?.SlotLauncherQueueController;
@@ -86,34 +88,28 @@ public class PlayableAdsController : MonoBehaviour
 
         if (Mode == PlayableMode.Mode_10_Cannons)
         {
-            // OnLauncherClicked chỉ được gọi khi user bấm vào 1 cannon hợp lệ
-            // => Đã thoả mãn yêu cầu "count the canon, not the click" và "cả canon đơn hay nhóm đều tính là 1".
             _cannonClickedCount++;
             if (_cannonClickedCount >= 10)
             {
-                // Chờ 0.5s để cannon nhảy lên slot rồi redirect
-                StartCoroutine(TriggerRedirectAfterDelay(0.5f));
+                _hasRedirected = true;
+                LevelSystem.IsEndGame = true;
+                GameEventBus.OnActiveInputGameplay?.Invoke(false);
+                StartCoroutine(TriggerRedirectAfterDelay(0.2f));
             }
         }
         else if (Mode == PlayableMode.Mode_N_Minus_1)
         {
-            // Kiểm tra trạng thái n-1 sau khi cannon đã được đưa vào slot
-            StartCoroutine(CheckNMinus1AfterClick());
+            if (IsOneStepLeft(clickedLauncher))
+            {
+                _hasRedirected = true;
+                LevelSystem.IsEndGame = true;
+                GameEventBus.OnActiveInputGameplay?.Invoke(false);
+                StartCoroutine(TriggerRedirectAfterDelay(0.2f));
+            }
         }
     }
 
-    private System.Collections.IEnumerator CheckNMinus1AfterClick()
-    {
-        // Chờ đến cuối frame để LauncherController cập nhật danh sách súng còn lại
-        yield return null;
-
-        if (IsOneStepLeft())
-        {
-            StartCoroutine(TriggerRedirectAfterDelay(0.5f));
-        }
-    }
-
-    private bool IsOneStepLeft()
+    private bool IsOneStepLeft(LauncherBaseMono clickedLauncher)
     {
         var launchers = LevelSystem.Instance.LauncherController.GetVerticalLaunchers();
         if (launchers == null || launchers.Count == 0) return false;
@@ -129,43 +125,42 @@ public class PlayableAdsController : MonoBehaviour
             {
                 if (launcher == null || visited.Contains(launcher)) continue;
 
-                uniqueGroupsCount++;
-                visited.Add(launcher);
+                // Kiểm tra xem nhóm này có chứa súng vừa click không
+                bool containsClicked = (launcher == clickedLauncher);
 
-                // Nếu launcher này là một phần của 1 nhóm được nối dây, gom cả nhóm vào visited
                 if (launcher is LauncherNormalMono normalMono && normalMono.LaunchersConnect != null)
                 {
                     foreach (var connected in normalMono.LaunchersConnect)
                     {
-                        if (connected != null)
-                            visited.Add(connected);
+                        if (connected == clickedLauncher) containsClicked = true;
+                        if (connected != null) visited.Add(connected);
                     }
+                }
+
+                visited.Add(launcher);
+                
+                // Nếu nhóm này KHÔNG chứa súng vừa click, thì đếm nó là 1 nhóm còn lại trên sân
+                if (!containsClicked)
+                {
+                    uniqueGroupsCount++;
                 }
             }
         }
 
-        // Nếu chỉ còn đúng 1 nhóm súng chưa bắn => Chỉ còn 1 step là win game
+        // Nếu chỉ còn đúng 1 nhóm súng (không tính nhóm vừa click) => Thỏa mãn điều kiện N-1
         return uniqueGroupsCount == 1;
     }
 
     private System.Collections.IEnumerator TriggerRedirectAfterDelay(float delay)
     {
-        if (_hasRedirected) yield break;
-        _hasRedirected = true;
-
         yield return new WaitForSeconds(delay);
 
         // Gửi endgame signal cho Luna SDK
         SendEndGameIfNeeded();
 
         // --- Store Redirection (Luna SDK) ---
-#if LUNA_PLAYABLE
-        try
-        {
-            Luna.Unity.Playable.InstallFullGame();
-        }
-        catch { }
-#else
+        Luna.Unity.Playable.InstallFullGame();
+
         // Fallback dùng Reflection phòng khi Luna có trong project nhưng chưa bật macro LUNA_PLAYABLE
         try
         {
@@ -177,7 +172,6 @@ public class PlayableAdsController : MonoBehaviour
             }
         }
         catch (System.Exception e) { Debug.Log("[PlayableAdsController] Luna SDK TryInstallFullGame Error: " + e.Message); }
-#endif
 
         ShowEndcardAndDimScreen();
     }

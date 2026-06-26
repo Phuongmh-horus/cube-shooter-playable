@@ -24,7 +24,8 @@ public class VerticalLauncherMono : MonoBehaviour
 
     // Pre-allocated scratch lists to avoid GC pressure on hot-paths
     private readonly List<Vector3> _positionsCache = new List<Vector3>(16);
-    private readonly List<Coroutine> _jumpTasksCache = new List<Coroutine>(16);
+    private List<Coroutine> _jumpTasksCache = new List<Coroutine>(10);
+    private Dictionary<LauncherBaseMono, Coroutine> _activeJumps = new Dictionary<LauncherBaseMono, Coroutine>();
     #endregion
 
 
@@ -191,11 +192,23 @@ public class VerticalLauncherMono : MonoBehaviour
 
             if (onInit || LevelSystem.IsTutorialLevel)
             {
+                if (_activeJumps.TryGetValue(_launcherBaseMonos[i], out var existingCor))
+                {
+                    if (existingCor != null) StopCoroutine(existingCor);
+                    _activeJumps.Remove(_launcherBaseMonos[i]);
+                }
                 _launcherBaseMonos[i].transform.position = _positionsCache[i];
             }
             else
             {
-                _jumpTasksCache.Add(StartCoroutine(RabbitJumpToPosition(_launcherBaseMonos[i], _positionsCache[i])));
+                if (_activeJumps.TryGetValue(_launcherBaseMonos[i], out var existingCor))
+                {
+                    if (existingCor != null) StopCoroutine(existingCor);
+                    _activeJumps.Remove(_launcherBaseMonos[i]);
+                }
+                var cor = StartCoroutine(RabbitJumpToPosition(_launcherBaseMonos[i], _positionsCache[i]));
+                _activeJumps[_launcherBaseMonos[i]] = cor;
+                _jumpTasksCache.Add(cor);
             }
         }
 
@@ -211,7 +224,7 @@ public class VerticalLauncherMono : MonoBehaviour
             yield break;
 
         var targetTransform = launcherBaseMono.transform;
-        float stepDistance = ConfigHolder.Instance.LauncherConfigSo.JumpStepDistance;
+        float stepDistance = ConfigHolder.Instance.LauncherConfigSo.SpacingLauncher;
         float stepDuration = ConfigHolder.Instance.LauncherConfigSo.JumpStepDuration;
         float jumpHeight = ConfigHolder.Instance.LauncherConfigSo.JumpStepHeight;
 
@@ -253,6 +266,11 @@ public class VerticalLauncherMono : MonoBehaviour
 
             if (targetTransform != null)
                 targetTransform.position = currentTargetPos;
+        }
+
+        if (_activeJumps.ContainsKey(launcherBaseMono))
+        {
+            _activeJumps.Remove(launcherBaseMono);
         }
     }
 
@@ -323,11 +341,13 @@ public class VerticalLauncherMono : MonoBehaviour
         }
     }
 
-    private IEnumerator WaitAll(List<Coroutine> coroutines)
+            private IEnumerator WaitAll(List<Coroutine> coroutines)
     {
-        foreach (var c in coroutines)
+        // Copy list to prevent iteration issues if the original cache is cleared
+        List<Coroutine> active = new List<Coroutine>(coroutines);
+        for (int i = 0; i < active.Count; i++)
         {
-            if (c != null) yield return c;
+            if (active[i] != null) yield return active[i];
         }
     }
 }

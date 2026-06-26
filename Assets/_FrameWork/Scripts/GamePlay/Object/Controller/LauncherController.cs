@@ -109,8 +109,11 @@ public class LauncherController : MonoBehaviour, BaseLevelGenerator
     /// Giống doc: SetupCollectorControllersConnect()
     /// A nối B, B nối C → group = [A, B, C]. Mỗi launcher trong group đều có cùng list.
     /// </summary>
-            private void SetupLauncherConnectGroups()
+    private void SetupLauncherConnectGroups()
     {
+        if (PlayableAdsController.Instance != null && !PlayableAdsController.Instance.EnableLineConnector)
+            return;
+
         var launcherMap = new System.Collections.Generic.Dictionary<int, LauncherNormalMono>();
         var orderedLaunchers = new System.Collections.Generic.List<LauncherNormalMono>();
 
@@ -172,6 +175,9 @@ public class LauncherController : MonoBehaviour, BaseLevelGenerator
 
     private void SetupLineConnectors()
     {
+        if (PlayableAdsController.Instance != null && !PlayableAdsController.Instance.EnableLineConnector)
+            return;
+
         System.Collections.Generic.HashSet<LauncherNormalMono> drawnLaunchers = new System.Collections.Generic.HashSet<LauncherNormalMono>();
 
         foreach (var vertical in _verticalPieceLauncherThisLevel)
@@ -231,9 +237,11 @@ public class LauncherController : MonoBehaviour, BaseLevelGenerator
         _lineConnectorPrefab ??= ConfigHolder.Instance.PrefabsDataConfigSO.LineConnectorPrefab;
         _spacingVerticalLauncher = ConfigHolder.Instance.LauncherConfigSo.SpacingVerticalLauncher;
 
-        yield return StartCoroutine(PoolHolder.Instance.PreWarmAsync(_verticalLauncherPrefab, 10, _parentLauncherProjectile, "", 5));
-        yield return StartCoroutine(PoolHolder.Instance.PreWarmAsync(_lineConnectorPrefab, 15, _parentLineConnector, "", 5));
-        yield return StartCoroutine(PoolHolder.Instance.PreWarmAsync(ConfigHolder.Instance.PrefabsDataConfigSO.LauncherProjectilePrefab, 50, _parentLauncherProjectile, "", 10));
+        // Tối ưu Playable: Load đồng bộ (không yield return) với số lượng ít hơn để game start ngay lập tức
+        PoolHolder.Instance.PreWarm(_verticalLauncherPrefab, 5, _parentLauncherProjectile);
+        PoolHolder.Instance.PreWarm(_lineConnectorPrefab, 5, _parentLineConnector);
+        PoolHolder.Instance.PreWarm(ConfigHolder.Instance.PrefabsDataConfigSO.LauncherProjectilePrefab, 10, _parentLauncherProjectile);
+        yield break;
     }
 
     public IEnumerator OnLoadLevel(RoundDataBytes newRoundData)

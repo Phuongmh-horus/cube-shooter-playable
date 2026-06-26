@@ -3,7 +3,6 @@
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
-  m_EnableGPUInstancing: 1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -155,7 +154,7 @@ Material:
     - _SingleIndirectColor: 0
     - _SpecularMapType: 0
     - _SpecularRoughness: 0.5
-    - _SpecularToonSize: 0.03
+    - _SpecularToonSize: 0.045
     - _SpecularToonSmoothness: 1
     - _SpecularType: 1
     - _SrcBlend: 1
@@ -175,15 +174,15 @@ Material:
     - _UseSpecular: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.55, g: 0.42644933, b: 0, a: 1}
+    - _BaseColor: {r: 0.56, g: 0.37999997, b: 0.25199997, a: 1}
     - _DissolveEdgeColor: {r: 1, g: 0.3, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FakeLightDir: {r: -0.5, g: 0, b: -0.5, a: 1.8}
-    - _HColor: {r: 0.75, g: 0.7380952, b: 0.70238096, a: 1}
+    - _FakeLightDir: {r: -0.5, g: 0.6423, b: -0.5, a: 1.8}
+    - _HColor: {r: 0.7, g: 0.67545456, b: 0.658, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.5}
-    - _SColor: {r: 0.35999998, g: 0.19199997, b: 0, a: 1}
+    - _SColor: {r: 0.34999996, g: 0.18958327, b: 0.15749994, a: 1}
     - _SpecularColor: {r: 0.36, g: 0.36, b: 0.36, a: 1}
   m_BuildTextureStacks: []

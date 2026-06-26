@@ -35,13 +35,17 @@ public class LauncherNormalMono : LauncherBaseMono
         VfxRemoveHiddenShooter = ConfigHolder.Instance.PrefabsDataConfigSO.Vfx_RemoveHiddenShooter;
         VFX_Shooter_Disapear = ConfigHolder.Instance.PrefabsDataConfigSO.VFX_Shooter_Disapear;
     }
+    public static readonly List<LauncherNormalMono> ActiveLaunchers = new List<LauncherNormalMono>(100);
 
-    private void LateUpdate()
+    private void OnEnable()
     {
-        if (_objectBaseMono == null || !_shooterModel.activeSelf) return;
-        RotateToObjectBaseMono();
+        if (!ActiveLaunchers.Contains(this)) ActiveLaunchers.Add(this);
     }
 
+    private void OnDisable()
+    {
+        ActiveLaunchers.Remove(this);
+    }
 
     /// <summary>
     /// Dictionary lưu line connector và vị trí của launcher trên line đó
@@ -53,6 +57,26 @@ public class LauncherNormalMono : LauncherBaseMono
 
     public List<LauncherNormalMono> LaunchersConnect => _launchersConnect;
     public bool DoneShoot => _doneShoot;
+
+    public static void UpdateAllLaunchersRotation()
+    {
+        for (int i = ActiveLaunchers.Count - 1; i >= 0; i--)
+        {
+            var l = ActiveLaunchers[i];
+            if (l == null || !l.gameObject.activeInHierarchy)
+            {
+                int lastIdx = ActiveLaunchers.Count - 1;
+                ActiveLaunchers[i] = ActiveLaunchers[lastIdx];
+                ActiveLaunchers.RemoveAt(lastIdx);
+                continue;
+            }
+
+            if (l.enabled && l._objectBaseMono != null && l._shooterModel.activeSelf)
+            {
+                l.RotateToObjectBaseMono();
+            }
+        }
+    }
 
     public void SetLaunchersConnect(List<LauncherNormalMono> group)
     {
@@ -68,6 +92,7 @@ public class LauncherNormalMono : LauncherBaseMono
         if (connector != null && !_lineConnectorPositions.ContainsKey(connector))
         {
             _lineConnectorPositions[connector] = position;
+            connector.OnDespawnEvent += HandleConnectorDespawn;
 
             // Nếu launcher hidden, set màu line ngay
             if (_isHidden)
@@ -116,10 +141,11 @@ public class LauncherNormalMono : LauncherBaseMono
         }
 
         // Despawn tất cả line connectors
-        foreach (var lineConnectorPosition in _lineConnectorPositions)
+        var connectors = new List<LineConnectorMono>(_lineConnectorPositions.Keys);
+        foreach (var connector in connectors)
         {
-            if (lineConnectorPosition.Key != null)
-                lineConnectorPosition.Key.OnDespawn();
+            if (connector != null)
+                connector.OnDespawn();
         }
         _lineConnectorPositions.Clear();
 
@@ -130,11 +156,27 @@ public class LauncherNormalMono : LauncherBaseMono
     {
         if (VFX_Shooter_Disapear != null)
         {
-            VfxBase spawnNewVfx = PoolHolder.Instance.Get(VFX_Shooter_Disapear) as VfxBase;
+            VfxBase spawnNewVfx = PoolHolder.Instance.Get(VFX_Shooter_Disapear, null, _pointVFX_Shooter_Disapear.position) as VfxBase;
             if (spawnNewVfx != null && _pointVFX_Shooter_Disapear != null)
                 spawnNewVfx.OnInit(_pointVFX_Shooter_Disapear.position);
         }
     }
+
+    public override void RemoveLauncherAtVertical()
+    {
+        base.RemoveLauncherAtVertical();
+
+        // Xóa toàn bộ dây kết nối khi Launcher bị bốc lên (nhấp vào / di chuyển sang slot)
+        // để tránh lỗi dây bị kéo giãn vô lý, gây nháy sáng trên màn hình (visual glitch).
+        var connectors = new List<LineConnectorMono>(_lineConnectorPositions.Keys);
+        foreach (var connector in connectors)
+        {
+            if (connector != null)
+                connector.OnDespawn();
+        }
+        _lineConnectorPositions.Clear();
+    }
+
     public void SetupVisualNormal(bool IsGoDoneSlot)
     {
         _peaModel.SetActive(!IsGoDoneSlot);
@@ -169,9 +211,9 @@ public class LauncherNormalMono : LauncherBaseMono
         ColorAndBullet.Amount--;
 
         if (ColorAndBullet.Amount == 1)
-            LevelSystem.Instance.GetPieceLauncherProjectilePool().OnInit(_pointSpawnBullet.position, _objectBaseMono, () => { LevelSystem.Instance.CheckWinGame(); });
+            LevelSystem.Instance.GetPieceLauncherProjectilePool(_pointSpawnBullet.position).OnInit(_pointSpawnBullet.position, _objectBaseMono, () => { LevelSystem.Instance.CheckWinGame(); });
         else
-            LevelSystem.Instance.GetPieceLauncherProjectilePool().OnInit(_pointSpawnBullet.position, _objectBaseMono);
+            LevelSystem.Instance.GetPieceLauncherProjectilePool(_pointSpawnBullet.position).OnInit(_pointSpawnBullet.position, _objectBaseMono);
         UpdateTMPBullet();
         if (ColorAndBullet.Amount <= 0)
         {
@@ -256,9 +298,12 @@ public class LauncherNormalMono : LauncherBaseMono
 
     public override IEnumerator MoveToPosition(SlotLauncherMono slotLauncherMono, Vector3 targetPos, float duration = 0.3f, Action onComplete = null)
     {
-
         _slotLauncherMonoParent = slotLauncherMono;
-        return base.MoveToPosition(slotLauncherMono, targetPos, duration, onComplete);
+        var enumerator = base.MoveToPosition(slotLauncherMono, targetPos, duration, onComplete);
+        while (enumerator.MoveNext())
+        {
+            yield return enumerator.Current;
+        }
     }
 
     public void SetupSlotLauncher(SlotLauncherMono slotLauncherMono)
@@ -411,7 +456,7 @@ public class LauncherNormalMono : LauncherBaseMono
     {
         if (VfxRemoveHiddenShooter != null)
         {
-            VfxBase spawnNewVfx = PoolHolder.Instance.Get(VfxRemoveHiddenShooter) as VfxBase;
+            VfxBase spawnNewVfx = PoolHolder.Instance.Get(VfxRemoveHiddenShooter, null, _pointVfxReviceHidden.position) as VfxBase;
             if (spawnNewVfx != null && _pointVfxReviceHidden != null)
                 spawnNewVfx.OnInit(_pointVfxReviceHidden.position);
         }
@@ -479,6 +524,18 @@ public class LauncherNormalMono : LauncherBaseMono
     {
         if (_isHidden)
             OnRevealHidden();
+    }
+
+    private void HandleConnectorDespawn(LineConnectorMono connector)
+    {
+        if (_lineConnectorPositions.ContainsKey(connector))
+        {
+            _lineConnectorPositions.Remove(connector);
+        }
+        if (connector != null)
+        {
+            connector.OnDespawnEvent -= HandleConnectorDespawn;
+        }
     }
 
     #endregion

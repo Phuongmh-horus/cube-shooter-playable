@@ -202,7 +202,7 @@ public class RotationModel3D : MonoBehaviour
 
         if (isDown)
         {
-            GameEventBus.BlockLauncherShoot?.Invoke(true);
+            // GameEventBus.BlockLauncherShoot?.Invoke(true); // Tắt block để cho phép vừa drag vừa bắn
             IsRotationHand = true;
             _isTouching = true;
             _isAutoRotating = false;
@@ -214,7 +214,7 @@ public class RotationModel3D : MonoBehaviour
         {
             if (_isTouching)
             {
-                GameEventBus.BlockLauncherShoot?.Invoke(false);
+                // GameEventBus.BlockLauncherShoot?.Invoke(false);
                 IsRotationHand = false;
                 _isTouching = false;
 

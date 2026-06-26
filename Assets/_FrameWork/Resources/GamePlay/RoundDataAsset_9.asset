@@ -16,8 +16,6 @@ MonoBehaviour:
   RoundName: Round_bee
   LevelType: 1
   IconPath: 
-  Scale: 0.75
-  ModelRotation: {x: -10, y: 0, z: 5}
-  LevelDataBytesAsset: {fileID: 0}
+  Scale: 0.5
+  ModelRotation: {x: -5, y: 0, z: 1}
   LevelDataJsonAsset: {fileID: 4900000, guid: 1c3ca08cf485d94409b654fdeea9ed47, type: 3}
-  Notes: Imported from LevelID 9 via LevelDataManager.

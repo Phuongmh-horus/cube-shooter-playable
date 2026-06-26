@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpacingVerticalLauncher: 2
   SpacingLauncher: 2
-  TimeMoveLauncherNormal: 0.3
+  TimeMoveLauncherNormal: 0.2
   TimeSortLauncherNormal: 0.15
-  TimeJumpToHole: 0.4
-  ZPullAwayDistance: 5
-  TimeZPullAway: 0.3
+  TimeJumpToHole: 0.25
+  ZPullAwayDistance: 4
+  TimeZPullAway: 0.25
   ZRiseStartDistance: -0.7
-  TimeRiseInSlot: 0.3
+  TimeRiseInSlot: 0.2
+  JumpStepDistance: 1
+  JumpStepDuration: 0.2
+  JumpStepHeight: 0.5

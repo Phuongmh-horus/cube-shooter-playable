@@ -19,7 +19,11 @@ public class VFX_Cube_Break : MonoBehaviour
     {
         transform.position = pos;
         SetColorsFromBase(color, ConfigHolder.Instance.ColorPallete_ForPiece);
-        _particleSystem.Play();
+        if (_particleSystem != null)
+        {
+            _particleSystem.Clear();
+            _particleSystem.Play();
+        }
         StartCoroutine(WaitAndDespawn());
     }
 

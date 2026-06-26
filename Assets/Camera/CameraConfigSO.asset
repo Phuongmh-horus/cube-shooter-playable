@@ -18,5 +18,5 @@ MonoBehaviour:
     CamPosition: {x: 0, y: -20, z: -72}
     CamRotation: {x: -25, y: 0, z: 0}
   - CameraState: 1
-    CamPosition: {x: 0, y: -25.5, z: -72}
-    CamRotation: {x: -25, y: 0, z: 0}
+    CamPosition: {x: 0, y: -27, z: -72}
+    CamRotation: {x: -27, y: 0, z: 0}

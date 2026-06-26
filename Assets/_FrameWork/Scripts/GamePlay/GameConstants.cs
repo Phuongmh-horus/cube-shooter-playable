@@ -11,8 +11,8 @@ public enum LayerNameGamePlay
     Water = 4,
     UI = 5,
 
-    Model3D = 9,
-    Launcher = 10,
+    Model3D = 10,
+    Launcher = 9,
     LauncherInSlot = 11,
 }
 

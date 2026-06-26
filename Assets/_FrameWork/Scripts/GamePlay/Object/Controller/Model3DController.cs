@@ -248,8 +248,6 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
             _jobIndexToPiece[jobIndex] = null;
         }
 
-
-
         _objectBaseThisLevel.Remove(objectBase);
     }
 
@@ -335,9 +333,11 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
 
 
 
-        yield return StartCoroutine(PoolHolder.Instance.PreWarmAsync(_objectPiecePrefab, 100, _parentObject, "", 10));
-        yield return StartCoroutine(PoolHolder.Instance.PreWarmAsync(ConfigHolder.Instance.PrefabsDataConfigSO.Vfx_CubeBreak, 15, _parentObject, "", 5));
-        //yield break; (Removed because it's no longer the only statement)
+        // Tối ưu Playable: Load đồng bộ và giảm số lượng
+        PoolHolder.Instance.PreWarm(_objectPiecePrefab, 20, _parentObject);
+        PoolHolder.Instance.PreWarm(ConfigHolder.Instance.PrefabsDataConfigSO.Vfx_CubeBreak, 5, _parentObject);
+
+        yield break;
     }
 
     public IEnumerator OnLoadLevel(RoundDataBytes newRoundData)

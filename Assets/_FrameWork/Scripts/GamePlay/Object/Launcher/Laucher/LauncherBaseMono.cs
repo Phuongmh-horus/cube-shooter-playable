@@ -164,7 +164,7 @@ public abstract class LauncherBaseMono : MonoBehaviour
         _columnIndex = parent != null ? parent.ColumnIndex : -1;
     }
 
-    public void RemoveLauncherAtVertical()
+    public virtual void RemoveLauncherAtVertical()
     {
         if (_verticalLauncherMonoParent == null) return;
         _verticalLauncherMonoParent.RemoveLauncher(this);
@@ -217,9 +217,9 @@ public abstract class LauncherBaseMono : MonoBehaviour
 
     #region <========================= ANIMATION FUNCTION =========================>
 
-    protected void PlayAnimPeaIdle() => PlayPeaAnim(AnimHash.PEA_IDLE);
-    public void PlayAnimPeaBunny() => PlayPeaAnim(AnimHash.PEA_BUNNY);
-    protected void PlayAnimPeaJump() => PlayPeaAnim(AnimHash.PEA_JUMP);
+    protected void PlayAnimPeaIdle() => PlayPeaAnim(AnimHash.PEA_IDLE_STR);
+    public void PlayAnimPeaBunny() => PlayPeaAnim(AnimHash.PEA_BUNNY_STR);
+    protected void PlayAnimPeaJump() => PlayPeaAnim(AnimHash.PEA_JUMP_STR);
 
     protected void PlayAnimShooterIdle() => PlayShooterAnim(AnimHash.SHOOTER_IDLE);
     protected void PlayAnimShooterAppear()
@@ -237,15 +237,14 @@ public abstract class LauncherBaseMono : MonoBehaviour
         // Animator currently disabled
     }
 
-    protected void PlayPeaAnim(string animName) => PlayPeaAnim(Animator.StringToHash(animName));
-    protected void PlayPeaAnim(int animHash)
+    protected void PlayPeaAnim(string animName)
     {
         if (_peaAnimator == null)
         {
             Debug.LogError("Animator is not assigned on " + gameObject.name);
             return;
         }
-        _peaAnimator.Play(animHash);
+        _peaAnimator.Play(animName, 0, 0f);
     }
 
     protected void RotateToObjectBaseMono()

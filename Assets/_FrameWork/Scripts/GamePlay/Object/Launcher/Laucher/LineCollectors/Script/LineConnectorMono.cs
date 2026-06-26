@@ -11,6 +11,8 @@ public class LineConnectorMono : MonoBehaviour
     private Color _cachedStartColor = Color.white;  // Cache màu Start hiện tại
     private Color _cachedEndColor = Color.white;    // Cache màu End hiện tại
 
+    public System.Action<LineConnectorMono> OnDespawnEvent;
+
     public Rope Rope
     {
         get
@@ -48,7 +50,9 @@ public class LineConnectorMono : MonoBehaviour
         Rope.SetStartPoint(start, instantAssign: true);
         Rope.SetEndPoint(end, instantAssign: true);
         RopeMesh.SetColor(startColor, endColor);
+        SetRenderersActive(false);
         gameObject.SetActive(true);
+        StartCoroutine(WaitAndShowRope());
     }
 
     /// <summary>
@@ -62,7 +66,16 @@ public class LineConnectorMono : MonoBehaviour
         Rope.OnInit();
         Rope.SetStartPoint(start, instantAssign: true);
         Rope.SetEndPoint(end, instantAssign: true);
+        SetRenderersActive(false);
         gameObject.SetActive(true);
+        StartCoroutine(WaitAndShowRope());
+    }
+
+    private System.Collections.IEnumerator WaitAndShowRope()
+    {
+        yield return null;
+        if (!_isDespawned)
+            SetRenderersActive(true);
     }
 
     /// <summary>
@@ -99,6 +112,9 @@ public class LineConnectorMono : MonoBehaviour
         // Kiểm tra flag để tránh despawn nhiều lần
         if (_isDespawned) return;
         _isDespawned = true;
+
+        OnDespawnEvent?.Invoke(this);
+        OnDespawnEvent = null;
 
         gameObject.SetActive(false); // tắt trước để Rope/RopeMesh không Update/GenerateMesh khi point = null
         Rope.SetStartPoint(null);

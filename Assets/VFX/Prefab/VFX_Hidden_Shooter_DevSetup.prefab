@@ -55,9 +55,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 343066997001639509}
     m_Modifications:
+    - target: {fileID: 1479733036073552260, guid: a99f60e19ccaf7543b1ca4b697a54baa, type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2363335307258180395, guid: a99f60e19ccaf7543b1ca4b697a54baa, type: 3}
       propertyPath: m_Name
       value: VFX_Hidden_Shooter
+      objectReference: {fileID: 0}
+    - target: {fileID: 3154935691760907619, guid: a99f60e19ccaf7543b1ca4b697a54baa, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6296768975944807809, guid: a99f60e19ccaf7543b1ca4b697a54baa, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7593076052757818997, guid: a99f60e19ccaf7543b1ca4b697a54baa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -107,8 +119,17 @@ PrefabInstance:
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.scalar
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 8011535270575803460, guid: a99f60e19ccaf7543b1ca4b697a54baa, type: 3}
+      propertyPath: VelocityModule.speedModifier.maxCurve.m_Curve.Array.data[0].time
+      value: 0.3640332
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011535270575803460, guid: a99f60e19ccaf7543b1ca4b697a54baa, type: 3}
+      propertyPath: VelocityModule.speedModifier.maxCurve.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 6296768975944807809, guid: a99f60e19ccaf7543b1ca4b697a54baa, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a99f60e19ccaf7543b1ca4b697a54baa, type: 3}

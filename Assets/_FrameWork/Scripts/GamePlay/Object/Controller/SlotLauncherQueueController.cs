@@ -74,7 +74,7 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
 
     private bool _isPlayDonelauncher = false;//cho hết launcher lên rồi
     private bool _isLevelActive = false;
-    private Coroutine _updateCoroutine;
+
     #endregion
 
     #region <========================= UNITY CORE =========================>
@@ -675,30 +675,56 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         if (_isMatchingLaunchers) yield break;
         _isMatchingLaunchers = true;
 
-        bool hasMatch = true;
-
-                while (hasMatch)
+        try
         {
-            hasMatch = false;
-            System.Collections.Generic.List<SlotLauncherMono> matchGroup = null;
+            bool hasMatch = true;
 
-            foreach (var pair in _dicColorAndSlotLauncherActive)
+            while (hasMatch)
             {
-                if (pair.Value != null && pair.Value.Count >= _countMechnicMath3Launcher)
+                hasMatch = false;
+                System.Collections.Generic.List<SlotLauncherMono> matchGroup = null;
+
+                foreach (var pair in _dicColorAndSlotLauncherActive)
                 {
-                    matchGroup = pair.Value;
-                    break;
+                    if (pair.Value != null)
+                    {
+                        // Tự động dọn dẹp các slot trống hoặc bị sai lệch khỏi dictionary trước khi đếm
+                        pair.Value.RemoveAll(s => s == null || s.IsEmpty || s.CurrentLauncher == null || s.CurrentLauncher.GetColorCodeIndex0() != pair.Key);
+
+                        // Xóa các phần tử trùng lặp bằng for loop để fix lỗi Contains trên Luna
+                        var distinctList = new System.Collections.Generic.List<SlotLauncherMono>();
+                        for (int i = 0; i < pair.Value.Count; i++)
+                        {
+                            var s = pair.Value[i];
+                            bool found = false;
+                            for (int j = 0; j < distinctList.Count; j++)
+                            {
+                                if (distinctList[j] == s) { found = true; break; }
+                            }
+                            if (!found) distinctList.Add(s);
+                        }
+                        pair.Value.Clear();
+                        pair.Value.AddRange(distinctList);
+
+                        if (pair.Value.Count >= _countMechnicMath3Launcher)
+                        {
+                            matchGroup = pair.Value;
+                            break;
+                        }
+                    }
+                }
+
+                if (matchGroup != null)
+                {
+                    hasMatch = true;
+                    yield return MatchLauncherNormalLogic(matchGroup);
                 }
             }
-
-            if (matchGroup != null)
-            {
-                hasMatch = true;
-                yield return MatchLauncherNormalLogic(matchGroup);
-            }
         }
-
-        _isMatchingMatch3CleanUp();
+        finally
+        {
+            _isMatchingMatch3CleanUp();
+        }
     }
 
     private void _isMatchingMatch3CleanUp()
@@ -711,97 +737,104 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
     /// </summary>
     private IEnumerator MatchLauncherNormalLogic(List<SlotLauncherMono> listSlotLauncherSameColor)
     {
-        // Manual sort instead of Linq
-        List<SlotLauncherMono> threeSmallest = new List<SlotLauncherMono>(listSlotLauncherSameColor);
-        threeSmallest.Sort((a, b) => a.Index.CompareTo(b.Index));
-        if (threeSmallest.Count > _countMechnicMath3Launcher)
-        {
-            threeSmallest.RemoveRange(_countMechnicMath3Launcher, threeSmallest.Count - _countMechnicMath3Launcher);
-        }
+        List<SlotLauncherMono> match3 = new List<SlotLauncherMono>();
+        for (int i = 0; i < _countMechnicMath3Launcher; i++) match3.Add(listSlotLauncherSameColor[i]);
 
-        LauncherNormalMono startLauncher = null;
-        LauncherNormalMono middleLauncher = null;
-        LauncherNormalMono endLauncher = null;
-        if (threeSmallest[0].CurrentLauncher is LauncherNormalMono normal)
-            startLauncher = normal;
-        if (threeSmallest[1].CurrentLauncher is LauncherNormalMono middle)
-            middleLauncher = middle;
-        if (threeSmallest[2].CurrentLauncher is LauncherNormalMono end)
-            endLauncher = end;
+        match3.Sort((a, b) => a.Index.CompareTo(b.Index));
+
+        LauncherNormalMono startLauncher = match3[0].CurrentLauncher as LauncherNormalMono;
+        LauncherNormalMono middleLauncher = match3[1].CurrentLauncher as LauncherNormalMono;
+        LauncherNormalMono endLauncher = match3[2].CurrentLauncher as LauncherNormalMono;
 
         if (startLauncher == null || middleLauncher == null || endLauncher == null)
         {
-            Debug.LogError("Bug: null nè");
-            // Sửa lỗi infinite loop: Xóa ngay các slot lỗi ra khỏi list để không bị lặp vô tận
-            if (startLauncher == null) listSlotLauncherSameColor.Remove(threeSmallest[0]);
-            if (middleLauncher == null) listSlotLauncherSameColor.Remove(threeSmallest[1]);
-            if (endLauncher == null) listSlotLauncherSameColor.Remove(threeSmallest[2]);
+            listSlotLauncherSameColor.RemoveAll(x => x == match3[0] || x == match3[1] || x == match3[2]);
             yield break;
         }
 
-        // Sửa lỗi dính súng (Concurrency bug): Xóa ngay lập tức khỏi list để không bị hàm Match khác lấy lại
-        listSlotLauncherSameColor.Remove(threeSmallest[0]);
-        listSlotLauncherSameColor.Remove(threeSmallest[1]);
-        listSlotLauncherSameColor.Remove(threeSmallest[2]);
+        listSlotLauncherSameColor.RemoveAll(x => x == match3[0] || x == match3[1] || x == match3[2]);
 
         startLauncher.SetCanShoot(false, true);
         middleLauncher.SetCanShoot(false, true);
         endLauncher.SetCanShoot(false, true);
 
-        // Giải phóng slot 2 bên ngay lập tức trước khi di chuyển để tránh việc dồn hàng quét trúng
         _activeMergeCount += 2;
-        _activeMergeLaunchers.Add(startLauncher);
-        _activeMergeLaunchers.Add(endLauncher);
-        ClearLauncherSlot(threeSmallest[0]);
-        ClearLauncherSlot(threeSmallest[2]);
+        bool foundStart = false; bool foundEnd = false;
+        for (int i = 0; i < _activeMergeLaunchers.Count; i++)
+        {
+            if (_activeMergeLaunchers[i] == startLauncher) foundStart = true;
+            if (_activeMergeLaunchers[i] == endLauncher) foundEnd = true;
+        }
+        if (!foundStart) _activeMergeLaunchers.Add(startLauncher);
+        if (!foundEnd) _activeMergeLaunchers.Add(endLauncher);
 
-        List<IEnumerator> mergeTasks = new List<IEnumerator>();
+        ClearLauncherSlot(match3[0]);
+        ClearLauncherSlot(match3[2]);
 
-        mergeTasks.Add(startLauncher.MoveToPosition(
+        int completedCount = 0;
+
+        startLauncher.StartCoroutine(startLauncher.MoveToPosition(
             null,
             middleLauncher.TF.position,
-            onComplete: () =>
+            0.3f,
+            () =>
             {
-                _activeMergeLaunchers.Remove(startLauncher);
-                if (middleLauncher == null || middleLauncher.ColorAndBullet == null || startLauncher == null || startLauncher.ColorAndBullet == null)
+                _activeMergeLaunchers.RemoveAll(x => x == startLauncher);
+                if (middleLauncher != null && middleLauncher.ColorAndBullet != null && startLauncher != null && startLauncher.ColorAndBullet != null)
                 {
-                    _activeMergeCount--;
-                    return;
+                    middleLauncher.AddBulletAmount(startLauncher.ColorAndBullet.Amount);
                 }
-                middleLauncher.AddBulletAmount(startLauncher.ColorAndBullet.Amount);
-                startLauncher.OnDespawn();
+                if (startLauncher != null) startLauncher.OnDespawn();
                 _activeMergeCount--;
+                completedCount++;
             }));
 
-        mergeTasks.Add(endLauncher.MoveToPosition(
+        endLauncher.StartCoroutine(endLauncher.MoveToPosition(
             null,
             middleLauncher.TF.position,
-            onComplete: () =>
+            0.3f,
+            () =>
             {
-                _activeMergeLaunchers.Remove(endLauncher);
-                if (middleLauncher == null || middleLauncher.ColorAndBullet == null || endLauncher == null || endLauncher.ColorAndBullet == null)
+                _activeMergeLaunchers.RemoveAll(x => x == endLauncher);
+                if (middleLauncher != null && middleLauncher.ColorAndBullet != null && endLauncher != null && endLauncher.ColorAndBullet != null)
                 {
-                    _activeMergeCount--;
-                    return;
+                    middleLauncher.AddBulletAmount(endLauncher.ColorAndBullet.Amount);
                 }
-                middleLauncher.AddBulletAmount(endLauncher.ColorAndBullet.Amount);
-                endLauncher.OnDespawn();
+                if (endLauncher != null) endLauncher.OnDespawn();
                 _activeMergeCount--;
+                completedCount++;
             }));
 
-        yield return WaitAll(mergeTasks);
+        float timeout = 1.0f;
+        while (completedCount < 2 && timeout > 0f)
+        {
+            timeout -= Time.deltaTime;
+            yield return null;
+        }
+
         SoundManager.Instance.PlayOneShot(AudioClipName.Bonus_Slot_Arrive);
 
-        if (middleLauncher != null && threeSmallest[1].CurrentLauncher == middleLauncher)
+        if (middleLauncher != null && middleLauncher.gameObject.activeInHierarchy)
         {
             middleLauncher.AddACShootPiece();
 
-            // (Removed dangerous activeList.Add which adds the old slot back. ShiftQueueForward re-assigns and adds the new slot correctly.)
+            CubeShooterColor colorCode = middleLauncher.GetColorCodeIndex0();
+            if (!_dicColorAndSlotLauncherActive.ContainsKey(colorCode))
+                _dicColorAndSlotLauncherActive[colorCode] = new List<SlotLauncherMono>();
+
+            SlotLauncherMono currentSlot = middleLauncher.GetSlotLauncherMono;
+            if (currentSlot != null)
+            {
+                bool found = false;
+                var list = _dicColorAndSlotLauncherActive[colorCode];
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (list[i] == currentSlot) { found = true; break; }
+                }
+                if (!found) list.Add(currentSlot);
+            }
         }
         GameEventBus.Match3Suscess?.Invoke();
-
-        // Gọi lại Match để quét tiếp
-        // Continue matching in the parent MatchLauncherNormal loop instead of recursive call here.
     }
 
     #endregion
@@ -814,15 +847,23 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         slotLauncherMono.AssignLauncher(launcherBaseMono);
         LevelSystem.Instance.Model3DController.ResetShootState(true);
 
-
-
-
-        if (launcherBaseMono.GetCountColorAndBullet() != 1 || launcherBaseMono.GetConnectedReferencesIDs().Count > 0)
+        if (launcherBaseMono.GetCountColorAndBullet() == 0)
             return;
+
+        if (launcherBaseMono is LauncherNormalMono normalMono && normalMono.LaunchersConnect != null && normalMono.LaunchersConnect.Count > 1)
+            return;
+
         CubeShooterColor colorCode = launcherBaseMono.GetColorCodeIndex0();
         if (!_dicColorAndSlotLauncherActive.ContainsKey(colorCode))
             _dicColorAndSlotLauncherActive[colorCode] = new List<SlotLauncherMono>();
-        _dicColorAndSlotLauncherActive[colorCode].Add(slotLauncherMono);
+
+        bool found = false;
+        var list = _dicColorAndSlotLauncherActive[colorCode];
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i] == slotLauncherMono) { found = true; break; }
+        }
+        if (!found) list.Add(slotLauncherMono);
     }
 
     /// <summary>
@@ -1129,8 +1170,11 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         if (slotLauncherMono == null || slotLauncherMono.CurrentLauncher == null)
             return;
 
-        if (slotLauncherMono.CurrentLauncher.GetConnectedReferencesIDs().Count <= 0)
-            _dicColorAndSlotLauncherActive[slotLauncherMono.CurrentLauncher.GetColorCodeIndex0()]?.Remove(slotLauncherMono);
+        CubeShooterColor colorCode = slotLauncherMono.CurrentLauncher.GetColorCodeIndex0();
+        if (_dicColorAndSlotLauncherActive.ContainsKey(colorCode))
+        {
+            _dicColorAndSlotLauncherActive[colorCode].RemoveAll(x => x == slotLauncherMono);
+        }
 
         if (slotLauncherMono.CurrentLauncher != null)
             slotLauncherMono.CurrentLauncher.transform.SetParent(null);
@@ -1150,22 +1194,34 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
         _blockLauncherShoot = blockLauncherShootAC;
     }
 
+    private float _updateTimer;
+
     public void StartUpdateLoop()
     {
         // tránh start nhiều lần
         if (_isLevelActive) return;
 
         _isLevelActive = true;
-        _updateCoroutine = StartCoroutine(UpdateLoop());
+        _updateTimer = 0f;
     }
 
-    private IEnumerator UpdateLoop()
+    private void Update()
     {
+        if (!_isLevelActive) return;
+
+        // Centralized update for all launchers' rotations (replaces LateUpdate to reduce overhead)
+        LauncherNormalMono.UpdateAllLaunchersRotation();
+
         if (_fireRateLauncher <= 0)
             _fireRateLauncher = ConfigHolder.Instance.SlotLauncherConfigSo.FireRateLauncherDeffault;
-        var waitTime = new WaitForSeconds(_fireRateLauncher / 1000f);
-        while (!false)
+
+        _updateTimer += Time.deltaTime;
+        float waitTime = _fireRateLauncher / 1000f;
+
+        if (_updateTimer >= waitTime)
         {
+            _updateTimer = 0f;
+
             // Snapshot để tránh lỗi Collection was modified khi ShootPiece() gọi Remove() trong lúc duyệt
             // Dùng _shootSnapshot cache (field) thay vì new List<> mỗi tick → zero GC alloc
             if (!_blockLauncherShoot)
@@ -1178,18 +1234,44 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                         VARIABLE.ShootPiece();
                 }
             }
-            yield return waitTime;
+
+            // Auto-Heal Match3: Tự động check và kích hoạt merge nếu bị sót do race-condition
+            if (!_isMatchingLaunchers && IsMatch3UnlockedAtCurrentLevel())
+            {
+                bool needMatch = false;
+                foreach (var pair in _dicColorAndSlotLauncherActive)
+                {
+                    var list = pair.Value;
+                    if (list != null)
+                    {
+                        // Loại bỏ Lambda RemoveAll để tránh GC Alloc
+                        for (int i = list.Count - 1; i >= 0; i--)
+                        {
+                            var s = list[i];
+                            if (s == null || s.IsEmpty || s.CurrentLauncher == null || s.CurrentLauncher.GetColorCodeIndex0() != pair.Key)
+                            {
+                                list.RemoveAt(i);
+                            }
+                        }
+
+                        if (list.Count >= _countMechnicMath3Launcher)
+                        {
+                            needMatch = true;
+                            break;
+                        }
+                    }
+                }
+                if (needMatch)
+                {
+                    StartCoroutine(MatchLauncherNormal());
+                }
+            }
         }
     }
 
     public void StopUpdateLoop()
     {
         if (!_isLevelActive) return;
-        if (_updateCoroutine != null)
-        {
-            StopCoroutine(_updateCoroutine);
-            _updateCoroutine = null;
-        }
         _isLevelActive = false;
     }
 
@@ -1563,18 +1645,30 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
     {
         if (coroutines == null || coroutines.Count == 0) yield break;
 
-        List<IEnumerator> activeCoroutines = new List<IEnumerator>(coroutines);
+        int totalCount = 0;
+        int[] completedCount = new int[1];
 
-        while (activeCoroutines.Count > 0)
+        for (int i = 0; i < coroutines.Count; i++)
         {
-            for (int i = activeCoroutines.Count - 1; i >= 0; i--)
+            if (coroutines[i] != null)
             {
-                if (!activeCoroutines[i].MoveNext())
-                {
-                    activeCoroutines.RemoveAt(i);
-                }
+                totalCount++;
+                StartCoroutine(RunCoroutineAndTrack(coroutines[i], completedCount));
             }
+        }
+
+        while (completedCount[0] < totalCount)
+        {
             yield return null;
         }
+    }
+
+    private IEnumerator RunCoroutineAndTrack(IEnumerator routine, int[] completedCount)
+    {
+        while (routine.MoveNext())
+        {
+            yield return routine.Current;
+        }
+        completedCount[0]++;
     }
 }

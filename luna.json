@@ -1,8 +1,8 @@
 {
     "version": "7.0.0",
     "projectId": "52f536a8df4219e4b975969529509222",
-    "applicationID": 39501,
-    "creativeName": "LV_7",
+    "applicationID": 40713,
+    "creativeName": "LV_9",
     "pgServer": "EU",
     "window": {
         "‐⁏": true
@@ -132,7 +132,12 @@
                 "Stubs/AppsFlyer",
                 "Stubs/IronSource",
                 "Stubs/Vungle",
-                "Stubs/MoreMountains.NiceVibrations"
+                "Stubs/MoreMountains.NiceVibrations",
+                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Flare 2.png",
+                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Ribbon 1.png",
+                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Icn_Horn_2 1.png",
+                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Flare 1.png",
+                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Cup 1.png"
             ],
             "includes": [
                 "Assets/Resources/DOTweenSettings.asset",
@@ -141,7 +146,8 @@
                 "Assets/VFX/Prefab/VFX_Hidden_Shooter.prefab",
                 "Assets/VFX/Prefab/VFX_Hidden_Shooter_DevSetup.prefab",
                 "Assets/VFX/Prefab/VFX_Shooter_Bullet.prefab",
-                "Assets/VFX/Prefab/VFX_Shooter_Disapear.prefab"
+                "Assets/VFX/Prefab/VFX_Shooter_Disapear.prefab",
+                "Assets/_Game/Animator/Pea/Pea_bunny.fbx"
             ]
         },
         "scenes": [
@@ -1548,10 +1554,6 @@
             },
             {
                 "name": "UnityEngine.DefaultExecutionOrder",
-                "excluded": true
-            },
-            {
-                "name": "UnityEngine.Experimental.Rendering.GraphicsFormatUtility",
                 "excluded": true
             },
             {
@@ -4908,7 +4910,7 @@
             },
             {
                 "name": "UnityEngine.RenderTextureReadWrite",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.Resources.PrefabNotFoundException",
@@ -6247,10 +6249,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.EventSystems.EventTrigger.Entry",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.UI.ClipperRegistry",
                 "excluded": true
             },
@@ -6315,10 +6313,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.EventSystems.EventTrigger",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.EventSystems.PhysicsRaycaster",
                 "excluded": true
             },
@@ -6380,7 +6374,7 @@
             },
             {
                 "name": "UnityEngine.EventSystems.EventTriggerType",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.EventSystems.MoveDirection",
@@ -6564,7 +6558,7 @@
             },
             {
                 "name": "UnityEngine.EventSystems.ICancelHandler",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.EventSystems.ISubmitHandler",
@@ -6612,7 +6606,7 @@
             },
             {
                 "name": "UnityEngine.EventSystems.EventTrigger.TriggerEvent",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset",
@@ -8520,6 +8514,10 @@
             },
             {
                 "name": "CameraState",
+                "excluded": false
+            },
+            {
+                "name": "PoolItemMarker",
                 "excluded": false
             }
         ],
@@ -14380,7 +14378,7 @@
                     },
                     {
                         "name": "NextDouble",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "NextBytes",
@@ -15834,11 +15832,11 @@
                     },
                     {
                         "name": "$ctor8",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor9",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor3",
@@ -17834,7 +17832,7 @@
                     },
                     {
                         "name": "up#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "childCount#get",
@@ -17910,7 +17908,7 @@
                     },
                     {
                         "name": "IsChildOf",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "InverseTransformPoint",
@@ -17962,7 +17960,7 @@
                     },
                     {
                         "name": "TransformDirection$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "TransformDirection",
@@ -18026,7 +18024,7 @@
                     },
                     {
                         "name": "SetPositionAndRotation",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -19152,7 +19150,7 @@
                     },
                     {
                         "name": "GetCompatibleFormat",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ValidateRenderTextureDesc",
@@ -19168,7 +19166,7 @@
                     },
                     {
                         "name": "GetShadowSamplingModeForFormat",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetShadowSamplingModeForFormat$1",
@@ -19180,7 +19178,7 @@
                     },
                     {
                         "name": "CreateLegacy",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "name#get",
@@ -19268,7 +19266,7 @@
                     },
                     {
                         "name": "$ctor5",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "$ctor1",
@@ -19276,7 +19274,7 @@
                     },
                     {
                         "name": "$ctor6",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ctor",
@@ -20086,7 +20084,7 @@
                     },
                     {
                         "name": "material#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "material#set",
@@ -20584,7 +20582,7 @@
                     },
                     {
                         "name": "mainTexture#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "uvRect#get",
@@ -20616,7 +20614,7 @@
                     },
                     {
                         "name": "Awake",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "OnDidApplyAnimationProperties",
@@ -26744,7 +26742,7 @@
                     },
                     {
                         "name": "Play$4",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Play$1",
@@ -27702,11 +27700,11 @@
                 "instanceMethods": [
                     {
                         "name": "renderOrderPriority#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "sortOrderPriority#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "rootRaycaster#get",
@@ -33822,7 +33820,7 @@
                     },
                     {
                         "name": "insideUnitSphere#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "state#get",
@@ -33838,15 +33836,15 @@
                     },
                     {
                         "name": "rotation#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "SpherePoint",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Range$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Range",
@@ -33868,7 +33866,7 @@
                     },
                     {
                         "name": "transform#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
@@ -35108,7 +35106,7 @@
                 "instanceMethods": [
                     {
                         "name": "main#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "emission#get",
@@ -35356,11 +35354,11 @@
                     },
                     {
                         "name": "Emit",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Clear",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Simulate",
@@ -36367,10 +36365,6 @@
                         "excluded": false
                     },
                     {
-                        "name": "PlayPeaAnim$1",
-                        "excluded": true
-                    },
-                    {
                         "name": "PlayPeaAnim",
                         "excluded": false
                     },
@@ -36517,6 +36511,10 @@
                     {
                         "name": "SetRenderersActive",
                         "excluded": true
+                    },
+                    {
+                        "name": "WaitAndShowRope",
+                        "excluded": true
                     }
                 ]
             },
@@ -36598,6 +36596,18 @@
                     },
                     {
                         "name": "GetTarget",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ProcessPlane",
+                        "excluded": false
+                    },
+                    {
+                        "name": "QuickSortCandidates",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Partition",
                         "excluded": false
                     }
                 ]
@@ -36734,10 +36744,6 @@
                     },
                     {
                         "name": "OnLauncherClicked",
-                        "excluded": false
-                    },
-                    {
-                        "name": "CheckNMinus1AfterClick",
                         "excluded": false
                     },
                     {
@@ -37108,7 +37114,7 @@
                     },
                     {
                         "name": "GetCountUnusedLauncher",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetVerticalLaunchers",
@@ -37158,14 +37164,10 @@
                     },
                     {
                         "name": "GetSlotLauncherMono#get",
-                        "excluded": true
-                    },
-                    {
-                        "name": "init",
                         "excluded": false
                     },
                     {
-                        "name": "LateUpdate",
+                        "name": "init",
                         "excluded": false
                     },
                     {
@@ -37267,6 +37269,26 @@
                     {
                         "name": "PlayVFX_Shooter_Disapear",
                         "excluded": false
+                    },
+                    {
+                        "name": "UpdateAllLaunchersRotation",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RemoveLauncherAtVertical",
+                        "excluded": false
+                    },
+                    {
+                        "name": "HandleConnectorDespawn",
+                        "excluded": true
                     }
                 ]
             },
@@ -37571,10 +37593,6 @@
                         "excluded": false
                     },
                     {
-                        "name": "UpdateLoop",
-                        "excluded": false
-                    },
-                    {
                         "name": "StopUpdateLoop",
                         "excluded": false
                     },
@@ -37632,6 +37650,14 @@
                     },
                     {
                         "name": "WaitAll",
+                        "excluded": false
+                    },
+                    {
+                        "name": "RunCoroutineAndTrack",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
                         "excluded": false
                     }
                 ]
@@ -37923,6 +37949,200 @@
                         "excluded": true
                     }
                 ]
+            },
+            {
+                "className": "UnityEngine.EventSystems.EventTrigger.Entry",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.EventSystems.EventTrigger",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "triggers#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "triggers#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnPointerEnter",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnPointerExit",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDrag",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDrop",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnPointerDown",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnPointerUp",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnPointerClick",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnSelect",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnDeselect",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnScroll",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnMove",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnUpdateSelected",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnInitializePotentialDrag",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnBeginDrag",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnEndDrag",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnSubmit",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnCancel",
+                        "excluded": true
+                    },
+                    {
+                        "name": "Execute",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "BulletTrailRotation",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdateAllTrails",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ManualUpdate",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ResetPosition",
+                        "excluded": true
+                    }
+                ]
+            },
+            {
+                "className": "UnityEngine.Experimental.Rendering.GraphicsFormatUtility",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetGraphicsFormat$2",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetGraphicsFormat$1",
+                        "excluded": false
+                    },
+                    {
+                        "name": "GetGraphicsFormat",
+                        "excluded": false
+                    }
+                ]
+            },
+            {
+                "className": "LunaFireworksController",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Awake",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StartFireworks",
+                        "excluded": false
+                    },
+                    {
+                        "name": "StopFireworks",
+                        "excluded": false
+                    },
+                    {
+                        "name": "FireworksRoutine",
+                        "excluded": false
+                    }
+                ]
             }
         ],
         "stubberDataList": [],
@@ -37959,197 +38179,7 @@
                         "quality": 65,
                         "script": "",
                         "ext": "",
-                        "name": "Resources/unity_builtin_extra/Default-Particle"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "png32",
-                        "compression": "none",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/_FrameWork/Resources_Remote/Fonts/Baloo Bhaijaan Regular 400 SDF.asset"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "png32",
-                        "compression": "none",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Fallback.asset"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "png32",
-                        "compression": "none",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "jpeg",
-                        "compression": "quantSize",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/3DArt/Assets/texture/T_Colorpalette.tga"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "png32",
-                        "compression": "quantQuality",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/_FrameWork/Resources/Sprites/Loading_SP/Title_CubeShooter 1.png"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "jpeg",
-                        "compression": "quantSize",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/_FrameWork/Resources/Sprites/Loading_SP/icon.png"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "jpeg",
-                        "compression": "quantSize",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/3DArt/Collection/box_diffuse_v1.png"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "png32",
-                        "compression": "quantQuality",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Cup 1.png"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "jpeg",
-                        "compression": "quantSize",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/_Game/Textrue/Gradient.png"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "png32",
-                        "compression": "quantQuality",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/_Game/Resources/Sprites/handtut.png"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "png32",
-                        "compression": "quantQuality",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/_FrameWork/Resources/Sprites/Mainmenu/Btn_Home 1.png"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "png32",
-                        "compression": "quantQuality",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Ribbon 1.png"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "jpeg",
-                        "compression": "quantSize",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/3DArt/Assets/texture/T_Frozen_Shooter.png"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "jpeg",
-                        "compression": "quantSize",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/3DArt/Assets/texture/T_Hidden_Shooter.tga"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "jpeg",
-                        "compression": "quantSize",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/3DArt/Collection/BasicMaterial.png"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "png32",
-                        "compression": "quantQuality",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Icn_Horn_2 1.png"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "jpeg",
-                        "compression": "quantSize",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Assets/_FrameWork/Resources/Sprites/InGame/GamePlaySprite/BG 1.png"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "png32",
-                        "compression": "none",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
                         "name": "Assets/_FindNMerge/Font/MUSEOSANSROUNDED-1000 SDF.asset"
-                    },
-                    {
-                        "maxWidth": 512,
-                        "maxHeight": 512,
-                        "format": "png32",
-                        "compression": "quantSize",
-                        "quality": 65,
-                        "script": "",
-                        "ext": "",
-                        "name": "Resources/unity_builtin_extra/Default-ParticleSystem"
                     }
                 ]
             },
@@ -38308,6 +38338,34 @@
                         "simplificationPercentage": 80,
                         "linkCloseVertices": true,
                         "name": "Assets/3DArt/Assets/mesh/Cube_lego.fbx"
+                    },
+                    {
+                        "halfPrecision": true,
+                        "useSimplification": true,
+                        "simplificationPercentage": 80,
+                        "linkCloseVertices": true,
+                        "name": "Assets/_Game/Animator/Pea/Pea.fbx"
+                    },
+                    {
+                        "halfPrecision": true,
+                        "useSimplification": true,
+                        "simplificationPercentage": 80,
+                        "linkCloseVertices": true,
+                        "name": "Library/unity default resources/Sphere"
+                    },
+                    {
+                        "halfPrecision": true,
+                        "useSimplification": true,
+                        "simplificationPercentage": 60,
+                        "linkCloseVertices": true,
+                        "name": "Assets/3DArt/Assets/mesh/Frozen_Shooter.fbx"
+                    },
+                    {
+                        "halfPrecision": true,
+                        "useSimplification": false,
+                        "simplificationPercentage": 60,
+                        "linkCloseVertices": true,
+                        "name": "Assets/_Game/Animator/Shooter/Shooter.fbx"
                     }
                 ]
             },

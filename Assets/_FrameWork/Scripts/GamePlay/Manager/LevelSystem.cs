@@ -247,7 +247,7 @@ public class LevelSystem : MonoSingleton<LevelSystem>
 
     #endregion
 
-    public LauncherProjectile GetPieceLauncherProjectilePool() => PoolHolder.Instance.Get(_launcherProjectile, _parentProjectile) as LauncherProjectile;
+    public LauncherProjectile GetPieceLauncherProjectilePool(Vector3 pos) => PoolHolder.Instance.Get(_launcherProjectile, _parentProjectile, pos) as LauncherProjectile;
 
     public void ChangeSpeedGame(bool _isEndGame)
     {

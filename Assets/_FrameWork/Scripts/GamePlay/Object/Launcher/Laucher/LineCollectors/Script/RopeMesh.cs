@@ -293,6 +293,7 @@ namespace GogoGaga.OptimizedRopesAndCables
             ropeMesh.uv = uvsArray;
 
             ropeMesh.RecalculateNormals();
+            ropeMesh.RecalculateBounds();
         }
 
         private bool NeedUpdateMesh()

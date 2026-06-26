@@ -7,6 +7,7 @@ public class PlayableAdsUIController : MonoBehaviour
 
     public GameObject GamePlayTutObject;
     public GameObject EndcardPanelObject;
+    public GameObject FireworksVFXObject;
     public Button PlayNowButton;
     public Image DimScreenImage;
 
@@ -35,6 +36,11 @@ public class PlayableAdsUIController : MonoBehaviour
         if (EndcardPanelObject != null)
         {
             EndcardPanelObject.SetActive(false);
+        }
+
+        if (FireworksVFXObject != null)
+        {
+            FireworksVFXObject.SetActive(false);
         }
         if (DimScreenImage != null)
         {
@@ -77,6 +83,11 @@ public class PlayableAdsUIController : MonoBehaviour
         if (DimScreenImage != null)
         {
             DimScreenImage.gameObject.SetActive(true);
+        }
+
+        if (FireworksVFXObject != null)
+        {
+            FireworksVFXObject.SetActive(true);
         }
 
         // Bật panel có sẵn trong scene

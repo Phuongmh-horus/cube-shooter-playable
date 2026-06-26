@@ -18,7 +18,7 @@ public class ColorPalleteRestorer
         RestorePallete("Assets/_FrameWork/Scripts/Data/ColorData/ColorPalleteSO_ForLauncher.asset", "Assets/_DongPV/Visual/Materials/Mat_ForLauncher");
         RestorePallete("Assets/_FrameWork/Scripts/Data/ColorData/ColorPalleteSO_ForObjectModel.asset", "Assets/_DongPV/Visual/Materials/Mat_ForPice");
         Debug.Log("Color Palletes Restored!");
-        
+
         EditorPrefs.SetBool("ColorPalletesRestored", true);
     }
 
@@ -52,7 +52,7 @@ public class ColorPalleteRestorer
                 }
             }
         }
-        
+
         pallete.OnEnable(); // To update the dictionary immediately
         EditorUtility.SetDirty(pallete);
         AssetDatabase.SaveAssets();
