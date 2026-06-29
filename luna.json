@@ -90,11 +90,17 @@
                 "streamingAssets"
             ],
             "excludes": [
+                "Assets/3DArt/Assets/mesh/Frozen_Shooter.fbx",
                 "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
                 "Assets/TextMesh Pro/Sprites/EmojiOne Attribution.txt",
                 "Assets/TextMesh Pro/Sprites/EmojiOne.json",
                 "Assets/TextMesh Pro/Sprites/EmojiOne.png",
                 "Assets/_FrameWork/Resources/Sounds/MainMenuBGM.ogg",
+                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Cup 1.png",
+                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Flare 1.png",
+                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Flare 2.png",
+                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Icn_Horn_2 1.png",
+                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Ribbon 1.png",
                 "Assets/_Game/Animator/Shooter/ShooterAnimator.controller",
                 "Assets/_FrameWork/Resources/Sounds/MainMenuBGM.ogg",
                 "**/Editor/",
@@ -133,11 +139,7 @@
                 "Stubs/IronSource",
                 "Stubs/Vungle",
                 "Stubs/MoreMountains.NiceVibrations",
-                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Flare 2.png",
-                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Ribbon 1.png",
-                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Icn_Horn_2 1.png",
-                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Flare 1.png",
-                "Assets/_FrameWork/Resources/Sprites/InGame/EndGame_SP/WinGame_SP/Cup 1.png"
+                "Assets/3DArt/Test/cube_moi.fbx"
             ],
             "includes": [
                 "Assets/Resources/DOTweenSettings.asset",
@@ -35330,7 +35332,7 @@
                     },
                     {
                         "name": "Play$1",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Pause",
@@ -38084,7 +38086,7 @@
                     },
                     {
                         "name": "ResetPosition",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -38180,6 +38182,136 @@
                         "script": "",
                         "ext": "",
                         "name": "Assets/_FindNMerge/Font/MUSEOSANSROUNDED-1000 SDF.asset"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "jpeg",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/3DArt/Assets/texture/T_Colorpalette.tga"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "jpeg",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Resources/Sprites/icon (600 x 600 px).png"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "png32",
+                        "compression": "quantQuality",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_FrameWork/Resources/Sprites/Loading_SP/Title_CubeShooter 1.png"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "jpeg",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/VFX/Materials & Texture/cfxr stretch ray blur.png"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "jpeg",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_DongPV/Visual/noise_6.png"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "png32",
+                        "compression": "quantQuality",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_Game/Resources/Sprites/handtut.png"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "png32",
+                        "compression": "quantQuality",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_FrameWork/Resources/Sprites/Mainmenu/Btn_Home 1.png"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "jpeg",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/3DArt/Assets/texture/T_Hidden_Shooter.tga"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "jpeg",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/3DArt/Assets/texture/T_Frozen_Shooter.png"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "jpeg",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_DongPV/Visual/Matcap.png"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "jpeg",
+                        "compression": "quantSize",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/Scenes/MTD_VFX/Age_evolution/Texture_materials/cfxr stretch trait.png"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "png32",
+                        "compression": "quantQuality",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_FrameWork/Resources/Sprites/InGame/GamePlaySprite/capsule.png"
+                    },
+                    {
+                        "maxWidth": 512,
+                        "maxHeight": 512,
+                        "format": "png32",
+                        "compression": "quantQuality",
+                        "quality": 65,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/VFX/Materials & Texture/Group 6.png"
                     }
                 ]
             },
@@ -38327,17 +38459,10 @@
                 "overrides": [
                     {
                         "halfPrecision": true,
-                        "useSimplification": true,
-                        "simplificationPercentage": 50,
+                        "useSimplification": false,
+                        "simplificationPercentage": 10,
                         "linkCloseVertices": true,
-                        "name": "Assets/3DArt/Test/cube_moi.fbx"
-                    },
-                    {
-                        "halfPrecision": true,
-                        "useSimplification": true,
-                        "simplificationPercentage": 80,
-                        "linkCloseVertices": true,
-                        "name": "Assets/3DArt/Assets/mesh/Cube_lego.fbx"
+                        "name": "Assets/_Game/Animator/Shooter/Shooter.fbx"
                     },
                     {
                         "halfPrecision": true,
@@ -38345,6 +38470,20 @@
                         "simplificationPercentage": 80,
                         "linkCloseVertices": true,
                         "name": "Assets/_Game/Animator/Pea/Pea.fbx"
+                    },
+                    {
+                        "halfPrecision": true,
+                        "useSimplification": false,
+                        "simplificationPercentage": 10,
+                        "linkCloseVertices": true,
+                        "name": "Assets/3DArt/Test/cube_moi.fbx"
+                    },
+                    {
+                        "halfPrecision": true,
+                        "useSimplification": false,
+                        "simplificationPercentage": 10,
+                        "linkCloseVertices": true,
+                        "name": "Assets/3DArt/Assets/mesh/Sliding_tube.fbx"
                     },
                     {
                         "halfPrecision": true,
@@ -38356,16 +38495,16 @@
                     {
                         "halfPrecision": true,
                         "useSimplification": true,
-                        "simplificationPercentage": 60,
+                        "simplificationPercentage": 40,
                         "linkCloseVertices": true,
-                        "name": "Assets/3DArt/Assets/mesh/Frozen_Shooter.fbx"
+                        "name": "Assets/3DArt/Assets/mesh/Cube_lego.fbx"
                     },
                     {
                         "halfPrecision": true,
                         "useSimplification": false,
-                        "simplificationPercentage": 60,
+                        "simplificationPercentage": 30,
                         "linkCloseVertices": true,
-                        "name": "Assets/_Game/Animator/Shooter/Shooter.fbx"
+                        "name": "Assets/3DArt/Assets/mesh/Foolr.fbx"
                     }
                 ]
             },

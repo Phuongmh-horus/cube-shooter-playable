@@ -96,7 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -104,7 +104,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: click to blaster
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 19d9882c40ff19648aedb2ceb058956f, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2100000, guid: f46db0f9cb9c97d4a9667d37815a40da, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -185,12 +185,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Button: {fileID: 0}
   ButtonText: {fileID: 8365361596855214550}
+  ButtonImage: {fileID: 0}
   animateButton: 0
   buttonMinScale: {x: 1, y: 1, z: 1}
   buttonMaxScale: {x: 1.2, y: 1.2, z: 1.2}
   animateText: 1
   textMinScale: {x: 1, y: 1, z: 1}
   textMaxScale: {x: 1.1, y: 1.1, z: 1.1}
+  animateImage: 1
+  imageMinScale: {x: 1, y: 1, z: 1}
+  imageMaxScale: {x: 1.1, y: 1.1, z: 1.1}
   scaleDuration: 0.5
   m_autoStart: 1
 --- !u!1 &4555443392394253809

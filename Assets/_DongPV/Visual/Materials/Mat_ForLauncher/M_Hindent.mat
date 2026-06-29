@@ -3,7 +3,6 @@
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
-  m_EnableGPUInstancing: 1
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -12,7 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 5c6982d6b46098049a41518854c08f59, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SPECULAR_ON
   m_InvalidKeywords:
   - AMBIENT
   - ANIME_SOFT
@@ -54,7 +54,7 @@ Material:
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses:
   - ALWAYS
@@ -71,7 +71,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 51da84a1f63261d4e885751784daa127, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -83,7 +83,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MatCapTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a4ca051526274f64b87675c7eec02555, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -121,8 +121,7 @@ Material:
     - _FresnelMin: 0
     - _IndirectIntensity: 1
     - _IndirectIntensityOutline: 0
-    - _LunaContrast: 1
-    - _LunaGamma: 0
+    - _MatCapIntensity: 0.5
     - _MatCapMaskChannel: 0
     - _MatCapType: 0
     - _NormalsSource: 0
@@ -152,11 +151,13 @@ Material:
     - _RimMin: 0.5
     - _Saturation: 1
     - _ShadowColorLightAtten: 1
+    - _ShadowLightingIntensity: 1.6
     - _SingleIndirectColor: 0
+    - _SpecularLightingIntensity: 1
     - _SpecularMapType: 0
     - _SpecularRoughness: 0.5
-    - _SpecularToonSize: 0.045
-    - _SpecularToonSmoothness: 1
+    - _SpecularToonSize: 0.029
+    - _SpecularToonSmoothness: 0.864
     - _SpecularType: 1
     - _SrcBlend: 1
     - _UseAlphaTest: 0
@@ -178,12 +179,13 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _DissolveEdgeColor: {r: 1, g: 0.3, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FakeLightDir: {r: -0.5, g: 0, b: -0.5, a: 1.8}
+    - _FakeLightDir: {r: -0.5, g: 0.6423, b: -0.5, a: 1.8}
     - _HColor: {r: 0.7989498, g: 0.8014596, b: 0.8867924, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.5}
     - _SColor: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
-    - _SpecularColor: {r: 0.8584906, g: 0.77345145, b: 0.77345145, a: 1}
+    - _ShadowColor: {r: 0.12474745, g: 0.12666664, b: 0.18999997, a: 1}
+    - _SpecularColor: {r: 0.8867924, g: 0.8240477, b: 0.8240477, a: 1}
   m_BuildTextureStacks: []

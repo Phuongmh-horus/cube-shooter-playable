@@ -11,7 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 5c6982d6b46098049a41518854c08f59, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SPECULAR_ON
   m_InvalidKeywords:
   - AMBIENT
   - ANIME_SOFT
@@ -49,7 +50,6 @@ Material:
   - _RIMBLEND_ADDITIVE
   - _SHADOWOVERLAYANIMATION_SCROLL
   - _SPECULARUV_UV1
-  - _SPECULAR_ON
   - _TWOHALFCOLORSMODE_REPLACE
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
@@ -108,8 +108,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Brightness: 1
+    - _Brightness: 0.85
     - _BumpScale: 1
+    - _ColorBrightness: 0.9
+    - _ColorContrast: 0.85
     - _Cull: 2
     - _Cutoff: 0.5
     - _DirectIntensityOutline: 1
@@ -152,10 +154,12 @@ Material:
     - _RenderingMode: 0
     - _RimMax: 1
     - _RimMin: 0.5
-    - _Saturation: 1
+    - _Saturation: 0.85
     - _ShadowColorLightAtten: 1
+    - _ShadowLightingIntensity: 1
     - _Shininess: 32
     - _SingleIndirectColor: 0
+    - _SpecularLightingIntensity: 1
     - _SpecularMapType: 0
     - _SpecularRoughness: 0.5
     - _SpecularToonSize: 0.045

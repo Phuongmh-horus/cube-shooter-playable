@@ -8,10 +8,12 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: M_Pink
-  m_Shader: {fileID: 4800000, guid: b450d8945d0d68f4ebc6ca21258677cf, type: 3}
+  m_Shader: {fileID: 4800000, guid: 1b8ef25713dc09e41bf01e2ec34d4694, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _MATCAP_ON
+  - _SPECULAR_ON
   m_InvalidKeywords:
   - AMBIENT
   - ANIME_SOFT
@@ -29,6 +31,8 @@ Material:
   - TCP2_SPECULAR
   - TCP2_SPECULAR_STYLIZED
   - TCP2_UV_NORMALS_FULL
+  - _ALBEDOUV_UV2
+  - _ALBEDO_MAP_OFF
   - _DETAILBLEND_MULTIPLY
   - _DETAILUV_UV1
   - _HEIGHTCOLORSBLEND_ALPHA_BLEND
@@ -61,7 +65,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 74da535b582855044b73dd9c9d06ab38, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -77,7 +81,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MatCapTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a4ca051526274f64b87675c7eec02555, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -100,10 +104,18 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecularBumpMap:
+        m_Texture: {fileID: 2800000, guid: 0911a0326919abd44b8db9048e98d651, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Brightness: 1.3
-    - _BumpScale: 0.9
+    - _AlbedoMapOff: 1
+    - _AlbedoUV: 2
+    - _Brightness: 1
+    - _BumpScale: 1
+    - _ColorBrightness: 0.85
+    - _ColorContrast: 0.85
     - _Cull: 2
     - _Cutoff: 0.5
     - _DirectIntensityOutline: 1
@@ -113,8 +125,8 @@ Material:
     - _FresnelMin: 0
     - _IndirectIntensity: 1
     - _IndirectIntensityOutline: 0
-    - _LunaContrast: 1.2
-    - _LunaGamma: 0
+    - _LightIntensity: 1.8
+    - _MatCapIntensity: 0.1
     - _MatCapMaskChannel: 0
     - _MatCapType: 0
     - _NormalsSource: 0
@@ -133,28 +145,33 @@ Material:
     - _RampBandsSmoothing: 1
     - _RampOffset: 0
     - _RampScale: 1.42
-    - _RampSmoothing: 0.8
-    - _RampThreshold: 0.6
+    - _RampSmoothing: 1
+    - _RampThreshold: 0.505
     - _RampType: 0
     - _ReceiveShadowsOff: 0
     - _ReflectionMapType: 0
     - _ReflectionSmoothness: 1
     - _RenderingMode: 0
-    - _RimMax: 1
-    - _RimMin: 0.5
-    - _Saturation: 1.1
+    - _RimMax: 0.42
+    - _RimMin: 0.17
+    - _Saturation: 1
     - _ShadowColorLightAtten: 1
+    - _ShadowIntensity: 1
+    - _ShadowLightingIntensity: 1
+    - _Shininess: 50
     - _SingleIndirectColor: 0
+    - _SpecularBumpScale: 1
+    - _SpecularLightingIntensity: 0.1
     - _SpecularMapType: 0
     - _SpecularRoughness: 0.5
-    - _SpecularToonSize: 0.05
-    - _SpecularToonSmoothness: 1
+    - _SpecularToonSize: 0.02
+    - _SpecularToonSmoothness: 0.5
     - _SpecularType: 1
     - _SrcBlend: 1
     - _UseAlphaTest: 0
     - _UseEmission: 0
     - _UseFresnelReflections: 1
-    - _UseMatCap: 0
+    - _UseMatCap: 1
     - _UseMatCapMask: 0
     - _UseMobileMode: 0
     - _UseNormalMap: 1
@@ -169,12 +186,13 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.95, g: 0.2980392, b: 0.6184312, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FakeLightDir: {r: -0.5, g: 0.8, b: -0.5, a: 1.5}
+    - _FakeLightDir: {r: -0.5, g: 0.6, b: -0.5, a: 1.7}
     - _HColor: {r: 0.96, g: 0.8928, b: 0.9259952, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.5}
     - _SColor: {r: 0.7, g: 0.21960783, b: 0.57189554, a: 1}
-    - _SpecularColor: {r: 0.26, g: 0.26, b: 0.26, a: 1}
+    - _ShadowColor: {r: 0.47, g: 0.14760332, b: 0.30685958, a: 1}
+    - _SpecularColor: {r: 0.8867924, g: 0.8240477, b: 0.8240477, a: 1}
   m_BuildTextureStacks: []

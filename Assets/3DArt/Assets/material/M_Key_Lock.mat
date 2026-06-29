@@ -99,6 +99,8 @@ Material:
     m_Floats:
     - _Brightness: 0.88
     - _BumpScale: 1
+    - _ColorBrightness: 1
+    - _ColorContrast: 1
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -116,6 +118,7 @@ Material:
     - _IndirectIntensityOutline: 0
     - _LunaContrast: 1
     - _LunaGamma: 0
+    - _MatCapIntensity: 1
     - _MatCapMaskChannel: 0
     - _MatCapType: 0
     - _Metallic: 0
@@ -148,9 +151,11 @@ Material:
     - _RimMin: 0.5
     - _Saturation: 0.88
     - _ShadowColorLightAtten: 1
+    - _ShadowLightingIntensity: 1
     - _SingleIndirectColor: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
+    - _SpecularLightingIntensity: 1
     - _SpecularMapType: 0
     - _SpecularRoughness: 0.5
     - _SpecularToonSize: 0.001
@@ -185,5 +190,6 @@ Material:
     - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.5}
     - _SColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _SpecularColor: {r: 0.4641509, g: 0.4641509, b: 0.4641509, a: 1}
+    - _ShadowColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+    - _SpecularColor: {r: 0.37450978, g: 0.37450978, b: 0.37450978, a: 1}
   m_BuildTextureStacks: []

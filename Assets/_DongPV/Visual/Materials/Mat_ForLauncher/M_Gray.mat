@@ -11,7 +11,8 @@ Material:
   m_Shader: {fileID: 4800000, guid: 5c6982d6b46098049a41518854c08f59, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _SPECULAR_ON
   m_InvalidKeywords:
   - AMBIENT
   - ANIME_SOFT
@@ -53,7 +54,7 @@ Material:
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   disabledShaderPasses:
   - ALWAYS
@@ -70,7 +71,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DissolveMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 51da84a1f63261d4e885751784daa127, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
@@ -82,7 +83,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MatCapTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a4ca051526274f64b87675c7eec02555, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -109,10 +110,12 @@ Material:
     m_Floats:
     - _Brightness: 1
     - _BumpScale: 1
+    - _ColorBrightness: 0.9
+    - _ColorContrast: 0.85
     - _Cull: 2
     - _Cutoff: 0.5
     - _DirectIntensityOutline: 1
-    - _DissolveAmount: 0
+    - _DissolveAmount: 1
     - _DissolveEdgeWidth: 0.05
     - _DstBlend: 0
     - _EmissionChannel: 3
@@ -120,8 +123,7 @@ Material:
     - _FresnelMin: 0
     - _IndirectIntensity: 1
     - _IndirectIntensityOutline: 0
-    - _LunaContrast: 1
-    - _LunaGamma: 0
+    - _MatCapIntensity: 0.5
     - _MatCapMaskChannel: 0
     - _MatCapType: 0
     - _NormalsSource: 0
@@ -151,10 +153,13 @@ Material:
     - _RimMin: 0.5
     - _Saturation: 1
     - _ShadowColorLightAtten: 1
+    - _ShadowLightingIntensity: 1.6
+    - _Shininess: 32
     - _SingleIndirectColor: 0
+    - _SpecularLightingIntensity: 0.5
     - _SpecularMapType: 0
     - _SpecularRoughness: 0.5
-    - _SpecularToonSize: 0.045
+    - _SpecularToonSize: 0.07
     - _SpecularToonSmoothness: 1
     - _SpecularType: 1
     - _SrcBlend: 1
@@ -174,7 +179,7 @@ Material:
     - _UseSpecular: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.7464706, g: 0.7464706, b: 0.81, a: 1}
+    - _BaseColor: {r: 0.7357143, g: 0.7357143, b: 0.8, a: 1}
     - _DissolveEdgeColor: {r: 1, g: 0.3, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FakeLightDir: {r: -0.5, g: 0.6423, b: -0.5, a: 1.8}
@@ -184,5 +189,6 @@ Material:
     - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.5}
     - _SColor: {r: 0.50142854, g: 0.48, b: 0.6, a: 1}
-    - _SpecularColor: {r: 0.36, g: 0.36, b: 0.36, a: 1}
+    - _ShadowColor: {r: 0.36862743, g: 0.36862743, b: 0.39999998, a: 1}
+    - _SpecularColor: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
   m_BuildTextureStacks: []

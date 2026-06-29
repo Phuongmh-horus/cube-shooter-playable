@@ -42,15 +42,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 53dd93e49a463604e8d9a6f5264df386, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.34578001
+      value: 0.366
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53dd93e49a463604e8d9a6f5264df386, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.34578
+      value: 0.366
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53dd93e49a463604e8d9a6f5264df386, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.34578
+      value: 0.366
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 53dd93e49a463604e8d9a6f5264df386, type: 3}
       propertyPath: m_LocalPosition.x
@@ -104,6 +104,10 @@ PrefabInstance:
       propertyPath: m_ReceiveShadows
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 53dd93e49a463604e8d9a6f5264df386, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 508fd260e84ff684a80f8f70cf867340, type: 2}
     - target: {fileID: 919132149155446097, guid: 53dd93e49a463604e8d9a6f5264df386, type: 3}
       propertyPath: m_Name
       value: Foolr
