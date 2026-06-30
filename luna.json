@@ -2,7 +2,7 @@
     "version": "7.0.0",
     "projectId": "52f536a8df4219e4b975969529509222",
     "applicationID": 40713,
-    "creativeName": "LV_9",
+    "creativeName": "LV_17",
     "pgServer": "EU",
     "window": {
         "‐⁏": true
@@ -36745,10 +36745,6 @@
                         "excluded": false
                     },
                     {
-                        "name": "OnLauncherClicked",
-                        "excluded": false
-                    },
-                    {
                         "name": "IsOneStepLeft",
                         "excluded": false
                     },
@@ -36762,6 +36758,10 @@
                     },
                     {
                         "name": "ShowEndcardAndDimScreen",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnLauncherAssignedToSlot",
                         "excluded": false
                     }
                 ]
@@ -37291,6 +37291,10 @@
                     {
                         "name": "HandleConnectorDespawn",
                         "excluded": true
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
                     }
                 ]
             },
@@ -37687,6 +37691,10 @@
                     {
                         "name": "WaitAndDespawn",
                         "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
                     }
                 ]
             },
@@ -37734,6 +37742,10 @@
                     },
                     {
                         "name": "WaitAndDespawn",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
                         "excluded": false
                     }
                 ]
@@ -38460,51 +38472,16 @@
                     {
                         "halfPrecision": true,
                         "useSimplification": false,
-                        "simplificationPercentage": 10,
+                        "simplificationPercentage": 30,
                         "linkCloseVertices": true,
                         "name": "Assets/_Game/Animator/Shooter/Shooter.fbx"
                     },
                     {
                         "halfPrecision": true,
                         "useSimplification": true,
-                        "simplificationPercentage": 80,
+                        "simplificationPercentage": 70,
                         "linkCloseVertices": true,
                         "name": "Assets/_Game/Animator/Pea/Pea.fbx"
-                    },
-                    {
-                        "halfPrecision": true,
-                        "useSimplification": false,
-                        "simplificationPercentage": 10,
-                        "linkCloseVertices": true,
-                        "name": "Assets/3DArt/Test/cube_moi.fbx"
-                    },
-                    {
-                        "halfPrecision": true,
-                        "useSimplification": false,
-                        "simplificationPercentage": 10,
-                        "linkCloseVertices": true,
-                        "name": "Assets/3DArt/Assets/mesh/Sliding_tube.fbx"
-                    },
-                    {
-                        "halfPrecision": true,
-                        "useSimplification": true,
-                        "simplificationPercentage": 80,
-                        "linkCloseVertices": true,
-                        "name": "Library/unity default resources/Sphere"
-                    },
-                    {
-                        "halfPrecision": true,
-                        "useSimplification": true,
-                        "simplificationPercentage": 40,
-                        "linkCloseVertices": true,
-                        "name": "Assets/3DArt/Assets/mesh/Cube_lego.fbx"
-                    },
-                    {
-                        "halfPrecision": true,
-                        "useSimplification": false,
-                        "simplificationPercentage": 30,
-                        "linkCloseVertices": true,
-                        "name": "Assets/3DArt/Assets/mesh/Foolr.fbx"
                     }
                 ]
             },

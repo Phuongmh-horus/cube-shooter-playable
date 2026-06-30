@@ -49,7 +49,8 @@ public class Interactable_HightLine : MonoBehaviour, IPointerDownHandler, IPoint
             Debug.Log("<color=red>Camera Main is null, IB DEV please!</color>");
             return;
         }
-        if (Physics.Raycast(CameraManager.Instance.MainCamera.ScreenPointToRay(mousePos), out RaycastHit hitInfo))
+        int layerMask = ~((1 << 2) | (1 << 5)); // Ignore Raycast and UI
+        if (Physics.Raycast(CameraManager.Instance.MainCamera.ScreenPointToRay(mousePos), out RaycastHit hitInfo, Mathf.Infinity, layerMask))
         {
             var launcher = hitInfo.collider.GetComponentInParent<LauncherBaseMono>();
             if (launcher != null && launcher.IsAtTopColumn())

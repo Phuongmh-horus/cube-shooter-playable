@@ -30,7 +30,13 @@ public class BulletTrailRotation : MonoBehaviour
 
     private void OnDisable()
     {
-        ActiveTrails.Remove(this);
+        int idx = ActiveTrails.IndexOf(this);
+        if (idx >= 0)
+        {
+            int lastIdx = ActiveTrails.Count - 1;
+            ActiveTrails[idx] = ActiveTrails[lastIdx];
+            ActiveTrails.RemoveAt(lastIdx);
+        }
     }
 
     private bool _isTeleported = true;
@@ -75,7 +81,9 @@ public class BulletTrailRotation : MonoBehaviour
             var trail = ActiveTrails[i];
             if (trail == null || !trail.gameObject.activeInHierarchy)
             {
-                ActiveTrails.RemoveAt(i);
+                int lastIdx = ActiveTrails.Count - 1;
+                ActiveTrails[i] = ActiveTrails[lastIdx];
+                ActiveTrails.RemoveAt(lastIdx);
                 continue;
             }
             trail.ManualUpdate();

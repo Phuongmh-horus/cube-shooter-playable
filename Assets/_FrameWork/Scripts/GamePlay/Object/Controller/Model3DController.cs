@@ -247,8 +247,13 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
             _pieceToJobIndex.Remove(objectBase);
             _jobIndexToPiece[jobIndex] = null;
         }
-
-        _objectBaseThisLevel.Remove(objectBase);
+        int idx = _objectBaseThisLevel.IndexOf(objectBase);
+        if (idx >= 0)
+        {
+            int lastIdx = _objectBaseThisLevel.Count - 1;
+            _objectBaseThisLevel[idx] = _objectBaseThisLevel[lastIdx];
+            _objectBaseThisLevel.RemoveAt(lastIdx);
+        }
     }
 
     #endregion
@@ -306,7 +311,8 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
                 Vector3 dirToPiece = (piecePos - cam.transform.position).normalized;
                 float distToPiece = Vector3.Distance(cam.transform.position, piecePos);
 
-                if (Physics.Raycast(cam.transform.position, dirToPiece, out RaycastHit hit, distToPiece))
+                int layerMask = ~((1 << 2) | (1 << 5)); // Ignore Raycast and UI
+                if (Physics.Raycast(cam.transform.position, dirToPiece, out RaycastHit hit, distToPiece, layerMask))
                 {
                     // Nếu hit object là chính piece hoặc child của piece thì nhìn thấy
                     if (hit.transform == piece.transform || hit.transform.IsChildOf(piece.transform))

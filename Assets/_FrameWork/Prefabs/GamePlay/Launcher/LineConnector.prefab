@@ -238,9 +238,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5702366e18c47ef469ba2903e5846489, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OverallDivision: 25
+  OverallDivision: 8
   ropeWidth: 0.2
-  radialDivision: 20
+  radialDivision: 5
   material: {fileID: 2100000, guid: 7565f5cfcd8c45849ae13ddd7c54c252, type: 2}
   tilingPerMeter: 1
   FirstHalfColor: {r: 1, g: 1, b: 1, a: 1}

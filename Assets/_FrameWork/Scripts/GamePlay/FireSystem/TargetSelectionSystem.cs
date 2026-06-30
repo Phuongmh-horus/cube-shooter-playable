@@ -96,7 +96,9 @@ public static class TargetSelectionSystem
                 if (distance <= 0f) continue;
 
                 // Cast the ray â€” check if it hits the piece or nothing at all
-                if (!Physics.Raycast(origin, direction, out RaycastHit hit, distance))
+                // Layer mask ignores 'Ignore Raycast' and 'UI' to save CPU
+                int layerMask = ~((1 << 2) | (1 << 5));
+                if (!Physics.Raycast(origin, direction, out RaycastHit hit, distance, layerMask))
                 {
                     // Nothing hit â†’ piece surface is fully visible
                     visible = true;

@@ -221,6 +221,8 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
     /// </summary>
     private void OnLauncherClickedMethos(LauncherBaseMono launcher)
     {
+        if (LevelSystem.IsEndGame) return;
+
         // 1. Xác định group: dùng LaunchersConnect nếu có, không thì chỉ mình nó
         List<LauncherBaseMono> group;
         if (launcher is LauncherNormalMono normalMono && normalMono.LaunchersConnect != null)
@@ -314,6 +316,8 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                     }) /* .Forget() removed */ ;
             }
         }
+
+        GameEventBus.OnLauncherAssignedToSlot?.Invoke(launcher);
     }
 
     #endregion
@@ -1250,7 +1254,9 @@ public class SlotLauncherQueueController : MonoBehaviour, BaseLevelGenerator
                             var s = list[i];
                             if (s == null || s.IsEmpty || s.CurrentLauncher == null || s.CurrentLauncher.GetColorCodeIndex0() != pair.Key)
                             {
-                                list.RemoveAt(i);
+                                int lastIdx = list.Count - 1;
+                                list[i] = list[lastIdx];
+                                list.RemoveAt(lastIdx);
                             }
                         }
 

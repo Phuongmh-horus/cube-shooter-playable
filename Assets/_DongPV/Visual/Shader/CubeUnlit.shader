@@ -148,17 +148,17 @@ Shader "Horus/Unlit/CubeUnlit"
                 half3 normalTS = half3(0, 0, 1);
                 
                 float bumpScale = _BumpScale;
+                float3 normalWS = worldNormal;
                 if (tangentSq > 0.00001 && binormalSq > 0.00001)
                 {
                     normalTS = UnpackNormal(tex2D(_BumpMap, i.uv));
                     normalTS.xy *= bumpScale;
                     normalTS.z = sqrt(1.0 - saturate(dot(normalTS.xy, normalTS.xy)));
+                     float3 tangent = i.tangentWS * rsqrt(tangentSq);
+                    float3 binormal = i.binormalWS * rsqrt(binormalSq);
+                    half3x3 tangentToWorld = half3x3(tangent, binormal, worldNormal);
+                    normalWS = normalize(mul(normalTS, tangentToWorld));
                 }
-
-                float3 tangent = i.tangentWS * rsqrt(tangentSq);
-                float3 binormal = i.binormalWS * rsqrt(binormalSq);
-                half3x3 tangentToWorld = half3x3(tangent, binormal, worldNormal);
-                float3 normalWS = normalize(mul(normalTS, tangentToWorld));
 
                 // 2. Directions
                 float3 viewDir = normalize(i.viewDirWS);

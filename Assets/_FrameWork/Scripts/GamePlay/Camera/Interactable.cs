@@ -125,7 +125,8 @@ public class Interactable : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             return;
         }
 
-        if (Physics.Raycast(CameraManager.Instance.MainCamera.ScreenPointToRay(mousePos), out RaycastHit hitInfo))
+        int layerMask = ~((1 << 2) | (1 << 5)); // Ignore Raycast and UI
+        if (Physics.Raycast(CameraManager.Instance.MainCamera.ScreenPointToRay(mousePos), out RaycastHit hitInfo, Mathf.Infinity, layerMask))
         {
             var launcher = hitInfo.collider.GetComponent<LauncherBaseMono>();
 

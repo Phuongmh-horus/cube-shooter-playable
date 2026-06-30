@@ -29,7 +29,7 @@ public class PlayableAdsController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        GameEventBus.OnLauncherClicked += OnLauncherClicked;
+        GameEventBus.OnLauncherAssignedToSlot += OnLauncherAssignedToSlot;
         GameEventBus.OnLoadLevelDone += ConfigurePlayableSlotBehavior;
     }
 
@@ -45,7 +45,7 @@ public class PlayableAdsController : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameEventBus.OnLauncherClicked -= OnLauncherClicked;
+        GameEventBus.OnLauncherAssignedToSlot -= OnLauncherAssignedToSlot;
         GameEventBus.OnLoadLevelDone -= ConfigurePlayableSlotBehavior;
     }
 
@@ -82,7 +82,7 @@ public class PlayableAdsController : MonoBehaviour
         slotQueueController.SetAutoFillSlotsEnabled(isDefaultMode);
     }
 
-    private void OnLauncherClicked(LauncherBaseMono clickedLauncher)
+    private void OnLauncherAssignedToSlot(LauncherBaseMono assignedLauncher)
     {
         if (_hasRedirected) return;
 
@@ -99,7 +99,7 @@ public class PlayableAdsController : MonoBehaviour
         }
         else if (Mode == PlayableMode.Mode_N_Minus_1)
         {
-            if (IsOneStepLeft(clickedLauncher))
+            if (IsOneStepLeft())
             {
                 _hasRedirected = true;
                 LevelSystem.IsEndGame = true;
@@ -109,7 +109,7 @@ public class PlayableAdsController : MonoBehaviour
         }
     }
 
-    private bool IsOneStepLeft(LauncherBaseMono clickedLauncher)
+    private bool IsOneStepLeft()
     {
         var launchers = LevelSystem.Instance.LauncherController.GetVerticalLaunchers();
         if (launchers == null || launchers.Count == 0) return false;
@@ -125,29 +125,21 @@ public class PlayableAdsController : MonoBehaviour
             {
                 if (launcher == null || visited.Contains(launcher)) continue;
 
-                // Kiểm tra xem nhóm này có chứa súng vừa click không
-                bool containsClicked = (launcher == clickedLauncher);
-
                 if (launcher is LauncherNormalMono normalMono && normalMono.LaunchersConnect != null)
                 {
                     foreach (var connected in normalMono.LaunchersConnect)
                     {
-                        if (connected == clickedLauncher) containsClicked = true;
                         if (connected != null) visited.Add(connected);
                     }
                 }
 
                 visited.Add(launcher);
-                
-                // Nếu nhóm này KHÔNG chứa súng vừa click, thì đếm nó là 1 nhóm còn lại trên sân
-                if (!containsClicked)
-                {
-                    uniqueGroupsCount++;
-                }
+                uniqueGroupsCount++;
             }
         }
 
-        // Nếu chỉ còn đúng 1 nhóm súng (không tính nhóm vừa click) => Thỏa mãn điều kiện N-1
+        // Nếu chỉ còn đúng 1 nhóm súng => Thỏa mãn điều kiện N-1
+        // (Súng vừa bấm đã bị xóa khỏi Vertical Launchers rồi nên không cần đếm trừ ra nữa)
         return uniqueGroupsCount == 1;
     }
 

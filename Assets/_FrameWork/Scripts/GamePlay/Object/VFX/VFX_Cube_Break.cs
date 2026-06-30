@@ -44,11 +44,13 @@ public class VFX_Cube_Break : MonoBehaviour
         }
     }
 
+    private static readonly WaitForSeconds Wait025 = new WaitForSeconds(0.25f);
+
     private IEnumerator WaitAndDespawn()
     {
         while (_particleSystem != null && _particleSystem.IsAlive(true))
         {
-            yield return new WaitForSeconds(0.25f);
+            yield return Wait025;
         }
         OnDespawn();
     }

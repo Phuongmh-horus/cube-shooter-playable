@@ -30,6 +30,7 @@ public static class GameEventBus
     public static Action<Action> OnReceiveBooster;
 
     public static Action<LauncherBaseMono> OnLauncherClicked;
+    public static Action<LauncherBaseMono> OnLauncherAssignedToSlot;
     public static Action AssignLauncher;
     public static Action<bool> BlockLauncherShoot;
     public static Action<bool> ActiveAutoRotationModel;

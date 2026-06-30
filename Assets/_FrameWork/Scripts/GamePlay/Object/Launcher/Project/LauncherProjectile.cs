@@ -16,8 +16,7 @@ public class LauncherProjectile : MonoBehaviour
     private Action _onHitCallback;
 
     public static System.Collections.Generic.List<LauncherProjectile> ActiveProjectiles = new System.Collections.Generic.List<LauncherProjectile>(500);
-    private static int _vfxSpawnCountThisFrame = 0;
-    private static int _lastVfxFrame = -1;
+
     private ParticleSystem[] _particleSystems;
 
     public static void UpdateAllProjectiles()
@@ -135,7 +134,7 @@ public class LauncherProjectile : MonoBehaviour
     {
         _onHitCallback?.Invoke();
         _target.OnDespawn();
-        
+
         var vfx = PoolHolder.Instance.Get(vfxCubeBreak, null, _tf.position);
         if (vfx is VFX_Cube_Break vfxdemo)
             vfxdemo.OnInit(_tf.position, _color);

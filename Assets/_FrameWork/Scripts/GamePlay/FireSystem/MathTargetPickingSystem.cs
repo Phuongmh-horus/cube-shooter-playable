@@ -82,7 +82,8 @@ public class MathTargetPickingSystem
             float radius = Mathf.Max(piece.Extents.x, Mathf.Max(piece.Extents.y, piece.Extents.z)) * 1.74f;
             if (!IsInsideFrustum(_localPlanes, piece.Position, radius)) continue;
 
-            float dist = Vector3.Distance(new Vector3(piece.Position.x, piece.Position.y, piece.Position.z), _localCamPos);
+            // Zero GC & Faster distance check using sqrMagnitude instead of Distance (which uses Sqrt)
+            float dist = (new Vector3(piece.Position.x, piece.Position.y, piece.Position.z) - _localCamPos).sqrMagnitude;
             if (candidateCount < _candidateIndices.Length)
             {
                 _candidateIndices[candidateCount] = i;

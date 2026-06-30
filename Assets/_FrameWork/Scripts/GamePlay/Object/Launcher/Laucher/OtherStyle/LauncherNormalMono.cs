@@ -42,9 +42,25 @@ public class LauncherNormalMono : LauncherBaseMono
         if (!ActiveLaunchers.Contains(this)) ActiveLaunchers.Add(this);
     }
 
+    private static readonly string[] NumberCache = new string[101];
+
+    static LauncherNormalMono()
+    {
+        for (int i = 0; i <= 100; i++)
+        {
+            NumberCache[i] = i.ToString();
+        }
+    }
+
     private void OnDisable()
     {
-        ActiveLaunchers.Remove(this);
+        int idx = ActiveLaunchers.IndexOf(this);
+        if (idx >= 0)
+        {
+            int lastIdx = ActiveLaunchers.Count - 1;
+            ActiveLaunchers[idx] = ActiveLaunchers[lastIdx];
+            ActiveLaunchers.RemoveAt(lastIdx);
+        }
     }
 
     /// <summary>
@@ -71,7 +87,7 @@ public class LauncherNormalMono : LauncherBaseMono
                 continue;
             }
 
-            if (l.enabled && l._objectBaseMono != null && l._shooterModel.activeSelf)
+            if (l.enabled && l._objectBaseMono != null && l._objectBaseMono.gameObject.activeInHierarchy && l._shooterModel.activeSelf)
             {
                 l.RotateToObjectBaseMono();
             }
@@ -132,6 +148,7 @@ public class LauncherNormalMono : LauncherBaseMono
     public override void OnDespawn()
     {
         PlayVFX_Shooter_Disapear();
+        GameEventBus.ACLauncherShoot.Remove(this);
         _launchersConnect = null;
         _doneShoot = false;
         _canShoot = false;
@@ -187,7 +204,8 @@ public class LauncherNormalMono : LauncherBaseMono
     {
         if (_tmpBulletAmount != null && ColorAndBullet != null && !_isHidden)
         {
-            _tmpBulletAmount.text = ColorAndBullet.Amount.ToString();
+            int amount = ColorAndBullet.Amount;
+            _tmpBulletAmount.text = amount >= 0 && amount <= 100 ? NumberCache[amount] : amount.ToString();
         }
     }
 
@@ -469,7 +487,8 @@ public class LauncherNormalMono : LauncherBaseMono
                 foreach (var VARIABLE in _cachedRenderers)
                     VARIABLE.sharedMaterial = ConfigHolder.Instance.ColorPallete_ForLauncher.colorDictionary[GetColorCodeIndex0()];
         _tmpBulletAmount.gameObject.SetActive(true);
-        _tmpBulletAmount.text = ColorAndBullet.Amount.ToString();
+        int amount = ColorAndBullet.Amount;
+        _tmpBulletAmount.text = amount >= 0 && amount <= 100 ? NumberCache[amount] : amount.ToString();
         _canSelect = true;
 
         // Trở lại màu bình thường khi hết hidden
