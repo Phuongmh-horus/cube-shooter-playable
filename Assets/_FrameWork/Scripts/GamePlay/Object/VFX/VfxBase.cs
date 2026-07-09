@@ -6,6 +6,8 @@ public class VfxBase : MonoBehaviour
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private Transform _transform;
     private Coroutine _delayDespawnCoroutine;
+    private ParticleSystem[] _allParticleSystems;
+    private TrailRenderer[] _allTrailRenderers;
 
 
     private void Awake()
@@ -19,12 +21,18 @@ public class VfxBase : MonoBehaviour
         _transform.position = pos;
         if (_particleSystem != null)
         {
-            var allPs = GetComponentsInChildren<ParticleSystem>(true);
-            foreach (var ps in allPs)
+            if (_allParticleSystems == null) _allParticleSystems = GetComponentsInChildren<ParticleSystem>(true);
+            foreach (var ps in _allParticleSystems)
             {
                 ps.Clear();
                 ps.Play();
             }
+        }
+        
+        if (_allTrailRenderers == null) _allTrailRenderers = GetComponentsInChildren<TrailRenderer>(true);
+        foreach (var tr in _allTrailRenderers)
+        {
+            tr.Clear();
         }
         enabled = true;
         gameObject.SetActive(true);

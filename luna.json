@@ -2,7 +2,7 @@
     "version": "7.0.0",
     "projectId": "52f536a8df4219e4b975969529509222",
     "applicationID": 40713,
-    "creativeName": "LV_17",
+    "creativeName": "LV_9",
     "pgServer": "EU",
     "window": {
         "‐⁏": true
@@ -85,10 +85,7 @@
             "dotnetVersion": ""
         },
         "assets": {
-            "export": [
-                "resources",
-                "streamingAssets"
-            ],
+            "export": [],
             "excludes": [
                 "Assets/3DArt/Assets/mesh/Frozen_Shooter.fbx",
                 "Assets/TextMesh Pro/Resources/Sprite Assets/EmojiOne.asset",
@@ -2259,10 +2256,6 @@
                 "excluded": true
             },
             {
-                "name": "UnityEngine.TrailRenderer",
-                "excluded": true
-            },
-            {
                 "name": "UnityEngine.WheelCollider",
                 "excluded": true
             },
@@ -4100,11 +4093,11 @@
             },
             {
                 "name": "UnityEngine.LineAlignment",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.LineTextureMode",
-                "excluded": true
+                "excluded": false
             },
             {
                 "name": "UnityEngine.LocationServiceStatus",
@@ -18474,7 +18467,7 @@
                     },
                     {
                         "name": "cullingMask#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "cullingMask#set",
@@ -18832,7 +18825,7 @@
                     },
                     {
                         "name": "localToWorldMatrix#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "worldToLocalMatrix#get",
@@ -34432,7 +34425,7 @@
                     },
                     {
                         "name": "MarkViewAlignmentCacheNormalsDirty",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "MarkViewAlignmentCacheMeshDirty",
@@ -34440,15 +34433,15 @@
                     },
                     {
                         "name": "GetOrCreateViewAlignmentCache",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Attach",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "UpdateProperties",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "CheckTransformChanged",
@@ -34456,11 +34449,11 @@
                     },
                     {
                         "name": "GetTransformAlignmentMesh",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetMeshForCamera",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -34492,7 +34485,7 @@
                     },
                     {
                         "name": "Generate",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "UpdateMesh",
@@ -34500,23 +34493,23 @@
                     },
                     {
                         "name": "CalculateTrianglesLength",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "CalculatePointsLength",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "StorePoint",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "StoreTriangle",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "CalculatePoints",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "CalculateCorner",
@@ -34546,11 +34539,11 @@
                     },
                     {
                         "name": "GenerateByViewAlignment",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetScaledCornerNormal",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetScaledNormal",
@@ -34578,7 +34571,7 @@
                     },
                     {
                         "name": "ResizeArrays",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ApplyTransformAlignment",
@@ -34590,23 +34583,23 @@
                     },
                     {
                         "name": "ApplyViewAlignment",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "EvaluateSegmentsNormalsForViewAlignment",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "EvaluateCornerAndEndNormals",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "EvaluateCornerNormal",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "EvaluateEndNormal",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ScaleVector",
@@ -34624,7 +34617,7 @@
                     },
                     {
                         "name": "Generate",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetNormalizedProgress",
@@ -34636,27 +34629,27 @@
                     },
                     {
                         "name": "GetPoint",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetColor",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetUCoordinate",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "GetWidth",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ResizeArrays",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "CopyPoints",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "TransformPoints",
@@ -34664,15 +34657,15 @@
                     },
                     {
                         "name": "EvaluateWidthColorsAndUV",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "EvaluateSegmentsLengthAndProgress",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "EvaluateSegmentsCrossProducts",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -34682,15 +34675,15 @@
                 "instanceMethods": [
                     {
                         "name": "isValid#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "isLoop#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "transformPoints#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "useTransformMatrixForRenderer#get",
@@ -34698,7 +34691,7 @@
                     },
                     {
                         "name": "scaleWidth#get",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "init",
@@ -34706,19 +34699,19 @@
                     },
                     {
                         "name": "Attach",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "Generate",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "CopyPoints",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "ApplyTransformMatrix",
-                        "excluded": true
+                        "excluded": false
                     }
                 ]
             },
@@ -38157,6 +38150,184 @@
                         "excluded": false
                     }
                 ]
+            },
+            {
+                "className": "UnityEngine.TrailRenderer",
+                "staticMethods": [],
+                "instanceMethods": [
+                    {
+                        "name": "m_Parameters#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "m_Parameters#set",
+                        "excluded": true
+                    },
+                    {
+                        "name": "positionCount#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "colorGradient#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "colorGradient#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "textureMode#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "textureMode#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "alignment#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "alignment#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "widthCurve#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "widthCurve#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "time#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "time#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "startWidth#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "startWidth#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "endWidth#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "endWidth#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "widthMultiplier#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "widthMultiplier#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "numCornerVertices#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "numCornerVertices#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "numCapVertices#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "numCapVertices#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "minVertexDistance#get",
+                        "excluded": false
+                    },
+                    {
+                        "name": "minVertexDistance#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "startColor#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "startColor#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "endColor#get",
+                        "excluded": true
+                    },
+                    {
+                        "name": "endColor#set",
+                        "excluded": false
+                    },
+                    {
+                        "name": "init",
+                        "excluded": false
+                    },
+                    {
+                        "name": "ctor",
+                        "excluded": false
+                    },
+                    {
+                        "name": "AddPosition",
+                        "excluded": true
+                    },
+                    {
+                        "name": "AddPositions",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetPosition",
+                        "excluded": true
+                    },
+                    {
+                        "name": "SetPositions",
+                        "excluded": true
+                    },
+                    {
+                        "name": "GetPosition",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnEnable",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnDisable",
+                        "excluded": true
+                    },
+                    {
+                        "name": "OnBeforeRender",
+                        "excluded": false
+                    },
+                    {
+                        "name": "OnCameraPreCull",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Update",
+                        "excluded": false
+                    },
+                    {
+                        "name": "UpdatePoints",
+                        "excluded": false
+                    },
+                    {
+                        "name": "Clear",
+                        "excluded": false
+                    }
+                ]
             }
         ],
         "stubberDataList": [],
@@ -38441,12 +38612,22 @@
                     {
                         "channels": 1,
                         "startTime": "00:00.000",
-                        "endTime": "00:02.000",
-                        "lengthInSeconds": 2.0,
+                        "endTime": "00:30.000",
+                        "lengthInSeconds": 30.0,
                         "bitrate": 128,
                         "script": "",
                         "ext": "",
                         "name": "Assets/_FrameWork/Resources/Sounds/GameLose.ogg"
+                    },
+                    {
+                        "channels": 1,
+                        "startTime": "00:00.000",
+                        "endTime": "00:00.000",
+                        "lengthInSeconds": 0.0,
+                        "bitrate": 128,
+                        "script": "",
+                        "ext": "",
+                        "name": "Assets/_FrameWork/Resources/Sounds/lock_open.ogg"
                     }
                 ]
             },

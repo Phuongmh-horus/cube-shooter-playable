@@ -18,6 +18,7 @@ public class LauncherProjectile : MonoBehaviour
     public static System.Collections.Generic.List<LauncherProjectile> ActiveProjectiles = new System.Collections.Generic.List<LauncherProjectile>(500);
 
     private ParticleSystem[] _particleSystems;
+    private TrailRenderer[] _trailRenderers;
 
     public static void UpdateAllProjectiles()
     {
@@ -108,6 +109,16 @@ public class LauncherProjectile : MonoBehaviour
             ps.Play();
         }
 
+        // Clear TrailRenderers to prevent straight line streaks when pooled
+        if (_trailRenderers == null)
+        {
+            _trailRenderers = GetComponentsInChildren<TrailRenderer>(true);
+        }
+        foreach (var tr in _trailRenderers)
+        {
+            tr.Clear();
+        }
+
         if (!ActiveProjectiles.Contains(this)) ActiveProjectiles.Add(this);
 
     }
@@ -127,6 +138,9 @@ public class LauncherProjectile : MonoBehaviour
 
     #endregion
 
+    private static int _lastVfxFrame = -1;
+    private static int _vfxSpawnedThisFrame = 0;
+
     /// <summary>
     /// Xử lý khi va chạm mục tiêu: Phá hủy mục tiêu và despawn đạn
     /// </summary>
@@ -135,9 +149,19 @@ public class LauncherProjectile : MonoBehaviour
         _onHitCallback?.Invoke();
         _target.OnDespawn();
 
-        var vfx = PoolHolder.Instance.Get(vfxCubeBreak, null, _tf.position);
-        if (vfx is VFX_Cube_Break vfxdemo)
-            vfxdemo.OnInit(_tf.position, _color);
+        if (Time.frameCount != _lastVfxFrame)
+        {
+            _lastVfxFrame = Time.frameCount;
+            _vfxSpawnedThisFrame = 0;
+        }
+
+        if (_vfxSpawnedThisFrame < 2.5)
+        {
+            _vfxSpawnedThisFrame++;
+            var vfx = PoolHolder.Instance.Get(vfxCubeBreak, null, _tf.position);
+            if (vfx is VFX_Cube_Break vfxdemo)
+                vfxdemo.OnInit(_tf.position, _color);
+        }
 
         if (PlayableAdsUIController.Instance == null || !PlayableAdsUIController.Instance.IsShowingEndcard)
         {
