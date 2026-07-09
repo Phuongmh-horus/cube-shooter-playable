@@ -17,6 +17,6 @@ MonoBehaviour:
   FireRateLauncherEndGame: 40
   CountMechnicMathLauncher: 3
   CountSlotlauncherDeffault: 5
-  SpeedProjectileDeffault: 40
-  SpeedProjectileEndGame: 40
+  SpeedProjectileDeffault: 50
+  SpeedProjectileEndGame: 50
   SpacingHoles: 2

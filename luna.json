@@ -8472,10 +8472,6 @@
                 "excluded": true
             },
             {
-                "name": "LinePosition",
-                "excluded": false
-            },
-            {
                 "name": "ModelSide",
                 "excluded": false
             },
@@ -37170,10 +37166,6 @@
                         "excluded": false
                     },
                     {
-                        "name": "AddLineConnector",
-                        "excluded": false
-                    },
-                    {
                         "name": "OnInit",
                         "excluded": false
                     },
@@ -37280,10 +37272,6 @@
                     {
                         "name": "RemoveLauncherAtVertical",
                         "excluded": false
-                    },
-                    {
-                        "name": "HandleConnectorDespawn",
-                        "excluded": true
                     },
                     {
                         "name": "ctor",
