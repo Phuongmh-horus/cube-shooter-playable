@@ -13,14 +13,8 @@ Shader "Horus/Unlit/LauncherUnlit"
         _ShadowColor ("Shadow Color", Color) = (0.2, 0.2, 0.2, 1)
         _ShadowLightingIntensity ("Shadow Lighting Intensity", Range(0, 5)) = 1.0
 
-        [Header(Specular)]
-        [Toggle(_SPECULAR_ON)] _UseSpecular ("Enable Specular", Float) = 1
-        [HDR] _SpecularColor ("Specular Color", Color) = (0.35,0.35,0.35,1)
-        _SpecularLightingIntensity ("Specular Lighting Intensity", Range(0, 5)) = 1.0
-        _SpecularToonSize ("Size", Range(0.001,1)) = 0.1
-        _SpecularToonSmoothness ("Smoothing", Range(0,1)) = 1.0
-
         [Header(Normal Mapping)]
+        [Toggle(_NORMALMAP_ON)] _UseNormalMap ("Enable Normal Mapping", Float) = 1
         _BumpMap ("Normal Map", 2D) = "bump" {}
         _BumpScale ("Scale", Range(-1,1)) = 0.7
 
@@ -63,7 +57,7 @@ Shader "Horus/Unlit/LauncherUnlit"
             #pragma multi_compile_fwdbase
 
             // Shader features
-            #pragma shader_feature_local _SPECULAR_ON
+            #pragma shader_feature_local _NORMALMAP_ON
             #pragma shader_feature_local _MATCAP_ON
 
             #include "UnityCG.cginc"
@@ -88,9 +82,6 @@ Shader "Horus/Unlit/LauncherUnlit"
             float4 _ShadowColor;
             float _ShadowLightingIntensity;
             float _BumpScale;
-            float _UseSpecular;
-            float4 _SpecularColor;
-            float _SpecularLightingIntensity;
             float _UseMatCap;
             float4 _MatCapColor;
             float _MatCapIntensity;
@@ -103,8 +94,6 @@ Shader "Horus/Unlit/LauncherUnlit"
             // Instanced properties (only what C# updates at runtime)
             UNITY_INSTANCING_BUFFER_START(LauncherProps)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _BaseColor)
-                UNITY_DEFINE_INSTANCED_PROP(float, _SpecularToonSize)
-                UNITY_DEFINE_INSTANCED_PROP(float, _SpecularToonSmoothness)
                 UNITY_DEFINE_INSTANCED_PROP(float, _DissolveAmount)
             UNITY_INSTANCING_BUFFER_END(LauncherProps)
 
@@ -113,9 +102,10 @@ Shader "Horus/Unlit/LauncherUnlit"
                 float2 uv           : TEXCOORD0;
                 float2 uvDissolve   : TEXCOORD6;
                 float3 normalWS     : TEXCOORD1;
+#if defined(_NORMALMAP_ON)
                 float3 tangentWS    : TEXCOORD3;
                 float3 binormalWS   : TEXCOORD4;
-                float3 viewDirWS    : TEXCOORD5;
+#endif
                 float3 posWS        : TEXCOORD8;
                 SHADOW_COORDS(7)
                 float4 pos          : SV_POSITION;
@@ -138,10 +128,11 @@ Shader "Horus/Unlit/LauncherUnlit"
 
                 o.posWS = mul(unity_ObjectToWorld, v.vertex).xyz;
                 o.normalWS = UnityObjectToWorldNormal(v.normal);
+#if defined(_NORMALMAP_ON)
                 o.tangentWS = UnityObjectToWorldDir(v.tangent.xyz);
                 float tangentSign = v.tangent.w * unity_WorldTransformParams.w;
                 o.binormalWS = cross(o.normalWS, o.tangentWS) * tangentSign;
-                o.viewDirWS = UnityWorldSpaceViewDir(o.posWS);
+#endif
 
                 TRANSFER_SHADOW(o);
 
@@ -167,11 +158,12 @@ Shader "Horus/Unlit/LauncherUnlit"
                 
                 float3 worldNormal = normalize(i.normalWS);
                 
-                // Normal Mapping
+                // Normal Mapping (only computed when the toggle is enabled)
+#if defined(_NORMALMAP_ON)
                 float tangentSq = dot(i.tangentWS, i.tangentWS);
                 float binormalSq = dot(i.binormalWS, i.binormalWS);
                 half3 normalTS = half3(0, 0, 1);
-                
+
                 float bumpScale = _BumpScale;
                 if (tangentSq > 0.00001 && binormalSq > 0.00001)
                 {
@@ -184,9 +176,11 @@ Shader "Horus/Unlit/LauncherUnlit"
                 float3 binormal = i.binormalWS * rsqrt(binormalSq);
                 half3x3 tangentToWorld = half3x3(tangent, binormal, worldNormal);
                 float3 normalWS = normalize(mul(normalTS, tangentToWorld));
+#else
+                float3 normalWS = worldNormal;
+#endif
 
                 // 2. Directions
-                float3 viewDir = normalize(i.viewDirWS);
                 float3 lightDir = normalize(_WorldSpaceLightPos0.xyz);
                 
                 // Shadows
@@ -210,20 +204,7 @@ Shader "Horus/Unlit/LauncherUnlit"
                 half3 diffuseLight = lerp(shadowColor.rgb * shadowLightingIntensity, clampedLightColor, lightFactor) + ambient;
                 half3 litColor = albedo.rgb * diffuseLight;
 
-                // 4. Specular Highlight (Stylized Toon Specular)
-                #if defined(_SPECULAR_ON)
-                float3 halfDir = normalize(lightDir + viewDir);
-                float NdotH = saturate(dot(normalWS, halfDir));
-                
-                float specSize = clamp(1.0 - UNITY_ACCESS_INSTANCED_PROP(LauncherProps, _SpecularToonSize), 0.0, 0.999);
-                float nh = saturate(NdotH * (1.0 / (1.0 - specSize)) - (specSize / (1.0 - specSize)));
-                float spec = smoothstep(0.0, max(0.0001, UNITY_ACCESS_INSTANCED_PROP(LauncherProps, _SpecularToonSmoothness)), nh);
-                
-                half3 specularHighlight = spec * _SpecularColor.rgb * shadowAtten * clampedLightColor * _SpecularLightingIntensity;
-                litColor += specularHighlight;
-                #endif
-
-                // 5. MatCap Reflection (Wrapped in feature toggle)
+                // 4. MatCap Reflection (Wrapped in feature toggle)
                 #if defined(_MATCAP_ON)
                 half4 matcapColor = _MatCapColor;
                 float matcapIntensity = _MatCapIntensity;
@@ -240,7 +221,7 @@ Shader "Horus/Unlit/LauncherUnlit"
                 float3 edgeGlow = dissolveEdgeColor.rgb * edge * dissolveEdgeColor.a;
                 litColor += edgeGlow;
 
-                // 6. Color Adjustment (Brightness and Contrast)
+                // 5. Color Adjustment (Brightness and Contrast)
                 litColor = litColor * _ColorBrightness;
                 litColor = lerp(half3(0.5, 0.5, 0.5), litColor, _ColorContrast);
 

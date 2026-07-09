@@ -29,6 +29,15 @@ public class PlayableAdsController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        // Cố định 60 FPS, tắt VSync để tối ưu CPU/Pin trên Playable Ads
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+
+        // Tối ưu Physics để chạy đồng bộ với 60 FPS (giảm thiểu lãng phí CPU cho fixed updates)
+        Time.fixedDeltaTime = 1f / 60f;
+        Time.maximumDeltaTime = 1f / 3f;
+
         GameEventBus.OnLauncherAssignedToSlot += OnLauncherAssignedToSlot;
         GameEventBus.OnLoadLevelDone += ConfigurePlayableSlotBehavior;
     }
@@ -109,13 +118,16 @@ public class PlayableAdsController : MonoBehaviour
         }
     }
 
+    // Tái sử dụng HashSet để tránh tạo Garbage Collection mỗi lần gọi hàm, tối ưu RAM/CPU
+    private readonly HashSet<LauncherBaseMono> _visitedLaunchers = new HashSet<LauncherBaseMono>();
+
     private bool IsOneStepLeft()
     {
         var launchers = LevelSystem.Instance.LauncherController.GetVerticalLaunchers();
         if (launchers == null || launchers.Count == 0) return false;
 
         int uniqueGroupsCount = 0;
-        HashSet<LauncherBaseMono> visited = new HashSet<LauncherBaseMono>();
+        _visitedLaunchers.Clear();
 
         foreach (var vertical in launchers)
         {
@@ -123,23 +135,21 @@ public class PlayableAdsController : MonoBehaviour
 
             foreach (var launcher in vertical.LauncherBaseMonos)
             {
-                if (launcher == null || visited.Contains(launcher)) continue;
+                if (launcher == null || _visitedLaunchers.Contains(launcher)) continue;
 
                 if (launcher is LauncherNormalMono normalMono && normalMono.LaunchersConnect != null)
                 {
                     foreach (var connected in normalMono.LaunchersConnect)
                     {
-                        if (connected != null) visited.Add(connected);
+                        if (connected != null) _visitedLaunchers.Add(connected);
                     }
                 }
 
-                visited.Add(launcher);
+                _visitedLaunchers.Add(launcher);
                 uniqueGroupsCount++;
             }
         }
 
-        // Nếu chỉ còn đúng 1 nhóm súng => Thỏa mãn điều kiện N-1
-        // (Súng vừa bấm đã bị xóa khỏi Vertical Launchers rồi nên không cần đếm trừ ra nữa)
         return uniqueGroupsCount == 1;
     }
 

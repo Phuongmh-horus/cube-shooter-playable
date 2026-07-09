@@ -50,7 +50,7 @@ public class LauncherProjectile : MonoBehaviour
         }
 
         // Cập nhật tất cả hiệu ứng đuôi đạn và mảnh vỡ một lần (tối ưu thay vì dùng LateUpdate/Update cho từng script)
-        BulletTrailRotation.UpdateAllTrails();
+        // BulletTrailRotation.UpdateAllTrails(); // Tắt vì đã chuyển sang dùng Unity Trail Renderer tích hợp.
     }
 
     #endregion

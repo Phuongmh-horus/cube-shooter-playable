@@ -13,7 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _MATCAP_ON
-  - _SPECULAR_ON
+  - _NORMALMAP_ON
   m_InvalidKeywords:
   - AMBIENT
   - ANIME_SOFT
@@ -170,7 +170,7 @@ Material:
     - _SpecularLightingIntensity: 0.1
     - _SpecularMapType: 0
     - _SpecularRoughness: 0.5
-    - _SpecularToonSize: 0.02
+    - _SpecularToonSize: 0.5
     - _SpecularToonSmoothness: 0.5
     - _SpecularType: 1
     - _SrcBlend: 1
@@ -187,7 +187,7 @@ Material:
     - _UseRim: 0
     - _UseRimLightMask: 1
     - _UseShadowTexture: 0
-    - _UseSpecular: 1
+    - _UseSpecular: 0
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 0.55, g: 0.18705589, b: 0.5109137, a: 1}
@@ -201,5 +201,5 @@ Material:
     - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.5}
     - _SColor: {r: 0.35799998, g: 0.120000005, b: 0.4, a: 1}
     - _ShadowColor: {r: 0.27, g: 0.09257143, b: 0.25071433, a: 1}
-    - _SpecularColor: {r: 0.8867924, g: 0.8240477, b: 0.8240477, a: 1}
+    - _SpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []

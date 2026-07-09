@@ -58,6 +58,9 @@ public class PlayableAdsUIController : MonoBehaviour
             {
                 GamePlayTutObject.SetActive(false);
             }
+            
+            // Tối ưu CPU: Tắt Update loop trong suốt quá trình Gameplay để không check Input mỗi frame
+            this.enabled = false;
         }
         // Nhấn vào bất kỳ đâu khi đang hiện Endcard sẽ mở Store
         else if (_isShowingEndcard && Input.GetMouseButtonDown(0))
@@ -69,6 +72,9 @@ public class PlayableAdsUIController : MonoBehaviour
     public void ShowEndcard()
     {
         _isShowingEndcard = true;
+
+        // Bật lại Update loop để bắt sự kiện click trên Endcard chuyển hướng tới Store
+        this.enabled = true;
 
         // Đảm bảo game trở về hoặc giữ nguyên tốc độ xoay ban đầu (không bị tua nhanh khi Win)
         LevelSystem.Instance.ChangeSpeedGame(false);

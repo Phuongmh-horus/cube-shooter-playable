@@ -16643,7 +16643,7 @@
                     },
                     {
                         "name": "fixedDeltaTime#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "maximumParticleDeltaTime#get",
@@ -16659,7 +16659,7 @@
                     },
                     {
                         "name": "maximumDeltaTime#set",
-                        "excluded": true
+                        "excluded": false
                     },
                     {
                         "name": "timeScale#get",
@@ -37682,11 +37682,11 @@
                         "excluded": false
                     },
                     {
-                        "name": "WaitAndDespawn",
+                        "name": "init",
                         "excluded": false
                     },
                     {
-                        "name": "init",
+                        "name": "UpdateAllVFXs",
                         "excluded": false
                     }
                 ]

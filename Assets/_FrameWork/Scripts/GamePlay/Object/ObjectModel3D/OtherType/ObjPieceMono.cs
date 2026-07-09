@@ -25,7 +25,10 @@ public class ObjPieceMono : ObjectBaseMono
         if (_meshRenderer != null) _meshRenderer.enabled = true;
         if (_propertyBlock == null)
             _propertyBlock = new MaterialPropertyBlock();
-        // RandomColor(); // Disabled to maintain GPU Instancing and reduce draw calls
+        // RandomColor(); 
+        // LƯU Ý: Việc dùng MaterialPropertyBlock (như trong hàm RandomColor) KHÔNG làm mất GPU Instancing. 
+        // Nó được thiết kế chính xác để truyền tham số per-instance mà vẫn gộp Drawcall.
+        // Nếu bật RandomColor mà bị tăng Drawcall, hãy kiểm tra lại Material trên Editor xem đã tick 'Enable GPU Instancing' chưa.
     }
 
 

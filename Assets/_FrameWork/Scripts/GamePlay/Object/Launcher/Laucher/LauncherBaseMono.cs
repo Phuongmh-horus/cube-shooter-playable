@@ -38,10 +38,30 @@ public abstract class LauncherBaseMono : MonoBehaviour
         }
     }
 
+    // Tối ưu CPU & GC: Tránh gọi GetComponent liên tục mỗi frame
+    private HashSet<Renderer> _textRenderersCache;
+
     private bool IsTextRenderer(Renderer r)
     {
         if (r == null) return false;
-        return r.GetComponent<TextMeshPro>() != null || r.GetComponent<UnityEngine.UI.Text>() != null;
+        
+        if (_textRenderersCache == null)
+        {
+            _textRenderersCache = new HashSet<Renderer>();
+            var tmps = GetComponentsInChildren<TextMeshPro>(true);
+            foreach (var tmp in tmps)
+            {
+                if (tmp != null)
+                {
+                    var tmpRenderer = tmp.GetComponent<Renderer>();
+                    if (tmpRenderer != null) _textRenderersCache.Add(tmpRenderer);
+                }
+            }
+            // Lưu ý: UnityEngine.UI.Text sử dụng CanvasRenderer, không kế thừa từ Renderer.
+            // Do đó việc check r.GetComponent<UnityEngine.UI.Text>() trên một Renderer là vô nghĩa 
+            // và lãng phí GC. Đã loại bỏ logic sai lầm này.
+        }
+        return _textRenderersCache.Contains(r);
     }
 
     public virtual void ResetDissolveState()

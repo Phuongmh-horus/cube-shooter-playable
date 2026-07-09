@@ -308,6 +308,6 @@ public class LevelSystem : MonoSingleton<LevelSystem>
     private void Update()
     {
         LauncherProjectile.UpdateAllProjectiles();
+        VFX_Cube_Break.UpdateAllVFXs();
     }
-
 }

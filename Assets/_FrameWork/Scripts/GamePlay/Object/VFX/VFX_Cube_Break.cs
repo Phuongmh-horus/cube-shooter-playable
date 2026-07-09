@@ -10,6 +10,8 @@ public class VFX_Cube_Break : MonoBehaviour
     [SerializeField] private ParticleSystem _particleSystem;
     [SerializeField] private ParticleSystemRenderer[] _vfxs;
 
+    public static System.Collections.Generic.List<VFX_Cube_Break> ActiveVFXs = new System.Collections.Generic.List<VFX_Cube_Break>(200);
+
     private void Awake()
     {
         enabled = false;
@@ -24,7 +26,11 @@ public class VFX_Cube_Break : MonoBehaviour
             _particleSystem.Clear();
             _particleSystem.Play();
         }
-        StartCoroutine(WaitAndDespawn());
+        
+        if (!ActiveVFXs.Contains(this))
+        {
+            ActiveVFXs.Add(this);
+        }
     }
 
     /// <summary>
@@ -44,15 +50,24 @@ public class VFX_Cube_Break : MonoBehaviour
         }
     }
 
-    private static readonly WaitForSeconds Wait025 = new WaitForSeconds(0.25f);
-
-    private IEnumerator WaitAndDespawn()
+    public static void UpdateAllVFXs()
     {
-        while (_particleSystem != null && _particleSystem.IsAlive(true))
+        for (int i = ActiveVFXs.Count - 1; i >= 0; i--)
         {
-            yield return Wait025;
+            var vfx = ActiveVFXs[i];
+            if (vfx == null || !vfx.gameObject.activeInHierarchy)
+            {
+                int lastIdx = ActiveVFXs.Count - 1;
+                ActiveVFXs[i] = ActiveVFXs[lastIdx];
+                ActiveVFXs.RemoveAt(lastIdx);
+                continue;
+            }
+
+            if (vfx._particleSystem != null && !vfx._particleSystem.IsAlive(true))
+            {
+                vfx.OnDespawn();
+            }
         }
-        OnDespawn();
     }
 
     public void OnDespawn()
@@ -60,6 +75,14 @@ public class VFX_Cube_Break : MonoBehaviour
         enabled = false;
         if (_particleSystem != null)
             _particleSystem.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+        int idx = ActiveVFXs.IndexOf(this);
+        if (idx >= 0)
+        {
+            int lastIdx = ActiveVFXs.Count - 1;
+            ActiveVFXs[idx] = ActiveVFXs[lastIdx];
+            ActiveVFXs.RemoveAt(lastIdx);
+        }
 
         PoolHolder.Instance.Release(this);
     }

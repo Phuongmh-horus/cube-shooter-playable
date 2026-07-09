@@ -240,7 +240,7 @@ public class LauncherController : MonoBehaviour, BaseLevelGenerator
         // Tối ưu Playable: Load đồng bộ (không yield return) với số lượng ít hơn để game start ngay lập tức
         PoolHolder.Instance.PreWarm(_verticalLauncherPrefab, 5, _parentLauncherProjectile);
         PoolHolder.Instance.PreWarm(_lineConnectorPrefab, 5, _parentLineConnector);
-        PoolHolder.Instance.PreWarm(ConfigHolder.Instance.PrefabsDataConfigSO.LauncherProjectilePrefab, 10, _parentLauncherProjectile);
+        PoolHolder.Instance.PreWarm(ConfigHolder.Instance.PrefabsDataConfigSO.LauncherProjectilePrefab, 30, _parentLauncherProjectile);
         yield break;
     }
 
