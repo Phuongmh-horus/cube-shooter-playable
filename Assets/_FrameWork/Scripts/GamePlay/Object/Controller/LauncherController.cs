@@ -16,8 +16,8 @@ public class LauncherController : MonoBehaviour, BaseLevelGenerator
     [SerializeField] private List<VerticalLauncherMono> _verticalPieceLauncherThisLevel = new List<VerticalLauncherMono>();
     [SerializeField] private List<WallControl> _wallsThisLevel = new List<WallControl>();
     [Space]
-    [Header("Line Connector")]
-    private LineConnectorMono _lineConnectorPrefab;
+    [Header("Line Connector (Removed)")]
+    // private LineConnectorMono _lineConnectorPrefab;
     [SerializeField] private Transform _parentLineConnector;
 
     private float _spacingVerticalLauncher = -1;
@@ -175,54 +175,7 @@ public class LauncherController : MonoBehaviour, BaseLevelGenerator
 
     private void SetupLineConnectors()
     {
-        if (PlayableAdsController.Instance != null && !PlayableAdsController.Instance.EnableLineConnector)
-            return;
-
-        System.Collections.Generic.HashSet<LauncherNormalMono> drawnLaunchers = new System.Collections.Generic.HashSet<LauncherNormalMono>();
-
-        foreach (var vertical in _verticalPieceLauncherThisLevel)
-        {
-            foreach (var launcher in vertical.LauncherBaseMonos)
-            {
-                if (launcher is LauncherNormalMono startMono &&
-                    !drawnLaunchers.Contains(startMono) &&
-                    startMono.LaunchersConnect != null &&
-                    startMono.LaunchersConnect.Count > 1)
-                {
-                    var group = startMono.LaunchersConnect;
-
-                    for (int i = 0; i < group.Count - 1; i++)
-                    {
-                        var a = group[i];
-                        var b = group[i + 1];
-
-                        drawnLaunchers.Add(a);
-                        drawnLaunchers.Add(b);
-
-                        // Instantiate LineConnector
-                        var newSpawnPool = PoolHolder.Instance.Get(_lineConnectorPrefab, _parentLineConnector);
-                        if (newSpawnPool is LineConnectorMono lineConnector)
-                        {
-                            Color colorA = ConfigHolder.Instance.ColorPallete_ForLauncher.GetColorBase(a.GetColorCodeIndex0());
-                            Color colorB = ConfigHolder.Instance.ColorPallete_ForLauncher.GetColorBase(b.GetColorCodeIndex0());
-
-                            colorA = Color.Lerp(colorA, Color.white, 0.2f);
-                            colorA.a = 1f;
-                            colorB = Color.Lerp(colorB, Color.white, 0.2f);
-                            colorB.a = 1f;
-
-                            lineConnector.OnInit(a.transform, b.transform, colorA, colorB);
-
-                            // Cập nhật launcher để gán connector
-                            a.AddLineConnector(lineConnector, LinePosition.Start);
-                            b.AddLineConnector(lineConnector, LinePosition.End);
-                        }
-                        else
-                            Debug.LogError($"Failed to get LineConnectorMono from pool");
-                    }
-                }
-            }
-        }
+        // Line connector logic has been completely removed for optimization
     }
 
     #endregion
@@ -234,12 +187,12 @@ public class LauncherController : MonoBehaviour, BaseLevelGenerator
     {
         _verticalLauncherPrefab ??= ConfigHolder.Instance.PrefabsDataConfigSO.VerticalLauncherPrefab;
         _wallPrefab ??= ConfigHolder.Instance.PrefabsDataConfigSO.WallAroundPrefab;
-        _lineConnectorPrefab ??= ConfigHolder.Instance.PrefabsDataConfigSO.LineConnectorPrefab;
+        // _lineConnectorPrefab ??= ConfigHolder.Instance.PrefabsDataConfigSO.LineConnectorPrefab;
         _spacingVerticalLauncher = ConfigHolder.Instance.LauncherConfigSo.SpacingVerticalLauncher;
 
         // Tối ưu Playable: Load đồng bộ (không yield return) với số lượng ít hơn để game start ngay lập tức
         PoolHolder.Instance.PreWarm(_verticalLauncherPrefab, 5, _parentLauncherProjectile);
-        PoolHolder.Instance.PreWarm(_lineConnectorPrefab, 5, _parentLineConnector);
+        // PoolHolder.Instance.PreWarm(_lineConnectorPrefab, 5, _parentLineConnector);
         PoolHolder.Instance.PreWarm(ConfigHolder.Instance.PrefabsDataConfigSO.LauncherProjectilePrefab, 30, _parentLauncherProjectile);
         yield break;
     }

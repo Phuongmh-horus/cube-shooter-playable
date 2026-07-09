@@ -340,8 +340,8 @@ public class Model3DController : MonoBehaviour, BaseLevelGenerator
 
 
         // Tối ưu Playable: Load đồng bộ và giảm số lượng
-        PoolHolder.Instance.PreWarm(_objectPiecePrefab, 20, _parentObject);
-        PoolHolder.Instance.PreWarm(ConfigHolder.Instance.PrefabsDataConfigSO.Vfx_CubeBreak, 5, _parentObject);
+        PoolHolder.Instance.PreWarm(_objectPiecePrefab, 50, _parentObject);
+        PoolHolder.Instance.PreWarm(ConfigHolder.Instance.PrefabsDataConfigSO.Vfx_CubeBreak, 15, _parentObject);
 
         yield break;
     }

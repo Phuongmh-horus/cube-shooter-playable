@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public enum LinePosition
-{
-    None,   // Không có line
-    Start,  // Launcher là đầu của line (nối tới launcher kế tiếp)
-    End     // Launcher là cuối của line (nối từ launcher trước đó)
-}
+// public enum LinePosition
+// {
+//     None,   // Không có line
+//     Start,  // Launcher là đầu của line (nối tới launcher kế tiếp)
+//     End     // Launcher là cuối của line (nối từ launcher trước đó)
+// }
 
 public class LauncherNormalMono : LauncherBaseMono
 {
@@ -67,7 +67,7 @@ public class LauncherNormalMono : LauncherBaseMono
     /// Dictionary lưu line connector và vị trí của launcher trên line đó
     /// Key: LineConnectorMono, Value: LinePosition (Start hoặc End)
     /// </summary>
-    private Dictionary<LineConnectorMono, LinePosition> _lineConnectorPositions = new();
+    //private Dictionary<LineConnectorMono, LinePosition> _lineConnectorPositions = new();
     private bool _canShoot;
     private bool _doneShoot; // đã bắn hết đạn chưa
 
@@ -99,28 +99,7 @@ public class LauncherNormalMono : LauncherBaseMono
         _launchersConnect = group;
     }
 
-    /// <summary>
-    /// Thêm line connector vào dictionary với vị trí tương ứng
-    /// Nếu launcher hidden, sẽ set màu line ngay lập tức
-    /// </summary>
-    public void AddLineConnector(LineConnectorMono connector, LinePosition position)
-    {
-        if (connector != null && !_lineConnectorPositions.ContainsKey(connector))
-        {
-            _lineConnectorPositions[connector] = position;
-            connector.OnDespawnEvent += HandleConnectorDespawn;
-
-            // Nếu launcher hidden, set màu line ngay
-            if (_isHidden)
-            {
-                Color hiddenColor = ConfigHolder.Instance?.ColorPallete_ForLauncher?.HiddenLineColor ?? Color.gray;
-                if (position == LinePosition.Start)
-                    connector.SetStartColor(hiddenColor);
-                else if (position == LinePosition.End)
-                    connector.SetEndColor(hiddenColor);
-            }
-        }
-    }
+    // Hàm AddLineConnector đã bị xóa để tối ưu hiệu năng
 
     public override void OnInit(LauncherData data)
     {
@@ -128,7 +107,6 @@ public class LauncherNormalMono : LauncherBaseMono
         SetupVisualNormal(false);
         SetupAnim();
         _slotLauncherMonoParent = null;
-        _lineConnectorPositions.Clear();
         _tf ??= transform;
         _tf.localScale = Vector3.one;
         ChangeLayerRenderer(LayerNameGamePlay.Launcher);
@@ -157,14 +135,7 @@ public class LauncherNormalMono : LauncherBaseMono
             _data.ConnectedReferencesIDs.Clear();
         }
 
-        // Despawn tất cả line connectors
-        var connectors = new List<LineConnectorMono>(_lineConnectorPositions.Keys);
-        foreach (var connector in connectors)
-        {
-            if (connector != null)
-                connector.OnDespawn();
-        }
-        _lineConnectorPositions.Clear();
+        // Despawn tất cả line connectors (Đã xóa)
 
         base.OnDespawn();
         enabled = false; // Đảm bảo tắt hẳn LateUpdate khi despawn
@@ -183,15 +154,7 @@ public class LauncherNormalMono : LauncherBaseMono
     {
         base.RemoveLauncherAtVertical();
 
-        // Xóa toàn bộ dây kết nối khi Launcher bị bốc lên (nhấp vào / di chuyển sang slot)
-        // để tránh lỗi dây bị kéo giãn vô lý, gây nháy sáng trên màn hình (visual glitch).
-        var connectors = new List<LineConnectorMono>(_lineConnectorPositions.Keys);
-        foreach (var connector in connectors)
-        {
-            if (connector != null)
-                connector.OnDespawn();
-        }
-        _lineConnectorPositions.Clear();
+        // Xóa toàn bộ dây kết nối (Đã xóa để tối ưu)
     }
 
     public void SetupVisualNormal(bool IsGoDoneSlot)
@@ -497,46 +460,11 @@ public class LauncherNormalMono : LauncherBaseMono
     }
 
     /// <summary>
-    /// Cập nhật màu line khi launcher bị hidden hoặc reveal
-    /// Update tất cả các line có trong list
+    /// Cập nhật màu line khi launcher bị hidden hoặc reveal (Đã xóa)
     /// </summary>
     private void UpdateLineHiddenColor(bool isHidden)
     {
-        //isHidden = _data.Hidden;
-        if (isHidden)
-            Debug.LogError($"UpdateLineHiddenColor: LauncherID={_data.ID}, isHidden={isHidden}");
-
-        if (_lineConnectorPositions == null || _lineConnectorPositions.Count == 0) return;
-
-        // Cập nhật trạng thái cache (dùng để trace lịch sậ)
         _lastHiddenState = isHidden;
-
-        Color hiddenColor = ConfigHolder.Instance?.ColorPallete_ForLauncher?.HiddenLineColor ?? Color.gray;
-        Color normalColor = ConfigHolder.Instance?.ColorPallete_ForLauncher?.GetColorBase(GetColorCodeIndex0()) ?? Color.white;
-        Color targetColor = isHidden ? hiddenColor : normalColor;
-
-        // Cập nhật tất cả các line
-        foreach (var lineConnectorPosition in _lineConnectorPositions)
-        {
-            var lineConnector = lineConnectorPosition.Key;
-            var position = lineConnectorPosition.Value;
-
-            if (lineConnector == null) continue;
-
-            // Kiểm tra vị trí của launcher trên line này
-            // Nếu launcher là Start, update nửa Start
-            // Nếu launcher là End, update nửa End
-            if (position == LinePosition.Start)
-            {
-                lineConnector.SetStartColor(targetColor);
-                Debug.Log($"Updated Start side of line for launcher {_data.ID}");
-            }
-            else if (position == LinePosition.End)
-            {
-                lineConnector.SetEndColor(targetColor);
-                Debug.Log($"Updated End side of line for launcher {_data.ID}");
-            }
-        }
     }
 
     public override void OnBecomeTop()
@@ -545,17 +473,7 @@ public class LauncherNormalMono : LauncherBaseMono
             OnRevealHidden();
     }
 
-    private void HandleConnectorDespawn(LineConnectorMono connector)
-    {
-        if (_lineConnectorPositions.ContainsKey(connector))
-        {
-            _lineConnectorPositions.Remove(connector);
-        }
-        if (connector != null)
-        {
-            connector.OnDespawnEvent -= HandleConnectorDespawn;
-        }
-    }
+    // private void HandleConnectorDespawn(LineConnectorMono connector) đã xóa
 
     #endregion
 

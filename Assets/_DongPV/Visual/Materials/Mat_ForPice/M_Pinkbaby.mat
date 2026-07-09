@@ -12,7 +12,6 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
-  - _MATCAP_ON
   - _NORMALMAP_ON
   m_InvalidKeywords:
   - AMBIENT
@@ -177,7 +176,7 @@ Material:
     - _UseAlphaTest: 0
     - _UseEmission: 0
     - _UseFresnelReflections: 1
-    - _UseMatCap: 1
+    - _UseMatCap: 0
     - _UseMatCapMask: 0
     - _UseMobileMode: 0
     - _UseNormalMap: 1
